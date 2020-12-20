@@ -78,7 +78,7 @@ If we let $X$ be the random variable corresponding to the total number of edges 
 $$\E[X] = \sum_{e\in E} \E[X_e] = m(1/2) = m/2 \;.$$
 :::
 
-__Randomized algorithms work in the worst case.__ It is tempting of a randomized algorithm such as the one of [maxcutthm](){.ref} as an algorithm that works for a "random input graph" but it is actually much better than that.
+__Randomized algorithms work in the worst case.__ It is tempting to think of a randomized algorithm such as the one of [maxcutthm](){.ref} as an algorithm that works for a "random input graph" but it is actually much better than that.
 The expectation in this theorem is _not_ taken over the choice of the graph, but rather only over the _random choices of the algorithm_.
 In particular, _for every graph $G$_, the algorithm is guaranteed to cut half of the edges of the input graph in expectation.
 That is,
@@ -107,7 +107,7 @@ The probability that a random cut in an $m$ edge graph cuts at least $m/2$ edges
 To see the idea behind the proof, think of the case that $m=1000$.
 In this case one can show that we will cut at least $500$ edges with probability at least $0.001$ (and so in particular larger than $1/(2m)=1/2000$).
 Specifically, if we assume otherwise, then this means that with probability more than $0.999$ the algorithm cuts $499$ or fewer edges.
-But since we can never cut more than the total of  $1000$ edges, given this assumption, the highest value the expected number of edges cut is if we cut exactly $499$ edges with probability $0.999$ and cut $1000$ edges with probability $0.001$.
+But since we can never cut more than the total of  $1000$ edges, given this assumption, the highest value of the expected number of edges cut is if we cut exactly $499$ edges with probability $0.999$ and cut $1000$ edges with probability $0.001$.
 Yet even in this case the expected number of edges will be $0.999 \cdot 499 + 0.001 \cdot 1000 < 500$, which contradicts the fact that we've calculated the expectation to be at least $500$ in [maxcutthm](){.ref}.
 
 ::: {.proof data-ref="cutprob"}
@@ -317,7 +317,7 @@ Then $G$ has a perfect matching if and only if $P$ is not identically zero.
 That is, $G$ has a perfect matching if and only if there exists some assignment $x=(x_{i,j})_{i,j\in [n]} \in \R^{n^2}$ such that $P(x) \neq 0$.^[The [sign](https://goo.gl/ELnXhq) of a permutation $\pi:[n] \rightarrow [n]$, denoted by $sign(\pi)$, can be defined in several equivalent ways, one of which is that $sign(\pi)=(-1)^{INV(\pi)}$ where $INV(pi)=|\{(x,y) \in [n] \;|\; x<y \; \wedge \; \pi(x)>\pi(y)\}$ (i.e., $INV(\pi)$ is the number of pairs of elements that are _inverted_ by $\pi$). The importance of the term $sign(\pi)$ is that it makes $P$ equal to the _determinant_ of the matrix $(x_{i,j})$ and hence efficiently computable.]
 
 > ### {.proof data-ref="matchpolylem"}
-If $G$ has a perfect matching $M^*$, then let $\pi^*$ be the permutation corresponding to $M$ and let $x^* \in \Z^{n^2}$ defined as follows: $x_{i,j}=1$ if $j=\pi(i)$ and $x_{i,j}=0$.
+If $G$ has a perfect matching $M^*$, then let $\pi^*$ be the permutation corresponding to $M$ and let $x^* \in \Z^{n^2}$ defined as follows: $x_{i,j}=1$ if $j=\pi(i)$ and $x_{i,j}=0$ otherwise.
 Note that for every $\pi \neq \pi^*$, $\prod_{i=0}^{n-1} x_{i,\pi(i)}=0$ but $\prod_{i=0}^{n-1} x^*_{i,\pi^*(i)}=1$. Hence $P(x^*)$ will equal $\prod_{i=0}^{n-1} A_{i,\pi^*(i)}$.
 But since $M^*$ is a perfect matching in $G$, $\prod_{i=0}^{n-1} A_{i,\pi^*(i)} = 1$.
 >
