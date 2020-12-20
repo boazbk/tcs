@@ -293,7 +293,7 @@ The context-free pumping lemma is even more cumbersome to state than its regular
 :::
 
 ::: {.proof #proofofcfgpumping data-ref="cfgpumping"}
-We only sketch the proof. The idea is that if the total number of symbols in the rules of the grammar is $k_0$, then the only way to get $|x|>n_0$ with $\Phi_{V,R,s}(x)=1$ is to use _recursion_.
+We only sketch the proof. The idea is that if the total number of symbols in the rules of the grammar is $n_0$, then the only way to get $|x|>n_0$ with $\Phi_{V,R,s}(x)=1$ is to use _recursion_.
 That is, there must be some variable $v \in V$ such that we are able to derive from $v$ the value $bvd$ for some strings $b,d \in \Sigma^*$, and then further on derive from $v$ some string $c\in \Sigma^*$ such that $bcd$ is a substring of $x$ (in other words, $x=abcde$ for some $a,e \in \{0,1\}^*$). If we take the variable $v$ satisfying this requirement with a minimum number of derivation steps, then we can ensure that $|bcd|$ is at most some constant depending on $n_0$ and we can set $n_1$ to be that constant ($n_1=10 \cdot |R| \cdot n_0$ will do, since we will not need more than $|R|$ applications of rules, and each such application can grow the string by at most $n_0$ symbols).
 
 
