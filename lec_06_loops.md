@@ -563,12 +563,12 @@ We start by proving the "if" direction of [TM-equiv-thm](){.ref}. Namely we show
 Since our goal is just to show such a program $P_M$ _exists_, we don't need to write out the full code of $P_M$ line by line, and can take advantage of our various "syntactic sugar" in describing it.
 
 The key observation is that by [NAND-univ-thm](){.ref} we can compute _every_ finite function using a NAND-CIRC program.
-In particular, consider the transition function  $\delta_M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times \{\mathsf{L},\mathsf{R} \}$ of our Turing machine.
+In particular, consider the transition function  $\delta_M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times \{\mathsf{L},\mathsf{R},\mathsf{S},\mathsf{H}\}$ of our Turing machine.
 We can encode its components as follows:
 
 * We encode  $[k]$ using $\{0,1\}^\ell$ and  $\Sigma$ using $\{0,1\}^{\ell'}$,  where $\ell = \ceil{\log k}$ and $\ell' = \ceil{\log |\Sigma|}$.
 
-* We encode the set  $\{\mathsf{L},\mathsf{R}, \mathsf{S},\mathsf{H} \}$ using $\{0,1\}^2$. We will choose the encode $\mathsf{L} \mapsto 01$, $\mathsf{R} \mapsto 11$, $\mathsf{S} \mapsto 10$, $\mathsf{H} \mapsto 00$. (This conveniently corresponds to the semantics of the `MODANDJUMP` operation.)
+* We encode the set  $\{\mathsf{L},\mathsf{R}, \mathsf{S},\mathsf{H} \}$ using $\{0,1\}^2$. We will choose the encoding $\mathsf{L} \mapsto 01$, $\mathsf{R} \mapsto 11$, $\mathsf{S} \mapsto 10$, $\mathsf{H} \mapsto 00$. (This conveniently corresponds to the semantics of the `MODANDJUMP` operation.)
 
 
 Hence we can identify $\delta_M$ with a function $\overline{M}:\{0,1\}^{\ell+\ell'}  \rightarrow \{0,1\}^{\ell+\ell'+2}$, mapping strings of length $\ell+\ell'$ to strings of length $\ell+\ell'+2$.
