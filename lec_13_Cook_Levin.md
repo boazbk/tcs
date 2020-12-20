@@ -177,7 +177,7 @@ Since $F\in \mathbf{P}$ we can clearly compute $V$ in polynomial time as well.
 
 Let $x\in \{0,1\}^n$ be some string.
 If $F(x)=1$ then $V(x0^n)=1$. On the other hand, if $F(x)=0$ then for every $w\in \{0,1\}^n$, $V(xw)=0$.
-Therefore, setting $a=b=1$, we see that $V$ satisfies  [NP-eq](){.eqref}, and establishes that $F \in \mathbf{NP}$.
+Therefore, setting $a=1$ (i.e. $w\in \{0,1\}^{n^1}$), we see that $V$ satisfies  [NP-eq](){.eqref}, and establishes that $F \in \mathbf{NP}$.
 :::
 
 ::: {.remark title="$\mathbf{NP}$ does not mean non-polynomial!" #NPandNOTPolynomial}
@@ -355,7 +355,7 @@ $NANDSAT$ is $\mathbf{NP}$ hard.
 > ### {.proofidea data-ref="nand-thm"}
 The proof closely follows the proof that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ ([non-uniform-thm](){.ref} , see also [unrollloopsec](){.ref}).
 Specifically, if $F\in \mathbf{NP}$ then there is a polynomial time Turing machine $M$ and positive integer $a$ such that for every $x\in \{0,1\}^n$, $F(x)=1$ iff there is some $w \in \{0,1\}^{n^a}$ such that $M(xw)=1$.
-The proof that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ gave us way (via "unrolling the loop") to come up in polynomial time with a Boolean circuit $C$ on $n^a$ inputs that computes the function $w \mapsto M(xw)$.
+The proof that $\mathbf{P} \subseteq \mathbf{P_{/poly}}$ gave us a way (via "unrolling the loop") to come up in polynomial time with a Boolean circuit $C$ on $n^a$ inputs that computes the function $w \mapsto M(xw)$.
 We can then translate $C$ into an equivalent NAND circuit (or NAND-CIRC program) $Q$.
 We see that there is a string $w \in \{0,1\}^{n^a}$ such that $Q(w)=1$ if and only if there is such $w$ satisfying $M(xw)=1$ which (by definition) happens if and only if $F(x)=1$.
 Hence the translation of $x$ into the circuit $Q$ is a reduction showing $F \leq_p NANDSAT$.
@@ -370,7 +370,7 @@ Let $F \in \mathbf{NP}$.
 To prove [nand-thm](){.ref} we need to give a polynomial-time computable function that will map every $x^* \in \{0,1\}^*$ to a NAND-CIRC program $Q$ such that $F(x)=NANDSAT(Q)$.
 
 Let  $x^* \in \{0,1\}^*$ be such a string and let $n=|x^*|$ be its length.
-By [NP-def](){.ref} there exists $V \in \mathbf{P}$ and positive $a \N$ such that $F(x^*)=1$  if and only if there exists $w\in \{0,1\}^{n^a}$ satisfying $V(x^*w)=1$.
+By [NP-def](){.ref} there exists $V \in \mathbf{P}$ and positive $a \in \N$ such that $F(x^*)=1$  if and only if there exists $w\in \{0,1\}^{n^a}$ satisfying $V(x^*w)=1$.
 
 Let $m=n^a$. Since $V\in \mathbf{P}$ there is some NAND-TM program $P^*$ that computes $V$ on inputs of the form $xw$ with $x\in \{0,1\}^n$ and $w\in \{0,1\}^m$ in at most ${(n+m)}^c$ time for some constant $c$.
 Using our "unrolling the loop NAND-TM to NAND compiler" of [nand-compiler](){.ref}, we can obtain a NAND-CIRC program $Q'$ that has $n+m$ inputs and at most $O((n+m)^{2c})$ lines such that $Q'(xw)= P^*(xw)$ for every $x\in \{0,1\}^n$ and $w \in \{0,1\}^m$.
