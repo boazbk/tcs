@@ -375,11 +375,10 @@ INPUT: $3SAT$  formula $\varphi$ with $n$ variables and $m$ clauses.
 OUTPUT: Graph $G=(V,E)$ and number $k$, such that $G$ has an independent set of size $k$ -iff $\varphi$ has a satisfying assignment.
 That is, $3SAT(\varphi) = ISET(G,k)$, 
 
-Initialize $V \leftarrow \emptyset, E \leftarrow \emptyset, k \leftarrow 0$
+Initialize $V \leftarrow \emptyset, E \leftarrow \emptyset$
 For {every clause $C = y \vee y' \vee y''$ of $\varphi$}
   Add three vertices $(C,y),(C,y'),(C,y'')$ to $V$
   Add edges $\{ (C,y), (C,y') \}$, $\{(C,y'),(C,y'') \}$, $\{ (C,y''), (C,y) \}$ to $E$.
-  k = k + 1
 endfor
 for {every distinct clauses $C,C'$ in $\varphi$}
   for {every $i\in [n]$}
@@ -388,7 +387,7 @@ for {every distinct clauses $C,C'$ in $\varphi$}
       endif
   endfor
 endfor
-return $(G=(V,E), k)$
+return $(G=(V,E), m)$
 ```
 
 
