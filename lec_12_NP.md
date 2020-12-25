@@ -113,7 +113,7 @@ As usual, solving this exercise on your own is an excellent way to make sure you
 :::
 
 ::: {.solution data-ref="reductionsandP"}
-Suppose there was an algorithm $B$ that compute $G$ in time $p(n)$ where $p$ is its input size. Then, [eq:reduction](){.eqref} directly gives an algorithm  $A$ to compute $F$ (see [reductionsfig](){.ref}).
+Suppose there is an algorithm $B$ that computes $G$ in time $p(n)$ where $n$ is its input size. Then, [eq:reduction](){.eqref} directly gives an algorithm  $A$ to compute $F$ (see [reductionsfig](){.ref}).
 Indeed, on input $x\in \{0,1\}^*$, Algorithm $A$ will run the polynomial-time reduction $R$ to obtain $y=R(x)$ and then return $B(y)$.
 By [eq:reduction](){.eqref}, $G(R(x)) = F(x)$ and hence Algorithm $A$ will indeed compute $F$.
 
@@ -196,7 +196,7 @@ $3SAT \leq_p 01EQ$
 
 > ### {.proofidea data-ref="tsattozoeqthm"}
 A constraint $x_2 \vee \overline{x}_5 \vee x_7$ can be written as $x_2 + (1-x_5) + x_7 \geq 1$.
-This is a linear _inequality_ but since the sum on the left-hand side is at most three, we can also turn it into an _equality_ by adding two new variables $y,z$ and writing it as $x_2 + (1-x_5) + x_7 + y  + z =3$. (We will use fresh such variables $y,z$ for every constraint.) Finally, for every variable $x_i$ we can add a variable $x'_i$ corresponding to its negation by adding the equation $x_i + x'_i = 1$, hence mapping the original constraint $x_2 \vee \overline{x}_5 \vee x_7$ to $x_2 + x'_5 + x_7 +y + z = 3$. The main __takeaway technique__ from this reduction is the idea of adding _auxiliary variables_ to replace an equation such as $x_1+x_2 +x_3 \geq 1$ that is not quite in the form we want with the equivalent (for $0/1$ valued variables) equation $x_1+x_2+x_3+u+v=3$ which is in the form we want.
+This is a linear _inequality_ but since the sum on the left-hand side is at most three, we can also turn it into an _equality_ by adding two new variables $y,z$ and writing it as $x_2 + (1-x_5) + x_7 + y  + z =3$. (We will use fresh variables $y,z$ for every constraint.) Finally, for every variable $x_i$ we can add a variable $x'_i$ corresponding to its negation by adding the equation $x_i + x'_i = 1$, hence mapping the original constraint $x_2 \vee \overline{x}_5 \vee x_7$ to $x_2 + x'_5 + x_7 +y + z = 3$. The main __takeaway technique__ from this reduction is the idea of adding _auxiliary variables_ to replace an equation such as $x_1+x_2 +x_3 \geq 1$ that is not quite in the form we want with the equivalent (for $0/1$ valued variables) equation $x_1+x_2+x_3+u+v=3$ which is in the form we want.
 
 
 
@@ -226,7 +226,7 @@ Let $E$'s variables be $x_0,\ldots,x_{n-1}$, $x'_0,\ldots,x'_{n-1}$, $y_0,\ldots
 For{$i \in [n]$}
   add to $E$ the equation $x_i + x'_i = 1$
 endfor
-For{j\in [m]}
+For{$j\in [m]$}
   Let $j$-th clause be $w_0 \vee w_1 \vee w_2$ where $w_0,w_1,w_2$ are literals.
   For{$a\in[3]$}
     If{$w_a$ is variable $x_i$}
@@ -242,7 +242,7 @@ return $E$
 ```
 
 The reduction is described in [zerooneeqreduction](){.ref}, see also [threesat2zoeqreductionfig](){.ref}.
-If the input formula has $n$ variable and $m$ steps, [zerooneeqreduction](){.ref} creates a set $E$ of $n+m$ equations over  $2n+2m$ variables.
+If the input formula has $n$ variables and $m$ clauses, [zerooneeqreduction](){.ref} creates a set $E$ of $n+m$ equations over  $2n+2m$ variables.
 [zerooneeqreduction](){.ref} makes an initial loop of $n$ steps (each taking constant time)  and then another loop of $m$ steps (each taking constant time) to create the equations, and hence it
 runs in polynomial time.
 
@@ -257,11 +257,11 @@ However, if you find the names confusing you can simply think of completeness as
 We complete the proof by showing both parts:
 
 * __Completeness:__ Suppose that $3SAT(\varphi)=1$, which means that there is an assignment $x\in \{0,1\}^n$ that satisfies $\varphi$. If we use the assignment $x_0,\ldots,x_{n-1}$ and $1-x_0,\ldots, 1-x_{n-1}$ for the first $2n$
-variables of $E=R(\varphi)$ then we will satisfy all equations of the form $x_i + x'_i =1$. Moreover, for every $j\in [n]$, if  $t_0 + t_1 + t_2 + y_j + z_j = 3 (*)$ is the equation arising from the $j$th clause of $\varphi$ (with $t_0,t_1,t_2$ being variables of the form $x_i$ or $x'_i$ depending on the literals of the clause) then our assignment to the first $2n$ variables ensures that $t_0+t_1+t_2 \geq 1$ (since $x$ satisfied $\varphi$) and hence we can assign values to $y_j$ and $z_j$ that will ensure that the equation $(*)$ is satisfied. Hence in this case $E = R(\varphi)$ is satisfied, meaning that $01EQ(R(\varphi))=1$.
+variables of $E=R(\varphi)$ then we will satisfy all equations of the form $x_i + x'_i =1$. Moreover, for every $j\in [m]$, if  $t_0 + t_1 + t_2 + y_j + z_j = 3 (*)$ is the equation arising from the $j$th clause of $\varphi$ (with $t_0,t_1,t_2$ being variables of the form $x_i$ or $x'_i$ depending on the literals of the clause) then our assignment to the first $2n$ variables ensures that $t_0+t_1+t_2 \geq 1$ (since $x$ satisfied $\varphi$) and hence we can assign values to $y_j$ and $z_j$ that will ensure that the equation $(*)$ is satisfied. Hence in this case $E = R(\varphi)$ is satisfied, meaning that $01EQ(R(\varphi))=1$.
 
 
 * __Soundness:__ Suppose that $01EQ(R(\varphi))=1$, which means that the set of equations $E=R(\varphi)$ has a satisfying assignment $x_0,\ldots,x_{n-1}$, $x'_0,\ldots,x'_{n-1}$, $y_0,\ldots,y_{m-1}$, $z_0,\ldots,z_{m-1}$.
-Then, since the equations contain the condition $x_i + x'_i = 1$, for every $i \in [n]$, $x'_i$ is the negation of $x_i$, and morover, for every $j\in [m]$, if $C$ has the form $w_0 \vee w_1 \vee w_2$ is the $j$-th clause of $C$, then the corresponding assignment $x$ will ensure that $w_0 + w_1 + w_2 \geq 1$, implying that $C$ is  satisfied. Hence in this case $3SAT(\varphi)=1$.
+Then, since the equations contain the condition $x_i + x'_i = 1$, for every $i \in [n]$, $x'_i$ is the negation of $x_i$, and morover, for every $j\in [m]$, if $C$ has the form $w_0 \vee w_1 \vee w_2$ and is the $j$-th clause of $\varphi$, then the corresponding assignment $x$ will ensure that $w_0 + w_1 + w_2 \geq 1$, implying that $C$ is  satisfied. Hence in this case $3SAT(\varphi)=1$.
 :::
 
 
@@ -298,7 +298,7 @@ the equation $x_i \in \{0,1\}$ as the quadratic constraint $x_i^2 - x_i = 0$. Th
 
 ::: {.proof data-ref="quadeq-thm"}
 By [tsattozoeqthm](){.ref} and [transitiveex](){.ref}, it is sufficient to prove that $01EQ \leq_p QUADEQ$.
-Let $E$ be an instance of $01EQ$ with variables $x_0,\ldots,x_{m-1}$.
+Let $E$ be an instance of $01EQ$ with variables $x_0,\ldots,x_{n-1}$.
 We map $E$ to the set of quadratic equations $E'$ that is obtained by taking the linear equations in $E$ and adding to them the $n$ quadratic equations $x_i^2 - x_i = 0$ for all $i\in [n]$.
 (See [zeroonetoquadreductionalg](){.ref}.)
 The map $E \mapsto E'$ can be computed in polynomial time.
@@ -313,7 +313,7 @@ Since for every $a\in \R$, $a^2 - a = 0$ if and only if $a \in \{0,1\}$, the two
 :::
 
 
-``` { .algorithm title="$3SAT$ to $01EQ$ reduction" #zeroonetoquadreductionalg }
+``` { .algorithm title="$01EQ$ to $QUADEQ$ reduction" #zeroonetoquadreductionalg }
 INPUT: Set $E$ of linear equations over $n$ variables $x_0,\ldots,x_{n-1}$.
 
 OUTPUT: Set $E'$ of quadratic eqations ovar $m$ variables $w_0,\ldots,w_{m-1}$ such that there is an $0/1$ assignment $x\in \{0,1\}^n$
@@ -375,10 +375,11 @@ INPUT: $3SAT$  formula $\varphi$ with $n$ variables and $m$ clauses.
 OUTPUT: Graph $G=(V,E)$ and number $k$, such that $G$ has an independent set of size $k$ -iff $\varphi$ has a satisfying assignment.
 That is, $3SAT(\varphi) = ISET(G,k)$, 
 
-Initialize $V \leftarrow \emptyset, E \leftarrow \emptyset$
+Initialize $V \leftarrow \emptyset, E \leftarrow \emptyset, k \leftarrow 0$
 For {every clause $C = y \vee y' \vee y''$ of $\varphi$}
   Add three vertices $(C,y),(C,y'),(C,y'')$ to $V$
   Add edges $\{ (C,y), (C,y') \}$, $\{(C,y'),(C,y'') \}$, $\{ (C,y''), (C,y) \}$ to $E$.
+  k = k + 1
 endfor
 for {every distinct clauses $C,C'$ in $\varphi$}
   for {every $i\in [n]$}
@@ -387,7 +388,7 @@ for {every distinct clauses $C,C'$ in $\varphi$}
       endif
   endfor
 endfor
-return $G=(V,E)$
+return $(G=(V,E), k)$
 ```
 
 
@@ -404,11 +405,11 @@ Given a 3SAT formula $\varphi$ on $n$ variables and with $m$ clauses, we will cr
   We will also add the three edges between all pairs of these vertices, so they form a _triangle_.
   Since there are $m$ clauses in $\varphi$, the graph $G$ will have $3m$ vertices.
 
-* In addition to the above edges, we also add an edge between every pair vertices of the form $(C,y)$ and $(C',y')$ where $y$ and $y'$ are _conflicting_ literals.
+* In addition to the above edges, we also add an edge between every pair of vertices of the form $(C,y)$ and $(C',y')$ where $y$ and $y'$ are _conflicting_ literals.
   That is, we add an edge between $(C,y)$ and $(C',y')$  if there is an $i$ such that $y=x_i$ and $y' = \overline{x}_i$ or vice versa.
 
 
-The algorithm constructing of $G$ based on $\varphi$ takes polynomial time since it involves two loops, the first taking $O(m)$ steps and the second taking $O(m^2 n)$ steps
+The algorithm constructing $G$ based on $\varphi$ takes polynomial time since it involves two loops, the first taking $O(m)$ steps and the second taking $O(m^2 n)$ steps
 (see [threesattoisetreductionalg](){.ref}).
 Hence to prove the theorem we need to show that  $\varphi$ is satisfiable if and only if $G$ contains an independent set of $m$ vertices. We now show both directions of this equivalence:
 
@@ -480,7 +481,7 @@ Since the size of $\overline{S}$ is $|V|-|S|$, we see that the polynomial-time m
 
 
 ::: {.solvedexercise title="Clique is equivalent to independent set" #iscliqueex}
-The [maximum clique problem](https://en.wikipedia.org/wiki/Clique_problem) corresponds to the function $CLIQUE:\{0,1\}^* \rightarrow \{0,1\}$ such that for a graph $G$ and a number $k$, $CLIQUE(G,k)=1$ iff there is a $S$ subset of $k$ vertices  such that for _every_ distinct $u,v \in S$, the edge $u,v$ is in $G$. Such a set is known as a _clique_.
+The [maximum clique problem](https://en.wikipedia.org/wiki/Clique_problem) corresponds to the function $CLIQUE:\{0,1\}^* \rightarrow \{0,1\}$ such that for a graph $G$ and a number $k$, $CLIQUE(G,k)=1$ iff there is a subset $S$ of $k$ vertices  such that for _every_ distinct $u,v \in S$, the edge $u,v$ is in $G$. Such a set is known as a _clique_.
 
 Prove that $CLIQUE \leq_p ISET$ and $ISET \leq_p CLIQUE$.
 :::
@@ -565,7 +566,7 @@ Indeed for every vertex $v$ of $H'$ there are three cases:
 
 * __Case 3:__ $v$ is of the form $w_{u,u'}$ for some two neighbors $u,u'$ in $G$. But then since $S$ is a vertex cover, one of $u,u'$ has to be in $S$ and hence $S$ contains a neighbor of $v$.
 
-We conclude that $S \cup I$ is a dominating set of size at most $k'=k +\ell$ in $H'$ and hence under the assumption that $VC(G.k)=1$, $DS(H',k')=1$.
+We conclude that $S \cup I$ is a dominating set of size at most $k'=k +\ell$ in $H'$ and hence under the assumption that $VC(G,k)=1$, $DS(H',k')=1$.
 
 __Soundness.__ Suppose that $DS(H,k')=1$. Then there is a dominating set $D$ of size at most $k' = k +\ell$ in $H$.
 For every edge $\{ u,v \}$ in the graph $G$, if $D$ contains the vertex $w_{u,v}$ then we remove this vertex and add $u$ in its place.
@@ -643,7 +644,7 @@ $ISET \leq_p MAXCUT$
 > ### {.proofidea data-ref="isettomaxcut"}
 We will map a graph $G$ into a graph $H$ such that a large independent set in $G$ becomes a partition cutting many edges in $H$. We can think of a cut in $H$ as coloring each vertex either "blue" or  "red". We will add a special "source" vertex $s^*$, connect it to all other vertices, and assume without loss of generality that it is colored blue. Hence the more vertices we color red, the more edges from $s^*$ we cut. Now, for every edge $u,v$  in the original graph $G$ we will add a special "gadget" which will be a small subgraph that involves $u$,$v$, the source $s^*$, and two other additional vertices. We design the gadget in a way so that if the red vertices are not an independent set in $G$ then the corresponding cut in $H$ will be "penalized" in the sense that it would not cut as many edges. Once we set for ourselves this objective, it is not hard to find a gadget that achieves it$-$ see the proof below. Once again the __takeaway technique__ is to use (this time a slightly more clever) gadget. 
 
-![In the reduction of $ISET$ to $MAXCUT$ we map an $n$-vertex $m$-edge graph $G$ into the $n+2m+1$ vertex and $n+5m$ edge graph $H$ as follows. The graph $H$ contains a special "source" vertex $s^*$,$n$ vertices $v_0,\ldots,v_{n-1}$, and $2m$ vertices $e_0^0,e_0^1,\ldots,e_{m-1}^0,e_{m-1}^1$ with each pair corresponding to an edge of $G$. We put an edge between $s^*$ and $v_i$ for every $i\in [n]$, and if the $t$-th edge of $G$ was $(v_i,v_j)$ then we add the five edges $(s^*,e_t^0),(s^*,e_t^1),(v_i,e_t^0),(v_j,e_t^1),(e_t^0,e_t^1)$. The intent is that if cut at most one of $v_i,v_j$ from $s^*$ then we'll be able to cut $4$ out of these five edges, while if we cut both $v_i$ and $v_j$ from $s^*$ then we'll be able to cut at most three of them.](../figure/iset2maxcutoverview.png){#iset2maxcutoverviewfig}
+![In the reduction of $ISET$ to $MAXCUT$ we map an $n$-vertex $m$-edge graph $G$ into the $n+2m+1$ vertex and $n+5m$ edge graph $H$ as follows. The graph $H$ contains a special "source" vertex $s^*$,$n$ vertices $v_0,\ldots,v_{n-1}$, and $2m$ vertices $e_0^0,e_0^1,\ldots,e_{m-1}^0,e_{m-1}^1$ with each pair corresponding to an edge of $G$. We put an edge between $s^*$ and $v_i$ for every $i\in [n]$, and if the $t$-th edge of $G$ was $(v_i,v_j)$ then we add the five edges $(s^*,e_t^0),(s^*,e_t^1),(v_i,e_t^0),(v_j,e_t^1),(e_t^0,e_t^1)$. The intent is that if we cut at most one of $v_i,v_j$ from $s^*$ then we'll be able to cut $4$ out of these five edges, while if we cut both $v_i$ and $v_j$ from $s^*$ then we'll be able to cut at most three of them.](../figure/iset2maxcutoverview.png){#iset2maxcutoverviewfig}
 
 ::: {.proof data-ref="isettomaxcut"}
 We will transform a graph $G$ of $n$ vertices and $m$ edges into a graph $H$ of $n+1+2m$ vertices and $n+5m$ edges in the following way (see also [iset2maxcutoverviewfig](){.ref}).
@@ -748,7 +749,7 @@ We have shown that there are a number of functions $F$ for which we can prove a 
 In [cooklevinchap](){.ref} we will show the inverse direction ("If $3SAT \in \mathbf{P}$ then $F\in \mathbf{P}$") for these functions, hence allowing us to conclude that they have _equivalent complexity_ to $3SAT$.
 
 
-![So far we have shown that $\mathbf{P} \subseteq \mathbf{EXP}$ and that several problems we care about such as $3SAT$ and $MAXCUT$ are in $\mathbf{EXP}$ but it is not known whether or not they are in $\mathbf{EXP}$. However, since $3SAT \leq_p MAXCUT$ we can rule out the possiblity that $MAXCUT \in \mathbf{P}$ but $3SAT \not\in \mathbf{P}$. The relation of $\mathbf{P_{/poly}}$ to the class $\mathbf{EXP}$ is not known. We know that $\mathbf{EXP}$ does not contain $\mathbf{P_{/poly}}$ since the latter even contains uncomputable functions, but we do not know whether ot not $\mathbf{EXP} \subseteq \mathbf{P_{/poly}}$ (though it is believed that this is not the case and in particular that both $3SAT$ and $MAXCUT$ are not in $\mathbf{P_{/poly}}$).](../figure/reduction_inc_diagram.png){#reductiondiagramfig }
+![So far we have shown that $\mathbf{P} \subseteq \mathbf{EXP}$ and that several problems we care about such as $3SAT$ and $MAXCUT$ are in $\mathbf{EXP}$ but it is not known whether or not they are in $\mathbf{P}$. However, since $3SAT \leq_p MAXCUT$ we can rule out the possiblity that $MAXCUT \in \mathbf{P}$ but $3SAT \not\in \mathbf{P}$. The relation of $\mathbf{P_{/poly}}$ to the class $\mathbf{EXP}$ is not known. We know that $\mathbf{EXP}$ does not contain $\mathbf{P_{/poly}}$ since the latter even contains uncomputable functions, but we do not know whether ot not $\mathbf{EXP} \subseteq \mathbf{P_{/poly}}$ (though it is believed that this is not the case and in particular that both $3SAT$ and $MAXCUT$ are not in $\mathbf{P_{/poly}}$).](../figure/reduction_inc_diagram.png){#reductiondiagramfig }
 
 
 
