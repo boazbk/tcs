@@ -1213,13 +1213,13 @@ c. Show that we can transform any representation to a prefix-free one by a modif
 
 
 ::: {.exercise title="Kraft's Inequality" #prefix-free-lb}
-Suppose that $S \subseteq \{0,1\}^n$ is some finite prefix-free set.
+Suppose that $S \subseteq \{0,1\}^*$ is some finite prefix-free set, and let $n$ some number larger than $\max \{ |x| : x\in X \}$.
 
-a. For every $k \leq n$ and length-$k$ string $x\in S$, let $L(x) \subseteq \{0,1\}^n$ denote all the length-$n$ strings whose first $k$ bits are $x_0,\ldots,x_{k-1}$. Prove that __(1)__ $|L(x)|=2^{n-|x|}$ and __(2)__ If $x \neq x'$ then $L(x)$ is disjoint from $L(x')$.
+a. For every $x\in S$, let $L(x) \subseteq \{0,1\}^n$ denote all the length-$n$ strings whose first $k$ bits are $x_0,\ldots,x_{k-1}$. Prove that __(1)__ $|L(x)|=2^{n-|x|}$ and __(2)__ For every distinct $x,x' \in S$,  $L(x)$ is disjoint from $L(x')$.
 
-b. Prove that $\sum_{x\in S}2^{-|x|} \leq 1$.
+b. Prove that $\sum_{x\in S}2^{-|x|} \leq 1$. (_Hint:_ first show that $\sum_{x \in S} |L(x)| \leq 2^n$.) 
 
-c. Prove that there is no prefix-free encoding of strings with less than logarithmic overhead. That is, prove that there is no function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $|PF(x)| \leq |x|+0.9\log |x|$ for every $x\in \{0,1\}^*$ and such that the set $\{ PF(x) : x\in \{0,1\}^* \}$ is prefix-free. The factor $0.9$ is arbitrary; all that matters is that it is less than $1$.
+c. Prove that there is no prefix-free encoding of strings with less than logarithmic overhead. That is, prove that there is no function $PF:\{0,1\}^* \rightarrow \{0,1\}^*$ s.t. $|PF(x)| \leq |x|+0.9\log |x|$ for every sufficiently large $x\in \{0,1\}^*$ and such that the set $\{ PF(x) : x\in \{0,1\}^* \}$ is prefix-free. The factor $0.9$ is arbitrary; all that matters is that it is less than $1$.
 :::
 
 > ### {.exercise title="Composition of one-to-one functions" #onetoonecompex}
