@@ -80,7 +80,7 @@ In addition to the memory array, a RAM machine also contains a constant number o
 
 The operations a RAM machine can carry out include:
 
-* __Data movement:__ Load data from a certain cell in memory into a register or store the contents of a register into a certain cell of memory. RAM machine can directly access any cell of memory without having to move the "head" (as Turing machines do) to that location. That is, in one step a RAM machine can load into register $r_i$ the contents of the memory cell indexed by register $r_j$, or store into the memory cell indexed by register $r_j$ the contents of register $r_i$.
+* __Data movement:__ Load data from a certain cell in memory into a register or store the contents of a register into a certain cell of memory. A RAM machine can directly access any cell of memory without having to move the "head" (as Turing machines do) to that location. That is, in one step a RAM machine can load into register $r_i$ the contents of the memory cell indexed by register $r_j$, or store into the memory cell indexed by register $r_j$ the contents of register $r_i$.
 
 * __Computation:__ RAM machines can carry out computation on registers such as arithmetic operations, logical operations, and comparisons.
 
@@ -173,13 +173,13 @@ We can simulate the effect of `Foo[Bar]` using `Setindex(Bar)` followed  by `Foo
 
 Implementing `Setindex(Bar)`  can be achieved as follows:
 
-1. We initialize an array `Arzero` such that `Atzero[`$0$`]`$=1$ and `Atzero[`$j$`]`$=0$ for all $j>0$. (This can be easily done in NAND-TM as all uninitialized variables default to zero.)
+1. We initialize an array `Atzero` such that `Atzero[`$0$`]`$=1$ and `Atzero[`$j$`]`$=0$ for all $j>0$. (This can be easily done in NAND-TM as all uninitialized variables default to zero.)
 
 2. Set `i` to zero, by decrementing it until we reach the point where `Atzero[i]`$=1$.
 
 2. Let `Temp` be an array encoding the number $0$.
 
-3. We use `GOTO` to simulate an inner loop of of the form: __while__ `Temp` $\neq$ `Bar`, increment `Temp`.
+3. We use `GOTO` to simulate an inner loop of the form: __while__ `Temp` $\neq$ `Bar`, increment `Temp`.
 
 4.  At the end of the loop, `i` is equal to the value encoded by `Bar`.
 
@@ -286,7 +286,7 @@ You can find online tutorials on how recursion is implemented via stack in your 
 
 
 
-Any of the standard programming language such as `C`, `Java`, `Python`, `Pascal`, `Fortran` have very similar operations to NAND-RAM.
+Any of the standard programming languages such as `C`, `Java`, `Python`, `Pascal`, `Fortran` have very similar operations to NAND-RAM.
 (Indeed, ultimately they can all be executed by machines which have a fixed number of registers and a large memory array.)
 Hence using [RAMTMequivalencethm](){.ref}, we can simulate any program in such a programming language by a NAND-TM program.
 In the other direction, it is a fairly easy programming exercise to write an interpreter for NAND-TM in any of the above programming languages.
@@ -307,7 +307,7 @@ Thus all programming languages we are familiar with are Turing equivalent.^[Some
 
 The equivalence between Turing machines and RAM machines allows us to choose the most convenient language for the task at hand:
 
-* When we want to _prove a theorem_ about all programs/algorithms, we can use Turing machines (or NAND-TM) since they are simpler and easier to analyze. In particular, if we want to show that a certain function _can not_ be computed, then we will use Turing machines.
+* When we want to _prove a theorem_ about all programs/algorithms, we can use Turing machines (or NAND-TM) since they are simpler and easier to analyze. In particular, if we want to show that a certain function _cannot_ be computed, then we will use Turing machines.
 
 * When we want to show that a function _can be computed_ we can use RAM machines or NAND-RAM, because they are easier to program in and correspond more closely to high level programming languages we are used to. In fact,  we will often describe NAND-RAM programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their audience will know to translate these descriptions to code if needed.)
 
@@ -452,7 +452,7 @@ Let $\Sigma$ be a finite set containing the symbol $\varnothing$. A _one dimensi
 
 A  _configuration_ of the automaton $r$ is a function $A:\Z \rightarrow \Sigma$.
 If an automaton with rule $r$ is in configuration $A$, then its next configuration, denoted by $A' = NEXT_r(A)$, is the function $A'$ such that $A'(i) = r(A(i-1),A(i),A(i+1))$ for every $i\in \Z$.
-In other words, the next state of the automaton $r$ at point $i$ obtained by applying the rule $r$ to the values of $A$ at $i$ and its two neighbors.
+In other words, the next state of the automaton $r$ at point $i$ is obtained by applying the rule $r$ to the values of $A$ at $i$ and its two neighbors.
 :::
 
 __Finite configuration.__ We say that a configuration of an automaton $r$ is _finite_ if there is only some finite number of indices $i_0,\ldots,i_{j-1}$ in $\Z$ such that  $A(i_j) \neq \varnothing$.
@@ -655,7 +655,7 @@ Hence $((F g) 3) = 3^4 = 81$.
 ::: {.solvedexercise  #lambdaexptwoex}
 What number does the following expression equal to?
 
-$$((\lambda x.(\lambda y.x)) \; 2)\; 9) \;. \label{lambdaexptwoeq}$$
+$$((\lambda x.(\lambda y.x)) \; 2)\; 9 \;. \label{lambdaexptwoeq}$$
 :::
 
 ::: {.solution data-ref="lambdaexptwoex"}
