@@ -415,8 +415,8 @@ Recall that to win the game Bob and Alice want their outputs to be more likely t
 We will split the analysis in one case for each of the four possible values of $x$ and $y$.
 
 __Case 1: $x=0$ and $y=0$.__ If $x=y=0$ then the state does not change.
-Because the state $\psi$ is proportional to    $|00\rangle + |11\rangle$, the measurements of Bob and Alice will always agree (if Alice measures $0$ then the state collapses to $|00 \rangle$ and so Bob measures $0$ as well, and similarly for $1$).
-Hence in the case $x=y=1$, Alice and Bob always win.
+Because the state $\psi$ is proportional to $|00\rangle + |11\rangle$, the measurements of Bob and Alice will always agree (if Alice measures $0$ then the state collapses to $|00 \rangle$ and so Bob measures $0$ as well, and similarly for $1$).
+Hence in the case $x=y=0$, Alice and Bob always win.
 
 __Case 2: $x=0$ and $y=1$.__ If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then the system collapses to the state $|00 \rangle$, in which case after Bob performs his rotation, his qubit is in the state  $\cos (\pi/8)|0\rangle+\sin(\pi/8)|1\rangle$.
 Thus, when Bob measures his qubit, he will get $0$ (and hence agree with Alice) with probability  $\cos^2 (\pi/8)  \geq 0.85$.
