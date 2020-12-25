@@ -309,7 +309,7 @@ The notation in the lemma's statement is a bit cumbersome, but at the end of the
 > ### {.proof data-ref="indcoins"}
 Let $a,b\in \R$, and let $A = \{ x \in \{0,1\}^k : F(x)=a \}$ and $B=\{ x\in \{0,1\}^m : F(x)=b \}$.
 Since $S$ and $T$ are disjoint, we can reorder the indices so that $S = \{0,\ldots,k-1\}$ and $T=\{k,\ldots,k+m-1\}$ without affecting any of the probabilities.
-Hence we can write $\Pr[X=a \wedge X=b] = |C|/2^n$ where $C= \{ x_0,\ldots,x_{n-1} : (x_0,\ldots,x_{k-1}) \in A \wedge (x_k,\ldots,x_{k+m-1}) \in B \}$.
+Hence we can write $\Pr[X=a \wedge Y=b] = |C|/2^n$ where $C= \{ x_0,\ldots,x_{n-1} : (x_0,\ldots,x_{k-1}) \in A \wedge (x_k,\ldots,x_{k+m-1}) \in B \}$.
 Another way to write this using string concatenation is that $C = \{ xyz : x\in A, y\in B, z\in \{0,1\}^{n-k-m} \}$, and hence $|C|=|A||B|2^{n-k-m}$, which means that
 $$
 \tfrac{|C|}{2^n} = \tfrac{|A|}{2^k}\tfrac{|B|}{2^m}\tfrac{2^{n-k-m}}{2^{n-k-m}}=\Pr[X=a]\Pr[Y=b] .
@@ -536,7 +536,7 @@ Set $k = \log |\mathcal{C}|$ and so $n>k \log(1/\delta)/\epsilon^2$. We start by
 
 __CLAIM:__ For every $h\in \mathcal{C}$, the probability over $S$ that $|L(h)-\hat{L}_S(h)| \geq \epsilon$ is smaller than $\delta/2^k$.
 
-We prove the claim using the Chernoff bound. Specifically, for every such $h$, let us defined a collection of random variables $X_0,\ldots,X_{n-1}$ as follows:
+We prove the claim using the Chernoff bound. Specifically, for every such $h$, let us define a collection of random variables $X_0,\ldots,X_{n-1}$ as follows:
 
 $$X_i = \begin{cases}1 & h(x_i) \neq y_i \\ 0 & \text{otherwise} \end{cases}.$$
 
