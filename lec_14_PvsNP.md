@@ -232,7 +232,7 @@ Optimization is widely used in a great many scientific areas including: machine 
 ### Example: Supervised learning
 
 One classical optimization task is _supervised learning_.
-In supervised learning we are given a list of _examples_ $x_0,x_1,\ldots,x_{m-1}$ (where we can think of each $x_i$ as a string in $\{0,1\}^n$ for some $n$) and the _labels_ for them $y_0,\ldots,y_{n-1}$ (which we will think of simply bits, i.e.,  $y_i\in \{0,1\}$).
+In supervised learning we are given a list of _examples_ $x_0,x_1,\ldots,x_{m-1}$ (where we can think of each $x_i$ as a string in $\{0,1\}^n$ for some $n$) and the _labels_ for them $y_0,\ldots,y_{m-1}$ (which we will think of simply bits, i.e.,  $y_i\in \{0,1\}$).
 For example, we can think of the $x_i$'s as images of either dogs or cats, for which $y_i=1$ in the former case and $y_i=0$ in the latter case.
 Our goal is to come up with a _hypothesis_ or _predictor_ $h:\{0,1\}^n \rightarrow \{0,1\}$ such that if we are given a new example $x$ that has an (unknown to us) label $y$, then with high probability $h$ will _predict_ the label. That is, with high probability it will hold that $h(x)=y$.
 The idea in supervised learning is to use the _Occam's Razor principle_: the simplest hypothesis that explains the data is likely to be correct.
