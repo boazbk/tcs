@@ -185,7 +185,7 @@ For every $x\in \{0,1\}^*$, the _output_ of $M$ on input $x$, denoted by $M(x)$,
    3. If $D=\mathsf{R}$ then set $i \rightarrow i+1$, if $D=\mathsf{L}$ then set $i \rightarrow \max\{i-1,0\}$. (If $D = \mathsf{S}$ then we keep $i$ the same.)
    4. If $D=\mathsf{H}$, then halt.
 
-* If the process above halts, then $M$'s output, denoted by $M(x)$, is the string $y\in \{0,1\}^*$ obtained by concatenating all the symbols in $\{0,1\}$ in positions $T[0],\ldots, T[i]$ where $i$ is the final head position.
+* If the process above halts, then $M$'s output, denoted by $M(x)$, is the string $y\in \{0,1\}^*$ obtained by concatenating all the symbols in $\{0,1\}$ in positions $T[0],\ldots, T[i]$ where $i+1$ is the first location in the tape containing $\varnothing$.
 
 * If The Turing machine does not halt then we denote  $M(x)=\bot$.
 :::
