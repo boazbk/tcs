@@ -22,7 +22,7 @@ chapternum: "23"
 
 Quantum mechanics is a deeply un-intuitive physical theory, and yet one that has been consistently verfied by experiments to astonishing degrees of accuracy and is accepted by physicists as under-pinning our universe.
 In the 1980's and 1990's, a small number of physicists and computer scientists began to suspect that these "un-intuitive" aspects might enable the design of computers that have "un-untuitive" powers.
-These was very much a niche area until in 1994 Peter Shor [@Shor94] showed that such computers could factor integers in time polynomial in their number of digits.
+This was very much a niche area until in 1994 Peter Shor [@Shor94] showed that such computers could factor integers in time polynomial in their number of digits.
 Since then quantum computers have attracted an immense intersted from scientists, governments, and industry, and there are extensive experimental efforts for constructing these at scale.
 
 ::: {.nonmath}
