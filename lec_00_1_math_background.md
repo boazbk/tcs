@@ -654,7 +654,7 @@ To produce such a proof you need to:
 
 In many cases, the first part is the most important one.
 Understanding what a statement means is oftentimes more than halfway towards understanding why it is true.
-In third part, to convince the reader beyond a shadow of a doubt, we will often want to break down the reasoning to "basic steps", where each basic step is simple enough to be "self evident". The combination of all steps yields the desired statement.
+In the third part, to convince the reader beyond a shadow of a doubt, we will often want to break down the reasoning to "basic steps", where each basic step is simple enough to be "self evident". The combination of all steps yields the desired statement.
 
 ### Proofs and programs
 
