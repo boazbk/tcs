@@ -642,7 +642,7 @@ Here is one example which is unrelated to this book (and hence one that you can 
 
 Many people think of mathematical proofs as a sequence of logical deductions that starts from some axioms and ultimately arrives at a conclusion.
 In fact, some dictionaries [define](http://www.thefreedictionary.com/mathematical+proof) proofs that way.
-This is not entirely wrong, but at its essence mathematical proof of a statement X is simply an argument that convinces the reader that X is true beyond a shadow of a doubt.
+This is not entirely wrong, but at its essence, a mathematical proof of a statement X is simply an argument that convinces the reader that X is true beyond a shadow of a doubt.
 
 To produce such a proof you need to:
 
