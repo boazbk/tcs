@@ -202,7 +202,7 @@ The Austrian philosopher Ludwig Wittgenstein, on the other hand, argued that mat
 In Wittgenstein's view, mathematics is merely about formal manipulation of symbols that do not have any inherent meaning.
 You can think of the "actual" number as (somewhat recursively) "that thing which is common to $236$, $11101100$  and `CCXXXVI` and all other past and future representations that are meant to capture the same object".
 
-While reading this book, you are free to choose your own philosophy of mathematics, as long as you maintain the distinction between the mathematical objects themselves and the various particular choices of representing them, whether as splotches of ink, pixels on a screen, zeroes and one, or any other form.
+While reading this book, you are free to choose your own philosophy of mathematics, as long as you maintain the distinction between the mathematical objects themselves and the various particular choices of representing them, whether as splotches of ink, pixels on a screen, zeroes and ones, or any other form.
 
 ## Representations beyond natural numbers {#morerepressec }
 
