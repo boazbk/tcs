@@ -1047,7 +1047,7 @@ AON-CIRC programs correspond to $\{AND,OR,NOT\}$ programs, NAND-CIRC programs co
 We can also define _$\mathcal{F}$ circuits_, which will be directed graphs in which each _gate_ corresponds to applying a function $f_i \in \mathcal{F}$, and will each have $k_i$ incoming wires and a single outgoing wire. (If the function $f_i$ is not _symmetric_, in the sense that the order of its input matters then we need to label each wire entering a gate as to which parameter of the function it corresponds to.)
 As in [slcircuitequivthm](){.ref}, we can show that $\mathcal{F}$ circuits and $\mathcal{F}$ programs are equivalent.
 We have seen that for $\mathcal{F} = \{ AND,OR, NOT\}$, the resulting circuits/programs are equivalent in power to the NAND-CIRC programming language, as we can compute $NAND$ using $AND$/$OR$/$NOT$ and vice versa.
-This turns out to be a special case of a general phenomena— the _universality_ of $NAND$ and other gate sets — that we will explore more in depth later in this book.
+This turns out to be a special case of a general phenomena — the _universality_ of $NAND$ and other gate sets — that we will explore more in depth later in this book.
 
 ::: {.example title="IF,ZERO,ONE circuits" #IZOcircuits}
 Let $\mathcal{F} = \{ IF , ZERO, ONE \}$ where $ZERO:\{0,1\} \rightarrow \{0\}$ and $ONE:\{0,1\} \rightarrow \{1\}$ are the constant zero and one functions,^[One can also define these functions as taking a length zero input. This makes no difference for the computational power of the model.] and $IF:\{0,1\}^3 \rightarrow \{0,1\}$ is the function that on input $(a,b,c)$ outputs $b$ if $a=1$ and $c$ otherwise.
