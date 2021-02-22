@@ -52,7 +52,7 @@ Despite being an important result, [circuit-univ-thm](){.ref} is actually not th
 However, in [secsyntacticsugar](){.ref} and [seclookupfunc](){.ref} we derive this result using the concept of "syntactic sugar" (see [synsugar](){.ref}).
 This is an important concept for programming languages theory and practice.
 The idea behind "syntactic sugar" is that we can extend a programming language by implementing advanced features from its basic components.
-For example, we can take the AON-CIRC and NAND-CIRC programming languages we saw in [compchap](){.ref}, and extend them to achieve features such as user-defined functions (e.g., `def Foo(...)`), condtional statements (e.g., `if blah ...`), and  more. 
+For example, we can take the AON-CIRC and NAND-CIRC programming languages we saw in [compchap](){.ref}, and extend them to achieve features such as user-defined functions (e.g., `def Foo(...)`), conditional statements (e.g., `if blah ...`), and  more. 
 Once we have these features, it is not that hard to show that we can take the "truth table" (table of all inputs and outputs) of any function, and use that to create an AON-CIRC or NAND-CIRC program that maps each input to its corresponding output.
 
 We will also get our first glimpse of _quantitative measures_ in  this chapter. While [circuit-univ-thm](){.ref} tells us that every function can be computed by _some_ circuit, the number of gates in this circuit can be exponentially large.
@@ -308,7 +308,7 @@ c = IF(cond,temp_c,c)
 Using such transformations, we can prove the following theorem.
 Once again we omit the (not too insightful) full formal proof, though see [functionsynsugarthmpython](){.ref} for some hints on how to obtain it.
 
-> ### {.theorem title="Conditional statements synctatic sugar" #conditionalsugarthm }
+> ### {.theorem title="Conditional statements syntactic sugar" #conditionalsugarthm }
 Let NAND-CIRC-IF be the programming language NAND-CIRC augmented with `if`/`then`/`else` statements for allowing code to be conditionally executed based on whether a variable is equal to $0$ or $1$.  
 Then for every NAND-CIRC-IF program $P$, there exists a standard (i.e., "sugar-free") NAND-CIRC program $P'$ that computes the same function as $P$.
 

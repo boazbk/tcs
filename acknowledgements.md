@@ -29,6 +29,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Kent Furuie
 * Piotr Galuszka
 * Carolyn Ge
+* Jason Giroux
 * Mark Goldstein
 * Alexander Golovnev
 * Sayan Goswami
