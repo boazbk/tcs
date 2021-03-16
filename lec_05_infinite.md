@@ -253,8 +253,8 @@ In each step, this program reads a single bit `X[i]` and updates its state `resu
 When its done transversing the input, the program outputs `result`.
 In computer science, such a program is called a _single-pass constant-memory algorithm_ since it makes a single pass over the input and its working memory is finite.
 (Indeed, in this case, `result` can either be $0$ or $1$.)
-Such an algorithm is also known as a  _Deterministic Finite Automaton_ or _DFA_ (another name for DFA's is a _finite state machine_).
-We can think of such an algorithm as a "machine"  that can be in one of $C$ states, for some constant $C$.
+Such an algorithm is also known as a  _Deterministic Finite Automaton_ or _DFA_ (another name for DFAs is a _finite state machine_).
+We can think of such an algorithm as a "machine" that can be in one of $C$ states, for some constant $C$.
 The machine starts in some initial state and then reads its input $x\in \{0,1\}^*$ one bit at a time.
 Whenever the machine reads a bit $\sigma \in \{0,1\}$, it transitions into a new state based on $\sigma$ and its prior state.
 The output of the machine is based on the final state.
