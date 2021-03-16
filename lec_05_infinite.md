@@ -323,8 +323,8 @@ $$F(x) = \begin{cases}
 :::
 
 ::: {.solution data-ref="DFAzeroone"}
-When asked to construct a deterministic finite automaton, it helps to start by thinking of it as a single-pass constant-memory algorithm
-(for example, a _Python_ program) and then translating that program into a DFA.
+When asked to construct a deterministic finite automaton, it is often useful to start by constructing a single-pass constant-memory algorithm using a more general formalism
+(for example, using pseudocode or a _Python_ program). Once we have such an algorithm, we can mechanically translate it into a DFA.
 Here is a simple Python program for computing $F$:
 
 ```python
