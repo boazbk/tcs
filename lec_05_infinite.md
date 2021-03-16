@@ -103,7 +103,7 @@ That said, whether or not we know how to _implement_ the function $TWINP$, the d
 
 ### Varying inputs and outputs
 
-Many of the functions that interest us take more than one input. For example the function
+Many of the functions that interest us take more than one input. For example, the function
 
 $$
 MULT(x,y) = x \cdot y
