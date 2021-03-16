@@ -204,7 +204,7 @@ to inputs of length $n$.
 ::: {.proof data-ref="computeallinfinitefuncthm"}
 This is an immediate corollary of the universality of Boolean circuits.
 Indeed, since $F_n$ maps $\{0,1\}^n$ to $\{0,1\}$, [NAND-univ-thm-improved](){.ref} implies that there exists a Boolean circuit $C_n$ to compute it.
-In fact. the size of this circuit is at most $c \cdot 2^n / n$ gates for some constant  $c \leq 10$.
+In fact, the size of this circuit is at most $c \cdot 2^n / n$ gates for some constant  $c \leq 10$.
 :::
 
 In particular, [computeallinfinitefuncthm](){.ref} implies that there exists such as circuit collection $\{ C_n \}$ even for the $TWINP$ function we described before,
