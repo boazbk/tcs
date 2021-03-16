@@ -69,7 +69,7 @@ def XOR(X):
 
 
 
-Previously in this book we studied the computation of _finite_ functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$. Such a function $f$ can always be described by listing all the $2^n$ values it takes on inputs $x\in \{0,1\}^n$.
+Previously in this book, we studied the computation of _finite_ functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$. Such a function $f$ can always be described by listing all the $2^n$ values it takes on inputs $x\in \{0,1\}^n$.
 In this chapter, we consider functions such as $XOR$ that take inputs of _unbounded_ size. 
 While we can describe $XOR$ using a finite number of symbols (in fact, we just did so above), it takes infinitely many possible inputs, and so we cannot just write down all of its values.
 The same is true for many other functions capturing important computational tasks, including addition, multiplication, sorting, finding paths in graphs, fitting curves to points, and so on.
