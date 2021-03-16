@@ -9,7 +9,7 @@ chapternum: "2"
 > ### { .objectives }
 * Distinguish between _specification_ and _implementation_, or equivalently between   _mathematical functions_ and _algorithms/programs_.
 * Representing an object as a string (often of zeroes and ones).
-* Examples of representations for common objects such as numbers, vectors, lists, graphs.
+* Examples of representations for common objects such as numbers, vectors, lists, and graphs.
 * Prefix-free representations.
 * Cantor's Theorem: The real numbers cannot be represented exactly as finite strings.
 
@@ -202,7 +202,7 @@ The Austrian philosopher Ludwig Wittgenstein, on the other hand, argued that mat
 In Wittgenstein's view, mathematics is merely about formal manipulation of symbols that do not have any inherent meaning.
 You can think of the "actual" number as (somewhat recursively) "that thing which is common to $236$, $11101100$  and `CCXXXVI` and all other past and future representations that are meant to capture the same object".
 
-While reading this book, you are free to choose your own philosophy of mathematics, as long as you maintain the distinction between the mathematical objects themselves and the various particular choices of representing them, whether as splotches of ink, pixels on a screen, zeroes and one, or any other form.
+While reading this book, you are free to choose your own philosophy of mathematics, as long as you maintain the distinction between the mathematical objects themselves and the various particular choices of representing them, whether as splotches of ink, pixels on a screen, zeroes and ones, or any other form.
 
 ## Representations beyond natural numbers {#morerepressec }
 
@@ -642,7 +642,7 @@ To obtain a representation of objects in $\mathcal{O}$ as strings of length at m
 We can do so, if and only if $|\mathcal{O}| \leq 2^{n+1}-1$ as is implied by the following lemma:
 
 > ### {.lemma #onetoone}
-For every two non-emptry finite sets $S,T$, there exists a one-to-one $E:S \rightarrow T$ if and only if $|S| \leq |T|$.
+For every two non-empty finite sets $S,T$, there exists a one-to-one $E:S \rightarrow T$ if and only if $|S| \leq |T|$.
 
 > ### {.proof data-ref="onetoone"}
 Let $k=|S|$ and $m=|T|$ and so write the elements of $S$ and $T$ as $S = \{ s_0 , s_1, \ldots, s_{k-1} \}$ and $T= \{ t_0 , t_1, \ldots, t_{m-1} \}$. We need to show that there is a one-to-one function $E: S \rightarrow T$ iff $k \leq m$.

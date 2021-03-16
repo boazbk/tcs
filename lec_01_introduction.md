@@ -112,7 +112,7 @@ We ask some questions that were already pondered by the Babylonians, such as "wh
 
 
 
-::: {.remark title="Specification, implementation and analysis of algorithms." #implspecanarem}
+::: {.remark title="Specification, implementation, and analysis of algorithms." #implspecanarem}
 A full description of an algorithm has three components:
 
 * __Specification__: __What__ is the task that the algorithm performs (e.g., multiplication in the case of [naivemultalg](){.ref} and [gradeschoolalg](){.ref}.)
@@ -409,9 +409,9 @@ A course based on this book can use all of Parts I, II, and III  (possibly skipp
 ::: {.exercise }
 Rank the significance of the following inventions in speeding up multiplication of large (that is 100-digit or more) numbers. That is, use "back of the envelope" estimates to order them in terms of the speedup factor they offered over the previous state of affairs.
 
-a. Discovery of the grade-school digit by digit algorithm (improving upon repeated addition)
+a. Discovery of the grade-school digit by digit algorithm (improving upon repeated addition).
 
-b. Discovery of Karatsuba's algorithm (improving upon the digit by digit algorithm)
+b. Discovery of Karatsuba's algorithm (improving upon the digit by digit algorithm).
 
 c.  Invention of modern electronic computers (improving upon calculations with pen and paper).
 :::

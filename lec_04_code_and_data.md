@@ -584,8 +584,8 @@ It turns out that such efficient [routing networks](https://goo.gl/NnkkjM) exist
 
 ##  A Python interpreter in NAND-CIRC (discussion)
 
-To prove [eff-bounded-univ](){.ref}, we essentially translated every line of the Python program for `EVAL` into an equivalent NAND-CIRC snippet.
-However none of our reasoning was specific to the particular function $EVAL$.
+To prove [eff-bounded-univ](){.ref} we essentially translated every line of the Python program for `EVAL` into an equivalent NAND-CIRC snippet.
+However, none of our reasoning was specific to the particular function $EVAL$.
 It is possible to translate _every_ Python program into an equivalent NAND-CIRC program of comparable efficiency.
 (More concretely, if the Python program takes $T(n)$ operations on inputs of length at most $n$ then there exists NAND-CIRC program of $O(T(n) \log T(n))$ lines that agrees with the Python program on inputs of length $n$.)
 Actually doing so requires taking care of many details and is beyond the scope of this book, but let me try to convince you why you should believe it is possible in principle.

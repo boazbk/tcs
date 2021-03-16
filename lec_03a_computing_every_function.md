@@ -52,7 +52,7 @@ Despite being an important result, [circuit-univ-thm](){.ref} is actually not th
 However, in [secsyntacticsugar](){.ref} and [seclookupfunc](){.ref} we derive this result using the concept of "syntactic sugar" (see [synsugar](){.ref}).
 This is an important concept for programming languages theory and practice.
 The idea behind "syntactic sugar" is that we can extend a programming language by implementing advanced features from its basic components.
-For example, we can take the AON-CIRC and NAND-CIRC programming languages we saw in [compchap](){.ref}, and extend them to achieve features such as user-defined functions (e.g., `def Foo(...)`), condtional statements (e.g., `if blah ...`), and  more. 
+For example, we can take the AON-CIRC and NAND-CIRC programming languages we saw in [compchap](){.ref}, and extend them to achieve features such as user-defined functions (e.g., `def Foo(...)`), conditional statements (e.g., `if blah ...`), and  more. 
 Once we have these features, it is not that hard to show that we can take the "truth table" (table of all inputs and outputs) of any function, and use that to create an AON-CIRC or NAND-CIRC program that maps each input to its corresponding output.
 
 We will also get our first glimpse of _quantitative measures_ in  this chapter. While [circuit-univ-thm](){.ref} tells us that every function can be computed by _some_ circuit, the number of gates in this circuit can be exponentially large.
@@ -308,7 +308,7 @@ c = IF(cond,temp_c,c)
 Using such transformations, we can prove the following theorem.
 Once again we omit the (not too insightful) full formal proof, though see [functionsynsugarthmpython](){.ref} for some hints on how to obtain it.
 
-> ### {.theorem title="Conditional statements synctatic sugar" #conditionalsugarthm }
+> ### {.theorem title="Conditional statements syntactic sugar" #conditionalsugarthm }
 Let NAND-CIRC-IF be the programming language NAND-CIRC augmented with `if`/`then`/`else` statements for allowing code to be conditionally executed based on whether a variable is equal to $0$ or $1$.  
 Then for every NAND-CIRC-IF program $P$, there exists a standard (i.e., "sugar-free") NAND-CIRC program $P'$ that computes the same function as $P$.
 
@@ -362,7 +362,7 @@ Once we have addition, we can use the grade-school algorithm to obtain multiplic
 
 
 > ### {.theorem title="Multiplication using NAND-CIRC programs" #theoremid}
-For every $n$, let $MULT_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{2n}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the product of the numbers that $x$ and $x'$ represent. Then there is a constant $c$ such that for every $n$, there is a NAND-CIRC program of at most $cn^2$ that computes the function $MULT_n$.
+For every $n$, let $MULT_n:\{0,1\}^{2n}\rightarrow \{0,1\}^{2n}$ be the function that, given $x,x'\in \{0,1\}^n$ computes the representation of the product of the numbers that $x$ and $x'$ represent. Then there is a constant $c$ such that for every $n$, there is a NAND-CIRC program of at most $cn^2$ lines that computes the function $MULT_n$.
 
 We omit the proof, though in [multiplication-ex](){.ref} we ask you to supply a "constructive proof" in the form of a program (in your favorite programming language) that on input a number $n$, outputs the code of a NAND-CIRC program of at most $1000n^2$ lines that computes the $MULT_n$ function.
 In fact, we can use Karatsuba's algorithm to show that there is a NAND-CIRC program of $O(n^{\log_2 3})$ lines to compute $MULT_n$
@@ -652,7 +652,7 @@ There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{
 ## Computing every function: An alternative proof {#seccomputalternative }
 
 [circuit-univ-thm](){.ref} is a fundamental result in the theory (and practice!) of computation.
-In this section we present an alternative proof of this basic fact that Boolean circuits can compute every finite function.
+In this section, we present an alternative proof of this basic fact that Boolean circuits can compute every finite function.
 This alternative proof gives a somewhat worse quantitative bound on the number of gates but it has the advantage of being simpler, working directly with circuits and avoiding the usage of all the syntactic sugar machinery.
 (However, that machinery is useful in its own right, and will find other applications later on.)
 
@@ -717,7 +717,7 @@ We define $SIZE(s)$ to be the set of functions that can be computed by NAND circ
 Formally, the definition is as follows:
 
 > ### {.definition title="Size class of functions" #sizedef}
-For every $n,m  \in \{ 1, \ldots , 2s\}$, we let set $SIZE_{n,m}(s)$ denotes the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that $f\in SIZE(s)$.^[The restriction that $m,n \leq 2s$ makes no difference; see [nandcircsizeex](){.ref}.] 
+For every $n,m  \in \{ 1, \ldots , 2s\}$, we let $SIZE_{n,m}(s)$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that $f\in SIZE(s)$.^[The restriction that $m,n \leq 2s$ makes no difference; see [nandcircsizeex](){.ref}.] 
 We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
 For every integer $s \geq 1$, we let $SIZE(s) = \cup_{n,m \leq 2s} SIZE_{n,m}(s)$ be the set of all functions $f$ for which there exists a NAND circuit of at most $s$ gates that compute $f$.
 
