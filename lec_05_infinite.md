@@ -33,7 +33,7 @@ However, we will see one example of a simple restricted model of computation - d
 
 
 ::: {.nonmath}
-In this chapter, we discuss functions that as input strings of arbitrary length.
+In this chapter, we discuss functions that take as input strings of arbitrary length.
 We will often focus on the special case of _Boolean_ functions, where the output is a single bit.
 These are still infinite functions since their inputs have unbounded length and hence such a function cannot be computed by any single Boolean circuit.
 
