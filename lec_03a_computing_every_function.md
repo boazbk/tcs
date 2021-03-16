@@ -717,7 +717,7 @@ We define $SIZE(s)$ to be the set of functions that can be computed by NAND circ
 Formally, the definition is as follows:
 
 > ### {.definition title="Size class of functions" #sizedef}
-For every $n,m  \in \{ 1, \ldots , 2s\}$, we let set $SIZE_{n,m}(s)$ denotes the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that $f\in SIZE(s)$.^[The restriction that $m,n \leq 2s$ makes no difference; see [nandcircsizeex](){.ref}.] 
+For every $n,m  \in \{ 1, \ldots , 2s\}$, we let $SIZE_{n,m}(s)$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that $f\in SIZE(s)$.^[The restriction that $m,n \leq 2s$ makes no difference; see [nandcircsizeex](){.ref}.] 
 We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
 For every integer $s \geq 1$, we let $SIZE(s) = \cup_{n,m \leq 2s} SIZE_{n,m}(s)$ be the set of all functions $f$ for which there exists a NAND circuit of at most $s$ gates that compute $f$.
 
