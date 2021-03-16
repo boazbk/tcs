@@ -9,7 +9,7 @@ chapternum: "2"
 > ### { .objectives }
 * Distinguish between _specification_ and _implementation_, or equivalently between   _mathematical functions_ and _algorithms/programs_.
 * Representing an object as a string (often of zeroes and ones).
-* Examples of representations for common objects such as numbers, vectors, lists, graphs.
+* Examples of representations for common objects such as numbers, vectors, lists, and graphs.
 * Prefix-free representations.
 * Cantor's Theorem: The real numbers cannot be represented exactly as finite strings.
 
