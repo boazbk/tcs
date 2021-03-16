@@ -652,7 +652,7 @@ There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{
 ## Computing every function: An alternative proof {#seccomputalternative }
 
 [circuit-univ-thm](){.ref} is a fundamental result in the theory (and practice!) of computation.
-In this section we present an alternative proof of this basic fact that Boolean circuits can compute every finite function.
+In this section, we present an alternative proof of this basic fact that Boolean circuits can compute every finite function.
 This alternative proof gives a somewhat worse quantitative bound on the number of gates but it has the advantage of being simpler, working directly with circuits and avoiding the usage of all the syntactic sugar machinery.
 (However, that machinery is useful in its own right, and will find other applications later on.)
 
