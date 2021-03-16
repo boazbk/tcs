@@ -224,7 +224,7 @@ However, in this section we present the more basic model of _deterministic finit
 Automata can serve as a good stepping-stone for Turing machines, though they will not be used much in later parts of this book, and so the
 reader can feel free to skip ahead to [chaploops](){.ref}.
 DFAs turn out to be equivalent in power to _regular expressions_: a powerful mechanism to specify patterns, which is widely used in practice.
-Our treatment of automata is relatively brief. There are plenty of resources that help you get more comfortable with DFA's.
+Our treatment of automata is relatively brief. There are plenty of resources that help you get more comfortable with DFAs.
 In particular, Chapter 1 of Sipser's book [@SipserBook] contains an excellent exposition of this material.
 There are also many websites with online simulators for automata, as well as translators from regular expressions to automata and vice versa 
 (see for example [here](http://ivanzuzak.info/noam/webapps/fsm2regex/) and [here](https://cyberzhg.github.io/toolbox/nfa2dfa)).
