@@ -142,7 +142,7 @@ $$
 If we can compute $BMULT$ via any programming language such as Python, C, Java, etc., we can compute $MULT$ as well, and vice versa.
 
 ::: {.solvedexercise title="Booleanizing general functions" #booleanize}
-Show that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ there exists a Boolean function $BF:\{0,1\}^* \rightarrow \{0,1\}$
+Show that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, there exists a Boolean function $BF:\{0,1\}^* \rightarrow \{0,1\}$
 such that a Python program to compute $BF$ can be transformed into a program to compute $F$ and vice versa.
 :::
 
