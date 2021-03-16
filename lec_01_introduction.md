@@ -112,7 +112,7 @@ We ask some questions that were already pondered by the Babylonians, such as "wh
 
 
 
-::: {.remark title="Specification, implementation and analysis of algorithms." #implspecanarem}
+::: {.remark title="Specification, implementation, and analysis of algorithms." #implspecanarem}
 A full description of an algorithm has three components:
 
 * __Specification__: __What__ is the task that the algorithm performs (e.g., multiplication in the case of [naivemultalg](){.ref} and [gradeschoolalg](){.ref}.)
