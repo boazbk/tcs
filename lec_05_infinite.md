@@ -425,7 +425,7 @@ There exists a Boolean function $F:\{0,1\}^* \rightarrow \{0,1\}$ that is not co
 
 
 ::: {.proof data-ref="DFAdontcomputeeverything"}
-If every Boolean function $F$ is computable by some DFA then $DFACOMP$ equals the set $ALL$ of all Boolean functions, but by 
+If every Boolean function $F$ is computable by some DFA, then $DFACOMP$ equals the set $ALL$ of all Boolean functions, but by 
 [uncountalbefuncthm](){.ref}, the latter set is uncountable, contradicting [DFAcompuncountable](){.ref}.
 :::
 
