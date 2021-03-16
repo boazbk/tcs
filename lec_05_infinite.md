@@ -185,7 +185,7 @@ A _formal language_ is a subset $L \subseteq \{0,1\}^*$ (or more generally $L \s
 The _membership_ or _decision_ problem for a language $L$, is the task of determining, given $x\in \{0,1\}^*$, whether or not $x\in L$.
 If we can compute the function $F$, then we can decide membership in the language $L_F$ and vice versa.
 Hence, many texts such as [@SipserBook] refer to the task of computing a Boolean function as "deciding a language".
-In this book we mostly describe computational task using the _function_ notation, which is easier to generalize to computation with 
+In this book, we mostly describe computational tasks using the _function_ notation, which is easier to generalize to computation with 
 more than one bit of output.
 However, since the language terminology is so popular in the literature, we will sometimes mention it.
 
