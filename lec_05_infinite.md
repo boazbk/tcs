@@ -250,7 +250,7 @@ def XOR(X):
 ```
 
 In each step, this program reads a single bit `X[i]` and updates its state `result` based on that bit (flipping `result` if `X[i]` is $1$ and keeping it the same otherwise).
-When its done transversing the input, the program outputs `result`.
+When it is done transversing the input, the program outputs `result`.
 In computer science, such a program is called a _single-pass constant-memory algorithm_ since it makes a single pass over the input and its working memory is finite.
 (Indeed, in this case, `result` can either be $0$ or $1$.)
 Such an algorithm is also known as a  _Deterministic Finite Automaton_ or _DFA_ (another name for DFA's is a _finite state machine_).
