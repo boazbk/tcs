@@ -109,7 +109,7 @@ $$
 MULT(x,y) = x \cdot y
 $$
 
-that takes the binary representation of a pair of integers $x,y \in \N$, and outputs the binary representation of their product $x \cdot y$.
+takes the binary representation of a pair of integers $x,y \in \N$, and outputs the binary representation of their product $x \cdot y$.
 However, since we can represent a pair of strings as a single string, we will consider functions such as MULT as mapping $\{0,1\}^*$ to $\{0,1\}^*$.
 We will typically not be concerned with low-level details such as the precise way to represent a pair of integers as a string, since virtually all 
 choices will be equivalent for our purposes.
