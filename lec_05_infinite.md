@@ -219,7 +219,7 @@ The difficulty in computing $TWINP$ using Python or any other programming langua
 
 All our computational models so far - Boolean circuits and straight-line programs -  were only applicable for _finite_ functions.
 
-In [chaploops](){.ref} we will present _Turing machines_, which are the central models of computation for unbounded input length functions.
+In [chaploops](){.ref}, we will present _Turing machines_, which are the central models of computation for unbounded input length functions.
 However, in this section we present the more basic model of _deterministic finite automata_ (DFA).
 Automata can serve as a good stepping-stone for Turing machines, though they will not be used much in later parts of this book, and so the
 reader can feel free to skip ahead to [chaploops](){.ref}.
