@@ -10,7 +10,7 @@ chapternum: "6"
 > ### { .objectives }
 * Define functions on _unbounded length_ inputs, that cannot be described by a finite size table of inputs and outputs.
 * Equivalence with the task of deciding membership in a language.
-* Deterministic finite automatons (optional): A simple example for a model for unbounded computation
+* Deterministic finite automatons (optional): A simple example for a model for unbounded computation.
 * Equivalence with regular expressions.
 
 
