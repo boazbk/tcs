@@ -207,7 +207,7 @@ Indeed, since $F_n$ maps $\{0,1\}^n$ to $\{0,1\}$, [NAND-univ-thm-improved](){.r
 In fact, the size of this circuit is at most $c \cdot 2^n / n$ gates for some constant  $c \leq 10$.
 :::
 
-In particular, [computeallinfinitefuncthm](){.ref} implies that there exists such as circuit collection $\{ C_n \}$ even for the $TWINP$ function we described before,
+In particular, [computeallinfinitefuncthm](){.ref} implies that there exists such a circuit collection $\{ C_n \}$ even for the $TWINP$ function we described before,
 even though we do not know of any program to compute it.
 Indeed, this is not that surprising: for every particular $n\in \N$, $TWINP_n$ is either the constant zero function or the constant one function, both of which can be computed
 by very simple Boolean circuits.
