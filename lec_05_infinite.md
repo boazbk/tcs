@@ -158,7 +158,7 @@ BF(x,i,b) = \begin{cases}
 $$
 
 to be the function that on input $x \in \{0,1\}^*, i \in \N, b\in \{0,1\}$ outputs the $i^{th}$ bit of $F(x)$ if $b=0$ and $i<|x|$. 
-If $b=1$ then $BF(x,i,b)$ outputs $1$ iff  $i<|F(x)|$ and hence this allows to compute  the length of $F(x)$.
+If $b=1$, then $BF(x,i,b)$ outputs $1$ iff  $i<|F(x)|$ and hence this allows to compute  the length of $F(x)$.
 
 Computing $BF$ from $F$ is straightforward.
 For the other direction, given a Python function `BF` that computes $BF$, we can compute $F$ as follows:
