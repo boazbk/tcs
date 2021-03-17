@@ -834,7 +834,7 @@ Assume, via the induction hypothesis, that for every $v',w' \in [C]$, we have a 
 We need to prove that $F_{v,w}^{t+1}$ is regular for every $v,w$.
 If the automaton arrives from $v$ to $w$ using the intermediate states $[t+1]$, then it visits the $t$-th state zero or more times.
 If the path labeled by $x$ causes the automaton to get from $v$ to $w$ without visiting the $t$-th state at all, then $x$ is matched by the regular expression $R_{v,w}^t$.
-If the path labeled by $x$ causes the automaton to get from $v$ to $w$ while visiting the $t$-th state $k>0$ times then we can think of this path as:
+If the path labeled by $x$ causes the automaton to get from $v$ to $w$ while visiting the $t$-th state $k>0$ times, then we can think of this path as:
 
 * First travel from $v$ to $t$ using only intermediate states in $[t-1]$.
 
