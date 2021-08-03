@@ -539,24 +539,27 @@ Luckily, the AON-CIRC programming language is simple enough that we can define i
 
 **The AON-CIRC programming language specification.** An AON-CIRC program is a sequence of strings (which we call "lines") of the following form:
 
-* The first line has the form `INPUTS, OUTPUTS = `$n$ ` , ` $m$ for some pair $n,m$ of natural numbers. This line, which we call the _input/output declaration_, declares that the program has $n$ inputs and $m$ outputs. 
+* The first line has the form `INPUTS, OUTPUTS = `$n$ ` , ` $m$ for some pair $n,m$ of natural numbers. This line declares that the program has $n$ inputs and $m$ outputs. 
 
-* All remaining lines are of one of the following forms: `foo = AND(bar,blah)`,  `foo = OR(bar,baz)`, or  `foo = NOT(bar)` where `foo`, `bar` and `baz` are variable names. (We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz` as stand-ins for generic identifiers.) The line `foo = AND(bar,baz)` corresponds to the operation of assigning to the variable `foo` the logical AND of the values of the variables `bar` and `baz'. Similarly  `foo = OR(bar,baz)` and `foo = NOT(bar)` correspond to the logical OR and logical NOT operations.
+* All remaining lines are of one of the following forms: `foo = AND(bar,blah)`,  `foo = OR(bar,baz)`, or  `foo = NOT(bar)` where `foo`, `bar` and `baz` are variable names. (We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz` as stand-ins for generic identifiers.) The line `foo = AND(bar,baz)` corresponds to the operation of assigning to the variable `foo` the logical AND of the values of the variables `bar` and `baz'. Similarly  `foo = OR(bar,baz)` and `foo = NOT(bar)` correspond to the logical OR and logical NOT operations. 
+
+* We call the first line of the program the _input/output declaration_ line and the remaining ones the _operator lines_.
 
 * A variable identifier in the AON-CIRC programming language can be any combination of letters, numbers,  underscores, and brackets. There are two special types of variables:
   - Variables of the form `X[`$i$`]`, with $i \in \{0,1,\ldots, n-1\}$  are known as _input_ variables.
   - Variables of the form `Y[`$j$`]` are known as _output_ variables.
   - A valid AON-CIRC program $P$ includes input variables of the form `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` and output variables of the form `Y[`$0$`]`,$\ldots$, `Y[`$m-1$`]` where $n,m$ are the numbers declared in the first line. 
-  - In a valid AON-CIRC program, for every line except the input/output declaration (i.e., for every line of the form `foo = OP(bar,blah)` or `foo = OP(bar)` where `OP` is one of the `AND`,`OR` or `NOT` operators), the variables on the right-hand side of the assignment operator must either be input variables or variables that have already been assigned a value in a previous line.
+  - In a valid AON-CIRC program, for every operator line  (i.e., for every line of the form `foo = OP(bar,blah)` or `foo = OP(bar)` where `OP` is one of the `AND`,`OR` or `NOT` operators), the variables on the right-hand side of the assignment operator must either be input variables or variables that have already been assigned a value in a previous line.
 
 
 * If $P$ is a valid AON-CIRC program of $n$ inputs and $m$ outputs, then for every $x\in \{0,1\}^n$ the _output_ of $P$ on input $x$ is the string $y\in \{0,1\}^m$ defined as follows:
   - Initialize the input variables `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` to the values $x_0,\ldots,x_{n-1}$
-  - Run the lines of $P$ (apart from the input/oputput declaration) one by one in order, in each line assigning to the variable on the left-hand side of the assignment operators the value of the operation on the right-hand side.
+  - Run the operator lines of $P$ one by one in order, in each line assigning to the variable on the left-hand side of the assignment operators the value of the operation on the right-hand side.
   - Let $y\in \{0,1\}^m$ be the values of the output variables `Y[`$0$`]` ,$\ldots$, `Y[`$m-1$`]` at the end of the execution.
 
 * We denote the output of $P$ on input $x$ by $P(x)$.
 
+* The _size_ of an AON circ program $P$ is the number of operator lines it contains plus the number of inputs. (The reader might note that this corresponds to our definition of the size of a circuit as the number of gates it contains plus the number of inputs.)
 
 ::: {.definition title="Computing a function via AON-CIRC programs" #AONcircdef}
 Let $f:\{0,1\}^n \rightarrow\{0,1\}^m$, and $P$ be a valid AON-CIRC program with $n$ inputs and $m$ outputs.
@@ -616,7 +619,7 @@ We can also present this 8-line program as a circuit with 8 gates, see [aoncmpfi
 It turns out that AON-CIRC programs and Boolean circuits have exactly the same power:
 
 > ### {.theorem title="Equivalence of circuits and straight-line programs" #slcircuitequivthm}
-Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$ be some number. Then $f$ is computable by a Boolean circuit of $s$ gates if and only if $f$ is computable by an AON-CIRC program of $s$ lines.
+Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$ be some number. Then $f$ is computable by a Boolean circuit with $s$ gates  if and only if $f$ is computable by an AON-CIRC program of $s$ operator lines.
 
 
 
@@ -634,14 +637,14 @@ and vice versa.
 ::: {.proof data-ref="slcircuitequivthm"}
 Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$. Since the theorem is an "if and only if" statement, to prove it we need to show both directions: translating an AON-CIRC program that computes $f$ into a circuit that computes $f$, and translating a circuit that computes $f$ into an AON-CIRC program that does so.
 
-We start with the first direction. Let $P$ be an $s$ line AON-CIRC that computes $f$. We define a circuit $C$ as follows: the circuit will have $n$ inputs and $s$ gates. For every $i \in [s]$, if the $i$-th line has the form `foo = AND(bar,blah)` then the $i$-th gate in the circuit will be an AND gate that is connected to gates $j$ and $k$ where $j$ and $k$ correspond to the last lines before $i$ where the variables `bar` and `blah` (respectively) were written to. (For example, if $i=57$ and the last line `bar` was written to is $35$ and the last line `blah` was written to is $17$ then the two in-neighbors of gate $57$ will be gates $35$ and $17$.)
+We start with the first direction. Let $P$ be an AON-CIRC program that computes $f$. We define a circuit $C$ as follows: the circuit will have $n$ inputs and $s$ gates. For every $i \in [s]$, if the $i$-th operator line has the form `foo = AND(bar,blah)` then the $i$-th gate in the circuit will be an AND gate that is connected to gates $j$ and $k$ where $j$ and $k$ correspond to the last lines before $i$ where the variables `bar` and `blah` (respectively) were written to. (For example, if $i=57$ and the last line `bar` was written to is $35$ and the last line `blah` was written to is $17$ then the two in-neighbors of gate $57$ will be gates $35$ and $17$.)
 If either `bar` or `blah` is an input variable then we connect the gate to the corresponding input vertex instead.
 If `foo` is an output variable of the form `Y[`$j$`]` then we add the same label to the corresponding gate to mark it as an output gate.
 We do the analogous operations if the $i$-th line involves an `OR` or a `NOT` operation (except that we use the corresponding _OR_ or _NOT_ gate, and in the latter case have only one in-neighbor instead of two).
 For every input $x\in \{0,1\}^n$, if we run the program $P$ on $x$, then the value written that is computed in the $i$-th line is exactly the value that will be assigned to the $i$-th gate if we evaluate the circuit $C$ on $x$. Hence $C(x)=P(x)$ for every $x\in \{0,1\}^n$.
 
 For the other direction, let $C$ be a circuit of $s$ gates and $n$ inputs that computes the function $f$. We sort the gates according to a topological order and write them as $v_0,\ldots,v_{s-1}$.
-We now can create a program $P$ of $s$ lines as follows.
+We now can create a program $P$ of $s$ operator lines as follows.
 For every $i\in [s]$, if $v_i$ is an AND gate with in-neighbors  $v_j,v_k$ then we will add a line to $P$ of the form `temp_`$i$ ` = AND(temp_`$j$`,temp_`$k$`)`, unless one of the vertices is an input vertex or an output gate, in which case we change this to the form `X[.]` or `Y[.]` appropriately.
 Because we work in topological ordering, we are guaranteed that the in-neighbors $v_j$ and $v_k$ correspond to variables that have already been assigned a value.
 We do the same for OR and NOT gates.
