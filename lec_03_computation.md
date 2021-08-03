@@ -459,7 +459,7 @@ Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ i
 
 * Exactly $m$ of the gates are also labeled with the $m$ labels   `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` (in addition to their label $\wedge$/$\vee$/$\neg$). These are known as _outputs_.
 
-The _size_ of a Boolean circuit is the number of gates it contains.
+The _size_ of a Boolean circuit is the number $s+n$ of vertices (gates and inputs) it contains.
 :::
 
 
@@ -516,20 +516,53 @@ We have seen two ways to describe how to compute a function $f$ using _AND_, _OR
 
 * We can also describe such a computation using a _straight-line program_ that has lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names. (We call this a _straight-line program_ since it contains no loops or branching (e.g., if/then) statements.)
 
-We now formally define the AON-CIRC programming language ("AON" stands for _AND_/_OR_/_NOT_; "CIRC" stands for _circuit_) which has the above operations, and show that it is equivalent to Boolean circuits.
+To make the second definition more precise, we will now define a _programming language_ that is equivalent to Boolean circuits.
+We call this programming language the **AON-CIRC programming language** ("AON" stands for _AND_/_OR_/_NOT_; "CIRC" stands for _circuit_).
 
-::: {.definition title="AON-CIRC Programming language" #AONcircdef}
-An _AON-CIRC program_ is a string of lines of the form `foo = AND(bar,blah)`, `foo = OR(bar,blah)` and `foo = NOT(bar)` where `foo`, `bar` and `blah` are variable names.^[We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz`, `blah` as stand-ins for generic identifiers. A variable identifier in our programming language can be any combination of letters, numbers,  underscores, and brackets. The [appendix](http://tiny.cc/introtcsappendix) contains a full formal specification of our programming language.]
-Variables of the form `X[`$i$`]` are known as _input_ variables, and variables of the form `Y[`$j$`]` are known as _output_ variables. In every line, the variables on the right-hand side of the assignment operators must either be input variables or variables that have already been assigned a value.
+For example, the following is an AON-CIRC program that on input $x \in \{0,1\}^2$, outputs $\overline{x_0 \wedge x_1}$ (i.e., the $NOT$ operation applied to $AND(x_0,x_1)$:
 
-A valid AON-CIRC program $P$ includes input variables of the form `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` and output variables of the form `Y[`$0$`]`,$\ldots$, `Y[`$m-1$`]` for some $n,m \geq 1$.
-If $P$ is valid AON-CIRC program  and $x\in \{0,1\}^n$, then we define the _output of $P$ on input $x$_, denoted by $P(x)$, to be the string $y\in \{0,1\}^m$ corresponding to the values of the output variables `Y[`$0$`]` ,$\ldots$, `Y[`$m-1$`]`  in the execution of $P$ where we initialize the input variables `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` to the values $x_0,\ldots,x_{n-1}$.
-
-We say that such an AON-CIRC program $P$ _computes_ a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ if $P(x)=f(x)$ for every $x\in \{0,1\}^n$.
-:::
+```python
+INPUTS,OUTPUTS =  2,1
+temp = AND(X[0],X[1])
+Y[0] = NOT(temp)
+```
 
 AON-CIRC is not a practical programming language: it was designed for pedagogical purposes only, as a way to model computation as composition of $AND$, $OR$, and $NOT$.
-However, AON-CIRC can still be easily implemented on a computer.
+However, it can still be easily implemented on a computer.
+
+
+Given this example, you might already be able to guess how to write a program for computing (for example) $x_0 \wedge \overline{x_1 \vee x_2}$, and in general how to translate a Boolean circuit into an AON-CIRC program.
+However, since we will want to prove mathematical statements about AON-CIRC programs, we will need to precisely define the AON-CIRC programming language.
+Precise specifications of programming languages can sometimes be long and tedious,^[For example the [C programming language specification](http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1124.pdf) takes more than 500 pages.] but  are crucial for secure and reliable implementations.
+Luckily, the AON-CIRC programming language is simple enough that we can define it formally with relatively little pain.
+
+
+**The AON-CIRC programming language specification.** An AON-CIRC program is a sequence of strings (which we call "lines") of the following form:
+
+* The first line has the form `INPUTS, OUTPUTS = `$n$ ` , ` $m$ for some pair $n,m$ of natural numbers. This line, which we call the _input/output declaration_, declares that the program has $n$ inputs and $m$ outputs. 
+
+* All remaining lines are of one of the following forms: `foo = AND(bar,blah)`,  `foo = OR(bar,baz)`, or  `foo = NOT(bar)` where `foo`, `bar` and `baz` are variable names. (We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz` as stand-ins for generic identifiers.) The line `foo = AND(bar,baz)` corresponds to the operation of assigning to the variable `foo` the logical AND of the values of the variables `bar` and `baz'. Similarly  `foo = OR(bar,baz)` and `foo = NOT(bar)` correspond to the logical OR and logical NOT operations.
+
+* A variable identifier in the AON-CIRC programming language can be any combination of letters, numbers,  underscores, and brackets. There are two special types of variables:
+  - Variables of the form `X[`$i$`]`, with $i \in \{0,1,\ldots, n-1\}$  are known as _input_ variables.
+  - Variables of the form `Y[`$j$`]` are known as _output_ variables.
+  - A valid AON-CIRC program $P$ includes input variables of the form `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` and output variables of the form `Y[`$0$`]`,$\ldots$, `Y[`$m-1$`]` where $n,m$ are the numbers declared in the first line. 
+  - In a valid AON-CIRC program, for every line except the input/output declaration (i.e., for every line of the form `foo = OP(bar,blah)` or `foo = OP(bar)` where `OP` is one of the `AND`,`OR` or `NOT` operators), the variables on the right-hand side of the assignment operator must either be input variables or variables that have already been assigned a value in a previous line.
+
+
+* If $P$ is a valid AON-CIRC program of $n$ inputs and $m$ outputs, then for every $x\in \{0,1\}^n$ the _output_ of $P$ on input $x$ is the string $y\in \{0,1\}^m$ defined as follows:
+  - Initialize the input variables `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` to the values $x_0,\ldots,x_{n-1}$
+  - Run the lines of $P$ (apart from the input/oputput declaration) one by one in order, in each line assigning to the variable on the left-hand side of the assignment operators the value of the operation on the right-hand side.
+  - Let $y\in \{0,1\}^m$ be the values of the output variables `Y[`$0$`]` ,$\ldots$, `Y[`$m-1$`]` at the end of the execution.
+
+* We denote the output of $P$ on input $x$ by $P(x)$.
+
+
+::: {.definition title="Computing a function via AON-CIRC programs" #AONcircdef}
+Let $f:\{0,1\}^n \rightarrow\{0,1\}^m$, and $P$ be a valid AON-CIRC program with $n$ inputs and $m$ outputs.
+We say that _$P$ computes $f$_ if $P(x)=f(x)$ for every $x\in \{0,1\}^n$.
+:::
+
 The following solved exercise gives an example of an AON-CIRC program.
 
 ::: {.solvedexercise title="" #aonforcmpsolved}
@@ -559,6 +592,7 @@ For binary digits $\alpha,\beta$, the condition $\alpha>\beta$ is simply that $\
 Together these observations can be used to give the following AON-CIRC program to compute $CMP$:
 
 ```python
+INPUTS, OUTPUTS = 4,1
 temp_1 = NOT(X[2])
 temp_2 = AND(X[0],temp_1)
 temp_3 = OR(X[0],temp_1)
@@ -928,7 +962,7 @@ $c_{i+1} \leftarrow MAJ_3(u_i,v_i,v_i)$ and we have seen in [majbynandex](){.ref
 
 Just like we did for Boolean circuits, we can define a programming-language analog of NAND circuits.
 It is even simpler than the AON-CIRC language since we only have a single operation.
-We define the _NAND-CIRC Programming Language_ to be a programming language where every line has the following form:
+We define the _NAND-CIRC Programming Language_ to be a programming language where every line (apart from the input/output declaration) has the following form:
 
 ```python
 foo = NAND(bar,blah)
@@ -940,6 +974,7 @@ where `foo`, `bar` and `blah` are variable identifiers.
 Here is an example of a NAND-CIRC program:
 
 ```python
+INPUTS, OUTPUTS = 2,1
 u = NAND(X[0],X[1])
 v = NAND(X[0],u)
 w = NAND(X[1],u)
