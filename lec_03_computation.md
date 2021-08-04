@@ -983,7 +983,6 @@ where `foo`, `bar` and `blah` are variable identifiers.
 Here is an example of a NAND-CIRC program:
 
 ```python
-INPUTS, OUTPUTS = 2,1
 u = NAND(X[0],X[1])
 v = NAND(X[0],u)
 w = NAND(X[1],u)
@@ -1247,3 +1246,6 @@ The NAND function was shown to be universal by Sheffer [@Sheffer1913], though th
 Whitehead and Russell used NAND as the basis for their logic in their magnum opus _Principia Mathematica_ [@WhiteheadRussell1912].
 In her Ph.D thesis, Ernst [@Ernst2009phd] investigates empirically the minimal NAND circuits for various functions.
 Nisan and Shocken's book [@NisanShocken2005]  builds a computing system starting from NAND gates and ending with high level programs and games ("NAND to Tetris"); see also the website [nandtotetris.org](https://www.nand2tetris.org/).
+
+We defined the _size_ of a Boolean circuit in [booleancircdef](){.ref} to be the number of gates it contains. This is one of two conventions used in the literature. The other convention is to define the size as the number of _wires_ (equivalent to number of gates plus the number of inputs).
+This makes very little difference in almost all settings, but can affect the circuit size complexity of some "pathological examples" of functions such as the constant zero function that do not depend on much of their inputs.
