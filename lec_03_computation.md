@@ -459,7 +459,7 @@ Let $n,m,s$ be positive integers with $s \geq m$. A _Boolean circuit_ with $n$ i
 
 * Exactly $m$ of the gates are also labeled with the $m$ labels   `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]` (in addition to their label $\wedge$/$\vee$/$\neg$). These are known as _outputs_.
 
-The _size_ of a Boolean circuit is the number $s+n$ of vertices (gates and inputs) it contains.
+The _size_ of a Boolean circuit is the number $s$ of gates it contains.
 :::
 
 
@@ -507,7 +507,7 @@ in a circuit is never larger than twice its size.
 :::
 
 
-### Equivalence of circuits and straight-line programs { #starightlineprogramsec }
+## Straight-line programs { #starightlineprogramsec }
 
 We have seen two ways to describe how to compute a function $f$ using _AND_, _OR_ and _NOT_:
 
@@ -522,7 +522,6 @@ We call this programming language the **AON-CIRC programming language** ("AON" s
 For example, the following is an AON-CIRC program that on input $x \in \{0,1\}^2$, outputs $\overline{x_0 \wedge x_1}$ (i.e., the $NOT$ operation applied to $AND(x_0,x_1)$:
 
 ```python
-INPUTS,OUTPUTS =  2,1
 temp = AND(X[0],X[1])
 Y[0] = NOT(temp)
 ```
@@ -537,19 +536,22 @@ Precise specifications of programming languages can sometimes be long and tediou
 Luckily, the AON-CIRC programming language is simple enough that we can define it formally with relatively little pain.
 
 
-**The AON-CIRC programming language specification.** An AON-CIRC program is a sequence of strings (which we call "lines") of the following form:
 
-* The first line has the form `INPUTS, OUTPUTS = `$n$ ` , ` $m$ for some pair $n,m$ of natural numbers. This line declares that the program has $n$ inputs and $m$ outputs. 
+### Specification of the AON-CIRC programming language
 
-* All remaining lines are of one of the following forms: `foo = AND(bar,blah)`,  `foo = OR(bar,baz)`, or  `foo = NOT(bar)` where `foo`, `bar` and `baz` are variable names. (We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz` as stand-ins for generic identifiers.) The line `foo = AND(bar,baz)` corresponds to the operation of assigning to the variable `foo` the logical AND of the values of the variables `bar` and `baz'. Similarly  `foo = OR(bar,baz)` and `foo = NOT(bar)` correspond to the logical OR and logical NOT operations. 
+An AON-CIRC program is a sequence of strings, which we call "lines", satisfying the following conditions: 
 
-* We call the first line of the program the _input/output declaration_ line and the remaining ones the _operator lines_.
 
-* A variable identifier in the AON-CIRC programming language can be any combination of letters, numbers,  underscores, and brackets. There are two special types of variables:
+* Every line has one of the following forms: `foo = AND(bar,blah)`,  `foo = OR(bar,baz)`, or  `foo = NOT(bar)` where `foo`, `bar` and `baz` are _variable identifiers_. (We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz` as stand-ins for generic identifiers.) The line `foo = AND(bar,baz)` corresponds to the operation of assigning to the variable `foo` the logical AND of the values of the variables `bar` and `baz'. Similarly  `foo = OR(bar,baz)` and `foo = NOT(bar)` correspond to the logical OR and logical NOT operations. 
+
+
+* A _variable identifier_ in the AON-CIRC programming language can be any combination of letters, numbers,  underscores, and brackets. There are two special types of variables:
   - Variables of the form `X[`$i$`]`, with $i \in \{0,1,\ldots, n-1\}$  are known as _input_ variables.
   - Variables of the form `Y[`$j$`]` are known as _output_ variables.
-  - A valid AON-CIRC program $P$ includes input variables of the form `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` and output variables of the form `Y[`$0$`]`,$\ldots$, `Y[`$m-1$`]` where $n,m$ are the numbers declared in the first line. 
-  - In a valid AON-CIRC program, for every operator line  (i.e., for every line of the form `foo = OP(bar,blah)` or `foo = OP(bar)` where `OP` is one of the `AND`,`OR` or `NOT` operators), the variables on the right-hand side of the assignment operator must either be input variables or variables that have already been assigned a value in a previous line.
+
+* A valid AON-CIRC program $P$ includes input variables of the form `X[`$0$`]`,$\ldots$,`X[`$n-1$`]` and output variables of the form `Y[`$0$`]`,$\ldots$, `Y[`$m-1$`]` where $n,m$ are natural numbers. We say that $n$ is the number of _inputs_ of the program $P$ and $m$ is the number of outputs. 
+
+* In a valid AON-CIRC program, in every  line the variables on the right-hand side of the assignment operator must either be input variables or variables that have already been assigned a value in a previous line.
 
 
 * If $P$ is a valid AON-CIRC program of $n$ inputs and $m$ outputs, then for every $x\in \{0,1\}^n$ the _output_ of $P$ on input $x$ is the string $y\in \{0,1\}^m$ defined as follows:
@@ -559,7 +561,10 @@ Luckily, the AON-CIRC programming language is simple enough that we can define i
 
 * We denote the output of $P$ on input $x$ by $P(x)$.
 
-* The _size_ of an AON circ program $P$ is the number of operator lines it contains plus the number of inputs. (The reader might note that this corresponds to our definition of the size of a circuit as the number of gates it contains plus the number of inputs.)
+* The _size_ of an AON circ program $P$ is the number of lines it contains. (The reader might note that this corresponds to our definition of the size of a circuit as the number of gates it contains.)
+
+
+Now that we formally specified AON-CIRC programs, we can define what it means for an AON-CIRC program $P$ to compute a function $f$:
 
 ::: {.definition title="Computing a function via AON-CIRC programs" #AONcircdef}
 Let $f:\{0,1\}^n \rightarrow\{0,1\}^m$, and $P$ be a valid AON-CIRC program with $n$ inputs and $m$ outputs.
@@ -595,7 +600,8 @@ For binary digits $\alpha,\beta$, the condition $\alpha>\beta$ is simply that $\
 Together these observations can be used to give the following AON-CIRC program to compute $CMP$:
 
 ```python
-INPUTS, OUTPUTS = 4,1
+# Compute CMP:{0,1}^4-->{0,1}
+# CMP(X)=1 iff 2X[0]+X[1] > 2X[2] + X[3]
 temp_1 = NOT(X[2])
 temp_2 = AND(X[0],temp_1)
 temp_3 = OR(X[0],temp_1)
@@ -613,13 +619,13 @@ We can also present this 8-line program as a circuit with 8 gates, see [aoncmpfi
 
 
 
+### Proving equivalence of AON-CIRC programs and Boolean circuits
 
 
-
-It turns out that AON-CIRC programs and Boolean circuits have exactly the same power:
+We now formally prove that AON-CIRC programs and Boolean circuits have exactly the same power:
 
 > ### {.theorem title="Equivalence of circuits and straight-line programs" #slcircuitequivthm}
-Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$ be some number. Then $f$ is computable by a Boolean circuit with $s$ gates  if and only if $f$ is computable by an AON-CIRC program of $s$ operator lines.
+Let $f:\{0,1\}^n \rightarrow \{0,1\}^m$ and $s \geq m$ be some number. Then $f$ is computable by a Boolean circuit with $s$ gates  if and only if $f$ is computable by an AON-CIRC program of $s$ lines.
 
 
 
