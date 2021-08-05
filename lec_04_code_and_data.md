@@ -131,7 +131,7 @@ The size of the latter set is  $1+2+4+\cdots + 2^\ell = 2^{\ell +1} - 1$ by the 
 
 The map $E$ will simply map $f$ to the representation of the smallest program computing  $f$.
 Since $f \in SIZE_{n,m}(s)$,  there is a program $P$ of at most $s$ lines that can be represented using a string of length at most $c s \log s$ by [asciirepprogramthm](){.ref}.
-Moreover, the map $f \mapstop E(f)$ is one to one, since for every distinct $f,f':\{0,1\}^n \rightarrow \{0,1\}^m$ there must exist some input $x\in \{0,1\}^n$ on which $f(x) \neq f'(x)$.
+Moreover, the map $f \mapsto E(f)$ is one to one, since for every distinct $f,f':\{0,1\}^n \rightarrow \{0,1\}^m$ there must exist some input $x\in \{0,1\}^n$ on which $f(x) \neq f'(x)$.
 This means that the programs that compute $f$ and $f'$ respectively cannot be identical.
 :::
 
