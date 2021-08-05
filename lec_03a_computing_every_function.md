@@ -597,7 +597,7 @@ $$
 g(a)_b = f(ab) \;. \label{eqcomputefusinggeffcircuit}
 $$
 
-![We can compute $f:\{0,1\}^n \rightarrow \{0,1\}$ on input $x=ab$ where $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$ by first computing the $2^{n-k}$ long string $g(a)$  that corresponds to all $f$'s values on inputs that begin with $a$, and then outputting the $b$-th coordinate of this string.](../figure/efficient_circuit_allfunc.png){#efficient_circuit_allfuncfig .margin}
+![We can compute $f:\{0,1\}^n \rightarrow \{0,1\}$ on input $x=ab$ where $a\in \{0,1\}^k$ and $b\in \{0,1\}^{n-k}$ by first computing the $2^{n-k}$ long string $g(a)$  that corresponds to all $f$'s values on inputs that begin with $a$, and then outputting the $b$-th coordinate of this string.](../figure/efficient_circuit_allfunc.png){#efficient_circuit_allfuncfig}
 
 
 [eqcomputefusinggeffcircuit](){.eqref} means that for every $x\in \{0,1\}^n$, if we write
@@ -660,7 +660,7 @@ This alternative proof gives a somewhat worse quantitative bound on the number o
 > ### {.theorem title="Universality of Boolean circuits (alternative phrasing)" #circuit-univ-alt-thm}
 There exists some constant $c>0$ such that for every $n,m>0$ and function $f: \{0,1\}^n\rightarrow \{0,1\}^m$, there is a Boolean circuit with at most $c \cdot m\cdot n 2^n$ gates that computes the function $f$ .
 
-![Given a function $f:\{0,1\}^n \rightarrow \{0,1\}$, we let $\{ x_0, x_1, \ldots, x_{N-1} \} \subseteq \{0,1\}^n$ be the set of inputs such that $f(x_i)=1$, and note that $N \leq 2^n$. We can express $f$ as the OR of $\delta_{x_i}$ for $i\in [N]$ where the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ (for $\alpha \in \{0,1\}^n$) is defined as follows:  $\delta_\alpha(x)=1$ iff $x=\alpha$. We can compute the OR of $N$ values using $N$ two-input OR gates. Therefore if we have a circuit of size $O(n)$ to compute $\delta_\alpha$ for every $\alpha \in \{0,1\}^n$, we can compute $f$ using a circuit of size $O(n \cdot N) = O(n \cdot 2^n)$. ](../figure/computeallfunctionalt.png){#computeallfuncaltfig  }
+![Given a function $f:\{0,1\}^n \rightarrow \{0,1\}$, we let $\{ x_0, x_1, \ldots, x_{N-1} \} \subseteq \{0,1\}^n$ be the set of inputs such that $f(x_i)=1$, and note that $N \leq 2^n$. We can express $f$ as the OR of $\delta_{x_i}$ for $i\in [N]$ where the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ (for $\alpha \in \{0,1\}^n$) is defined as follows:  $\delta_\alpha(x)=1$ iff $x=\alpha$. We can compute the OR of $N$ values using $N$ two-input OR gates. Therefore if we have a circuit of size $O(n)$ to compute $\delta_\alpha$ for every $\alpha \in \{0,1\}^n$, we can compute $f$ using a circuit of size $O(n \cdot N) = O(n \cdot 2^n)$. ](../figure/computeallfunctionalt.png){#computeallfuncaltfig  .margin }
 
 
 
