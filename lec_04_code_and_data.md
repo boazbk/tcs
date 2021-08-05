@@ -119,44 +119,47 @@ This has consequences for the sets $SIZE(s)$ that we defined in [secdefinesizecl
 
 
 > ### {.theorem title="Counting programs" #program-count}
-For every $s\in \N$,
-$$|SIZE(s)| \leq 2^{O(s \log s)}.$$
+For every $s,n,m\in \N$,
+$$|SIZE_{n,m}(s)| \leq 2^{O(s \log s)}.$$
 That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [notationsec](){.ref}, we use the bound $10$ simply because it is a round number.]
 
 
 ::: {.proof data-ref="program-count"}
-We will show a one-to-one map $E$ from $SIZE(s)$ to the set of strings of length $c s \log s$ for some constant $c$.
-This will conclude the proof, since it implies that $|SIZE(s)|$ is smaller than the size of the set of all strings of length at most $\ell$,
-which equals  $1+2+4+\cdots + 2^\ell = 2^{\ell +1} - 1$ by the formula for sums of geometric progressions.
+For any $n,m \in \N$, we will show a one-to-one map $E$ from $SIZE_{n,m}(s)$ to the set of strings of length $c s \log s$ for some constant $c$.
+This will conclude the proof, since it implies that $|SIZE_{n,m}(s)|$ is smaller than the size of the set of all strings of length at most $\ell =c s \log s$.
+The size of the latter set is  $1+2+4+\cdots + 2^\ell = 2^{\ell +1} - 1$ by the formula for sums of geometric progressions.
 
-The map $E$ will simply map $f$ to the representation of the program computing  $f$.
-Specifically,  we let $E(f)$ be the representation of the program $P$ computing $f$ given by [asciirepprogramthm](){.ref}.
-This representation has size at most $c s \log s$, and moreover the map $E$ is one to one, since if $f \neq f'$ then every two programs computing $f$ and $f'$
-respectively must have different representations.
+The map $E$ will simply map $f$ to the representation of the smallest program computing  $f$.
+Since $f \in SIZE_{n,m}(s)$,  there is a program $P$ of at most $s$ lines that can be represented using a string of length at most $c s \log s$ by [asciirepprogramthm](){.ref}.
+Moreover, the map $f \mapstop E(f)$ is one to one, since for every distinct $f,f':\{0,1\}^n \rightarrow \{0,1\}^m$ there must exist some input $x\in \{0,1\}^n$ on which $f(x) \neq f'(x)$.
+This means that the programs that compute $f$ and $f'$ respectively cannot be identical.
 :::
 
 
 
-
-A function mapping $\{0,1\}^2$ to $\{0,1\}$ can be identified with the table of its four values on the inputs $00,01,10,11$.
-A function mapping $\{0,1\}^3$ to $\{0,1\}$ can be identified with the table of its eight values on the inputs $000,001,010,011,100,101,110,111$.
-More generally, every function $F:\{0,1\}^n \rightarrow \{0,1\}$ can be identified with the table of its  $2^n$  values on the inputs $\{0,1\}^n$.
-Hence the number of functions mapping $\{0,1\}^n$ to $\{0,1\}$ is equal to the number of such tables which (since we can choose either $0$ or $1$ for every row) is exactly $2^{2^n}$.
+[program-count](){.ref} has an important corollary. The number of functions that can be computed using small circuits/programs is much smaller than the total number of functions,
+and hence there exist functions that require very large (in fact _exponentially large_) circuits to compute.
+To see why this is the case, note that  afunction mapping $\{0,1\}^2$ to $\{0,1\}$ can be identified with the list of its four values on the inputs $00,01,10,11$.
+A function mapping $\{0,1\}^3$ to $\{0,1\}$ can be identified with the list of its eight values on the inputs $000,001,010,011,100,101,110,111$.
+More generally, every function $F:\{0,1\}^n \rightarrow \{0,1\}$ can be identified with the list of its  $2^n$  values on the inputs $\{0,1\}^n$.
+Hence the number of functions mapping $\{0,1\}^n$ to $\{0,1\}$ is equal to the number of possible $2^n$ length lists of values which is exactly $2^{2^n}$.
 Note that this is _double exponential_ in $n$, and hence even for small values of $n$ (e.g., $n=10$) the number of functions from $\{0,1\}^n$ to $\{0,1\}$ is truly astronomical.^["Astronomical" here is an understatement: there are much fewer than $2^{2^{10}}$ stars, or even particles, in the observable universe.]
-This has the following important corollary:
+As mentioned, this yields the following corollary:
 
 > ### {.theorem title="Counting argument lower bound" #counting-lb}
 There is a constant $\delta > 0$, such that for every sufficiently large $n$, there is a function  $f:\{0,1\}^n\rightarrow \{0,1\}$  such that
-$f \not\in SIZE \left(\tfrac{\delta 2^n}{n} \right)$.
+$f \not\in SIZE_n \left(\tfrac{\delta 2^n}{n} \right)$.
 That is, the shortest NAND-CIRC program to compute $f$ requires more than $\delta \cdot 2^n/n$ lines.^[The constant $\delta$ is at least $0.1$ and in fact, can be improved to be arbitrarily close to $1/2$, see [efficientlbex](){.ref}.]
+
+
 
 ::: {.proof data-ref="counting-lb"}
 The proof is simple. If we let $c$ be the constant such that $|SIZE(s)| \leq 2^{c s \log s}$ and $\delta = 1/c$, then setting $s = \delta 2^n/n$ we see that
 $$
-|SIZE(\tfrac{\delta 2^n}{n})| \leq 2^{c \tfrac{\delta 2^n}{n} \log s} < 2^{c \delta 2^n} = 2^{2^n}
+|SIZE_n(\tfrac{\delta 2^n}{n})| \leq 2^{c \tfrac{\delta 2^n}{n} \log s} < 2^{c \delta 2^n} = 2^{2^n}
 $$
 using the fact that since $s < 2^n$, $\log s < n$ and $\delta = 1/c$.
-But since $|SIZE(s)|$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE(s)$, which is what we needed to prove.
+But since $|SIZE_n(s)|$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE(s)$, which is what we needed to prove.
 :::
 
 
