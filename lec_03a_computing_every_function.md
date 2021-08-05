@@ -717,13 +717,13 @@ We define $SIZE(s)$ to be the set of functions that can be computed by NAND circ
 Formally, the definition is as follows:
 
 > ### {.definition title="Size class of functions" #sizedef}
-For every $n,m  \in \{ 1, \ldots , 2s\}$, we let $SIZE_{n,m}(s)$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that $f\in SIZE(s)$.^[The restriction that $m,n \leq 2s$ makes no difference; see [nandcircsizeex](){.ref}.] 
+For every natural numbers $n,m,s$, let $SIZE_{n,m}(s)$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that $f\in SIZE(s)$.
 We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
-For every integer $s \geq 1$, we let $SIZE(s) = \cup_{n,m \leq 2s} SIZE_{n,m}(s)$ be the set of all functions $f$ for which there exists a NAND circuit of at most $s$ gates that compute $f$.
+For every integer $s \geq 1$, we let $SIZE(s) = \cup_{n,m} SIZE_{n,m}(s)$ be the set of all functions $f$ for which there exists a NAND circuit of at most $s$ gates that compute $f$.
 
 
 [funcvscircfig](){.ref} depicts the set $SIZE_{n,1}(s)$.
-Note that $SIZE_{n,m}(s)$ is a set of _functions_, not of _programs!_ (Asking if a program or a circuit is a member of $SIZE_{n,m}(s)$ is a _category error_ as in the sense of  [cucumberfig](){.ref}.)
+Note that $SIZE_{n,m}(s)$ is a set of _functions_, not of _programs!_ Asking if a program or a circuit is a member of $SIZE_{n,m}(s)$ is a _category error_ as in the sense of  [cucumberfig](){.ref}.
 As we discussed in [specvsimplrem](){.ref} (and  [secimplvsspec](){.ref}), the distinction between _programs_ and _functions_ is absolutely crucial.
 You should always remember that while a program _computes_ a function, it is not _equal_ to a function.
 In particular, as we've seen, there can be more than one program to compute the same function.
@@ -761,9 +761,13 @@ and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.
 
 
 :::  {.remark title="Finite vs infinite functions" #infinitefunc}
-A NAND-CIRC program $P$ can only compute a function with a certain number $n$ of inputs and a certain number $m$ of outputs. Hence, for example, there is no single NAND-CIRC program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND-CIRC program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE(10n)$ for every $n>0$.
+Unlike programming languages such as _Python_, _C_ or _JavaScript_, the NAND-CIRC and AON-CIRC programming language do not have _arrays_. 
+A NAND-CIRC program $P$ has some fixed number $n$ and $m$ of inputs and output variable. Hence, for example, there is no single NAND-CIRC program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND-CIRC program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE(10n)$ for every $n>0$.
 
-If $T:\N \rightarrow \N$ and $F:\{0,1\}^* \rightarrow \{0,1\}^*$, we will  write $F \in SIZE_{*}(T(n))$  (or sometimes slightly abuse notation and write simply $F \in SIZE(T(n))$) to indicate that for every $n$ the restriction $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE(T(n))$. Hence we can write $INC \in SIZE_*(10n)$. We will come back to this issue of finite vs infinite functions later in this course.
+More generally, if $F:\{0,1\}^* \rightarrow \{0,1\}^*$ is a function that takes inputs of unbounded size, then while $F$ itself cannot be computed by a NAND-CIRC program or a Boolean circuit, we say that $F \in SIZE(T)$ for some _function_ $T:\N \rightarrow \N$ if for every $n \in N$, there is some $m$ such that the _restriction_ $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE_{n,m}(T(n))$. 
+Thus for example, if $T(n)=10n$ then the increment function $INC$ is a member of $SIZE(T)$.
+We will sometimes slightly abuse notation and write simply $INC \in SIZE(10n)$ to denote this fact.
+For the time being, our focus will be on _finite_ functions, but we will come back to this issue of finite vs infinite functions later in this book.
 :::
 
 
