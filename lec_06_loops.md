@@ -105,7 +105,7 @@ Specifically, a computation of a Turing machine $M$ with $k$ states and alphabet
 
 * The set of rules the Turing machine follows is known as its _transition function_.
 
-* When the machine halts, its output is the binary string obtained by reading the tape from the beginning until the head position, dropping all symbols such as $\triangleright$, $\varnothing$, etc. that are not either $0$ or $1$.
+* When the machine halts, its output is the binary string obtained by reading the tape from the beginning until the first location in which it contains a $\varnothing$ symbol, and then outputting all $0$ and $1$ symbols in sequence, dropping the initial $\triangleright$ symbol if it exists, as well as the final $\varnothing$ symbol.
 
 ![The components of a Turing Machine. Note how they correspond to the general components of algorithms as described in [algcomponentfig](){.ref}.](../figure/turingmachinecomponents.png){#turingmachinecomponentsfig .margin }
 
