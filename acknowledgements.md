@@ -53,6 +53,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Emma Ling
 * Alex Lombardi
 * Lisa Lu
+* Kai Ma
 * Aditya Mahadevan
 * Kunal Marwaha
 * Christian May
@@ -105,5 +106,5 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Grace Zhang
 * Alex Zhao
 * Jessica Zhu
-* Kai Ma
+
 
