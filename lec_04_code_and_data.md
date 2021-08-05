@@ -112,6 +112,7 @@ We omit the formal proof of [asciirepprogramthm](){.ref} but please make sure th
 
 
 
+
 ## Counting programs, and lower bounds on the size of NAND-CIRC programs {#countingcircuitsec }
 
 One consequence of the representation of programs as strings is that the number of programs of certain length is bounded by the number of strings that  represent them.
