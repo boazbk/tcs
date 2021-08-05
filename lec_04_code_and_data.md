@@ -116,13 +116,13 @@ We omit the formal proof of [asciirepprogramthm](){.ref} but please make sure th
 ## Counting programs, and lower bounds on the size of NAND-CIRC programs {#countingcircuitsec }
 
 One consequence of the representation of programs as strings is that the number of programs of certain length is bounded by the number of strings that  represent them.
-This has consequences for the sets $SIZE(s)$ that we defined in [secdefinesizeclasses](){.ref}.
+This has consequences for the sets $SIZE_{n,m}(s)$ that we defined in [secdefinesizeclasses](){.ref}.
 
 
 > ### {.theorem title="Counting programs" #program-count}
 For every $s,n,m\in \N$,
 $$|SIZE_{n,m}(s)| \leq 2^{O(s \log s)}.$$
-That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [notationsec](){.ref}, we use the bound $10$ simply because it is a round number.]
+That is, there are at most $2^{O(s\log s)}$ functions computed by NAND-CIRC programs of at most $s$ lines.^[The implicit constant in the $O(\cdot)$ notation is smaller than $10$. That is, for all sufficiently large $s$, $|SIZE_{n,m}(s)|<  2^{10s\log s}$, see [efficientrepresentation](){.ref}. As discussed in [notationsec](){.ref}, we use the bound $10$ simply because it is a round number.]
 
 
 ::: {.proof data-ref="program-count"}
@@ -155,12 +155,12 @@ That is, the shortest NAND-CIRC program to compute $f$ requires more than $\delt
 
 
 ::: {.proof data-ref="counting-lb"}
-The proof is simple. If we let $c$ be the constant such that $|SIZE(s)| \leq 2^{c s \log s}$ and $\delta = 1/c$, then setting $s = \delta 2^n/n$ we see that
+The proof is simple. If we let $c$ be the constant such that $|SIZE_n(s)| \leq 2^{c s \log s}$ and $\delta = 1/c$, then setting $s = \delta 2^n/n$ we see that
 $$
 |SIZE_n(\tfrac{\delta 2^n}{n})| \leq 2^{c \tfrac{\delta 2^n}{n} \log s} < 2^{c \delta 2^n} = 2^{2^n}
 $$
 using the fact that since $s < 2^n$, $\log s < n$ and $\delta = 1/c$.
-But since $|SIZE_n(s)|$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE(s)$, which is what we needed to prove.
+But since $|SIZE_n(s)|$ is smaller than the total number of functions mapping $n$ bits to $1$ bit, there must be at least one such function not in $SIZE_n(s)$, which is what we needed to prove.
 :::
 
 
@@ -200,11 +200,11 @@ $$
 > ### {.proofidea data-ref="sizehiearchythm"}
 To prove the theorem we need to find a function $f:\{0,1\}^n \rightarrow \{0,1\}$ such that $f$ _can_ be computed by a circuit of $s+10n$ gates but it _cannot_ be computed by a circuit of $s$ gates.
 We will do so by coming up with a sequence of functions $f_0,f_1,f_2,\ldots,f_N$ with the following properties: __(1)__ $f_0$ _can_ be computed by a circuit of at most $10n$ gates, __(2)__ $f_N$ _cannot_ be computed by a circuit of $0.1 \cdot 2^n/n$ gates, and __(3)__ for every  $i\in \{0,\ldots, N\}$, if $f_i$ can be computed by a circuit of size $s$, then $f_{i+1}$ can be computed by a circuit of size at most $s + 10n$.
-Together these properties imply that if we let $i$ be the smallest number such that $f_i \not\in SIZE_n(s)$, then since $f_{i-1} \in SIZE(s)$ it must hold that $f_i \in SIZE(s+10n)$ which is what we need to prove.
+Together these properties imply that if we let $i$ be the smallest number such that $f_i \not\in SIZE_n(s)$, then since $f_{i-1} \in SIZE_n(s)$ it must hold that $f_i \in SIZE_n(s+10n)$ which is what we need to prove.
 See [hierarchyprooffig](){.ref} for an illustration.
 
 ![We prove [sizehiearchythm](){.ref} by coming up with a list $f_0,\ldots,f_{2^n}$ of functions such that $f_0$ is  the all zero function, $f_{2^n}$ is a function
-(obtained from [counting-lb](){.ref}) outside of $SIZE(0.1\cdot 2^n/n)$ and such that $f_{i-1}$ and $f_i$ differ by one another on at most one input. We can show that for every $i$, the number of gates to compute $f_i$ is at most $10n$ larger than the number of gates to compute $f_{i-1}$ and so if we let $i$ be the smallest number such that $f_i \not\in SIZE(s)$, then $f_i \in SIZE(s+10n)$.](../figure/hierarchyproof.png){#hierarchyprooffig .margin }
+(obtained from [counting-lb](){.ref}) outside of $SIZE_n(0.1\cdot 2^n/n)$ and such that $f_{i-1}$ and $f_i$ differ by one another on at most one input. We can show that for every $i$, the number of gates to compute $f_i$ is at most $10n$ larger than the number of gates to compute $f_{i-1}$ and so if we let $i$ be the smallest number such that $f_i \not\in SIZE_n(s)$, then $f_i \in SIZE_n(s+10n)$.](../figure/hierarchyproof.png){#hierarchyprooffig .margin }
 
 ::: {.proof data-ref="sizehiearchythm"}
 Let $f^*: \{0,1\}^n \rightarrow \{0,1\}$ be the function (whose existence we are guaranteed by [counting-lb](){.ref}) such that $f^* \not\in SIZE_n(0.1 \cdot 2^n /n)$.
@@ -217,7 +217,7 @@ $$
 The function $f_0$ is simply the constant zero function, while the function $f_{2^n}$ is equal to $f^*$.
 Moreover, for every $i\in [2^n]$, the functions $f_i$ and $f_{i+1}$ differ on at most one input (i.e., the input $x \in \{0,1\}^n$ such that $lex(x)=i$).
 Let $10n < s < 0.1 \cdot 2^n /n$, and let $i$ be the first index such that $f_i \not\in SIZE_n(s)$.
-Since $f_{2^n} = f^* \not\in SIZE(0.1 \cdot 2^n / n)$ there must exist such an index $i$, and moreover $i>0$ since the constant zero function is a member of $SIZE_n(10n)$.
+Since $f_{2^n} = f^* \not\in SIZE_n(0.1 \cdot 2^n / n)$ there must exist such an index $i$, and moreover $i>0$ since the constant zero function is a member of $SIZE_n(10n)$.
 
 By our choice of $i$, $f_{i-1}$ is a member of $SIZE_n(s)$.
 To complete the proof, we need to show that $f_i \in SIZE_n(s + 10n)$.
@@ -240,7 +240,7 @@ we can compute $f_i$ using at most $s + 9n +O(1) \leq s +10n$ gates which is wha
 
 
 
-![An illustration of some of what we know about the size complexity classes (not to scale!). This figure depicts classes of the form $SIZE_{n,n}(s)$ but the state of affairs for other size complexity classes such as $SIZE_{n,1}(s)$ is similar. We know by [NAND-univ-thm](){.ref} (with the improvement of [tight-upper-bound](){.ref}) that all functions mapping $n$ bits to $n$ bits can be computed by a circuit of size $c \cdot 2^n$ for $c \leq 10$, while on the other hand the counting lower bound ([counting-lb](){.ref}, see also [countingmultibitex](){.ref}) shows that _some_ such functions will require $0.1 \cdot 2^n$, and the size hierarchy theorem ([sizehiearchythm](){.ref}) shows the existence of functions in $SIZE(S) \setminus SIZE(s)$ whenever $s=o(S)$, see also [sizehiearchyex](){.ref}.
+![An illustration of some of what we know about the size complexity classes (not to scale!). This figure depicts classes of the form $SIZE_{n,n}(s)$ but the state of affairs for other size complexity classes such as $SIZE_{n,1}(s)$ is similar. We know by [NAND-univ-thm](){.ref} (with the improvement of [tight-upper-bound](){.ref}) that all functions mapping $n$ bits to $n$ bits can be computed by a circuit of size $c \cdot 2^n$ for $c \leq 10$, while on the other hand the counting lower bound ([counting-lb](){.ref}, see also [countingmultibitex](){.ref}) shows that _some_ such functions will require $0.1 \cdot 2^n$, and the size hierarchy theorem ([sizehiearchythm](){.ref}) shows the existence of functions in $SIZE_n(S) \setminus SIZE_n(s)$ whenever $s=o(S)$, see also [sizehiearchyex](){.ref}.
 We also consider some specific examples: addition of two $n/2$ bit numbers can be done in $O(n)$ lines, while we don't know of such a program for _multiplying_ two $n$ bit numbers, though we do know it can be done in $O(n^2)$ and in fact even better size. In the above,  $FACTOR_n$ corresponds to the inverse problem of multiplying- finding the _prime factorization_ of a given number. At the moment we do not know of any circuit a polynomial (or even sub-exponential) number of lines that can compute $FACTOR_n$. ](../figure/sizecomplexity.png){#sizeclassesfig    }
 
 ::: {.remark title="Explicit functions" #explicitfunc}

@@ -709,15 +709,15 @@ Since $S \subseteq \{0,1\}^n$, its size $N$ is at most $2^n$ and hence the total
 ![For every string $\alpha\in \{0,1\}^n$, there is a Boolean circuit of $O(n)$ gates to compute the function $\delta_\alpha:\{0,1\}^n \rightarrow \{0,1\}$ such that $\delta_\alpha(x)=1$ if and only if $x=\alpha$. The circuit is very simple. Given input $x_0,\ldots,x_{n-1}$ we compute the  AND of $z_0,\ldots,z_{n-1}$ where $z_i=x_i$ if $\alpha_i=1$ and $z_i = NOT(x_i)$ if $\alpha_i=0$. While formally Boolean circuits only have a gate for computing the AND of two inputs, we can implement an AND of $n$ inputs by composing $n$ two-input ANDs.](../figure/deltafunc.png){#deltafuncfig .margin }
 
 
-## The class $SIZE(T)$ {#secdefinesizeclasses }
+## The class $SIZE_{n,m}(s)$ {#secdefinesizeclasses }
 
 
 We have seen that _every_ function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ can be computed by a circuit of size $O(m\cdot 2^n)$, and _some_ functions (such as addition and multiplication) can be computed by much smaller circuits.
-We define $SIZE(s)$ to be the set of functions that can be computed by NAND circuits of at most $s$ gates (or equivalently, by NAND-CIRC programs of at most $s$ lines).
+We define $SIZE_{n,m}(s)$ to be the set of functions mapping $n$ bits to $m$ bits that can be computed by NAND circuits of at most $s$ gates (or equivalently, by NAND-CIRC programs of at most $s$ lines).
 Formally, the definition is as follows:
 
 > ### {.definition title="Size class of functions" #sizedef}
-For every natural numbers $n,m,s$, let $SIZE_{n,m}(s)$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that $f\in SIZE(s)$.
+For every natural numbers $n,m,s$, let $SIZE_{n,m}(s)$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that there NAND circuit of at most $s$ gates computing $f$.
 We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
 For every integer $s \geq 1$, we let $SIZE(s) = \cup_{n,m} SIZE_{n,m}(s)$ be the set of all functions $f$ for which there exists a NAND circuit of at most $s$ gates that compute $f$.
 
@@ -733,7 +733,7 @@ In particular, as we've seen, there can be more than one program to compute the 
 ![There are $2^{2^n}$ functions mapping $\{0,1\}^n$ to $\{0,1\}$, and an infinite number of circuits with $n$ bit inputs and a single bit of output. Every circuit computes one function, but every function can be computed by many circuits. We say that $f \in SIZE_{n,1}(s)$ if the smallest circuit that computes $f$ has $s$ or fewer gates. For example $XOR_n \in SIZE_{n,1}(4n)$. [NAND-univ-thm](){.ref} shows that _every_ function $g$ is computable by some circuit of at most $c\cdot 2^n/n$ gates, and hence $SIZE_{n,1}(c\cdot 2^n/n)$ corresponds to the set of _all_ functions from $\{0,1\}^n$ to $\{0,1\}$.](../figure/funcvscircs.png){#funcvscircfig .class  }
 
 
-While we defined $SIZE(s)$ with respect to NAND gates, we would get essentially the same class if we defined it with respect to AND/OR/NOT gates:
+While we defined $SIZE_n(s)$ with respect to NAND gates, we would get essentially the same class if we defined it with respect to AND/OR/NOT gates:
 
 > ### {.lemma #nandaonsizelem}
 Let $SIZE^{AON}_{n,m}(s)$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that can be computed by an AND/OR/NOT Boolean circuit of at most $s$ gates.
@@ -762,12 +762,9 @@ and $MULT_n \in SIZE_{2n,2n}(10000 n^{\log_2 3})$.
 
 :::  {.remark title="Finite vs infinite functions" #infinitefunc}
 Unlike programming languages such as _Python_, _C_ or _JavaScript_, the NAND-CIRC and AON-CIRC programming language do not have _arrays_. 
-A NAND-CIRC program $P$ has some fixed number $n$ and $m$ of inputs and output variable. Hence, for example, there is no single NAND-CIRC program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND-CIRC program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE(10n)$ for every $n>0$.
+A NAND-CIRC program $P$ has some fixed number $n$ and $m$ of inputs and output variable. Hence, for example, there is no single NAND-CIRC program that can compute the increment function $INC:\{0,1\}^* \rightarrow \{0,1\}^*$ that maps a string $x$ (which we identify with a number via the binary representation) to the string that represents $x+1$. Rather for every $n>0$, there is a NAND-CIRC program $P_n$ that computes the restriction $INC_n$ of the function $INC$ to inputs of length $n$. Since it can be shown that for every $n>0$ such a program $P_n$ exists of length at most $10n$, $INC_n \in SIZE_{n,n+1}(10n)$ for every $n>0$.
 
-More generally, if $F:\{0,1\}^* \rightarrow \{0,1\}^*$ is a function that takes inputs of unbounded size, then while $F$ itself cannot be computed by a NAND-CIRC program or a Boolean circuit, we say that $F \in SIZE(T)$ for some _function_ $T:\N \rightarrow \N$ if for every $n \in N$, there is some $m$ such that the _restriction_ $F_{\upharpoonright n}$ of $F$ to inputs in $\{0,1\}^n$ is in $SIZE_{n,m}(T(n))$. 
-Thus for example, if $T(n)=10n$ then the increment function $INC$ is a member of $SIZE(T)$.
-We will sometimes slightly abuse notation and write simply $INC \in SIZE(10n)$ to denote this fact.
-For the time being, our focus will be on _finite_ functions, but we will come back to this issue of finite vs infinite functions later in this book.
+For the time being, our focus will be on _finite_ functions, but we will discuss how to extend the definition of size complexity to functions with unbounded input lengths later on in [nonuniformcompsec](){.ref}.
 :::
 
 
@@ -779,7 +776,7 @@ Prove that there is a constant $c$ such that for every $f:\{0,1\}^n \rightarrow 
 :::
 
 ::: {.solution data-ref="sizeclosundercomp"}
-If $f\in SIZE(s)$ then there is an $s$-line NAND-CIRC program $P$ that computes $f$.
+If $f\in SIZE_n(s)$ then there is an $s$-line NAND-CIRC program $P$ that computes $f$.
 We can rename the variable `Y[0]` in $P$ to a variable `temp` and add the line
 
 ```python
@@ -916,7 +913,7 @@ Let XOR-CIRC be the programming language where we have the following operations 
 :::
 
 ::: {.exercise title="Circuits for majority" #majasymp}
-Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in SIZE(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and the  so-called [Master Theorem](https://en.wikipedia.org/wiki/Master%5Ftheorem%5F(analysis%5Fof%5Falgorithms)).]
+Prove that there is some constant $c$ such that for every $n>1$, $MAJ_n \in SIZE_n(cn)$ where $MAJ_n:\{0,1\}^n \rightarrow \{0,1\}$ is the majority function on $n$ input bits. That is $MAJ_n(x)=1$ iff $\sum_{i=0}^{n-1}x_i > n/2$. See footnote for hint.^[One approach to solve this is using recursion and the  so-called [Master Theorem](https://en.wikipedia.org/wiki/Master%5Ftheorem%5F(analysis%5Fof%5Falgorithms)).]
 :::
 
 

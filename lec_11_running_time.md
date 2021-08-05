@@ -570,20 +570,21 @@ For other models such as Turing machines we have similar time hierarchy results 
 
 We have now seen two measures of "computation cost" for functions.
 In [secdefinesizeclasses](){.ref} we defined the complexity of computing _finite_ functions using circuits / straightline programs.
-Specifically,  for a finite function $g:\{0,1\}^n \rightarrow \{0,1\}$ and number $T\in \N$,  $g\in SIZE(T)$ if there is a circuit of at most $T$ NAND gates (or equivalently  a $T$-line NAND-CIRC program) that computes $g$.
-To relate this to the classes $TIME(T(n))$ defined in this chapter we first need to extend the class $SIZE(T(n))$ from finite functions to functions with unbounded input length.
+Specifically,  for a finite function $g:\{0,1\}^n \rightarrow \{0,1\}$ and number $s\in \N$,  $g\in SIZE_n(s)$ if there is a circuit of at most $s$ NAND gates (or equivalently  an $s$-line NAND-CIRC program) that computes $g$.
+To relate this to the classes $TIME(T(n))$ defined in this chapter we first need to extend the class $SIZE_n(s)$ from finite functions to functions with unbounded input length.
 
 ::: {.definition title="Non-uniform computation" #nonuniformdef}
 Let $F:\{0,1\}^* \rightarrow \{0,1\}$ and $T:\N \rightarrow \N$ be a nice time bound.
 For every $n\in \N$, define $F_{\upharpoonright n} : \{0,1\}^n \rightarrow \{0,1\}$ to be the _restriction_ of $F$ to inputs of size $n$. That is, $F_{\upharpoonright n}$ is the function mapping $\{0,1\}^n$ to $\{0,1\}$ such that for every $x\in \{0,1\}^n$, $F_{\upharpoonright n}(x)=F(x)$.
 
-We say that $F$ is _non-uniformly computable in at most $T(n)$ size_, denoted by $F \in SIZE(T(n))$ if there exists a sequence $(C_0,C_1,C_2,\ldots)$ of NAND circuits such that:
+We say that $F$ is _non-uniformly computable in at most $T(n)$ size_, denoted by $F \in SIZE(T)$ if there exists a sequence $(C_0,C_1,C_2,\ldots)$ of NAND circuits such that:
 
 * For every $n\in \N$, $C_n$ computes the function $F_{\upharpoonright n}$
 
 * For every sufficiently large $n$, $C_n$ has at most $T(n)$ gates.
 :::
 
+In other words, $F \in SIZE(T)$ iff for every $n \in \N$, it holds that $F_{\upharpoonright n} \in SIZE_n(T(n))$.
 The non-uniform analog to the class $\mathbf{P}$ is the class $\mathbf{P_{/poly}}$ defined as 
 
 $$
