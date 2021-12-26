@@ -399,7 +399,7 @@ A _computational model_ is a map $\mathcal{M}:\{0,1\}^* \rightarrow \mathcal{F}$
 
 We say that a program $P \in \{0,1\}^*$  _$\mathcal{M}$-computes_ a function $F\in \mathcal{F}$ if $\mathcal{M}(P) = F$.
 
-A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_{\mathcal{M}}:\{0,1\}^* \rightarrow \{0,1\}^*$ for every Turing machine $N$ (represented as a string),  $\mathcal{M}(ENCODE_{\mathcal{M}}(N))$ is equal to the partial function computed by $N$.
+A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_{\mathcal{M}}:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every Turing machine $N$ (represented as a string),  $\mathcal{M}(ENCODE_{\mathcal{M}}(N))$ is equal to the partial function computed by $N$.
 
 A computational model $\mathcal{M}$ is _Turing equivalent_ if it is Turing complete and there exists a computable map $DECODE_{\mathcal{M}}:\{0,1\}^* \rightarrow \{0,1\}^*$ such that or every string $P\in \{0,1\}^*$,  $N=DECODE_{\mathcal{M}}(P)$ is a string representation of a Turing machine that computes the function $\mathcal{M}(P)$.
 :::
