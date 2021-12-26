@@ -143,7 +143,7 @@ The above approach is not the only way to obtain a proof of [RAMTMequivalencethm
 ::: {.remark title="RAM machines / NAND-RAM and assembly language (optional)" #NANDRAMassembly}
 RAM machines correspond quite closely to actual microprocessors such as those in the Intel x86 series that also contains a large _primary memory_ and a constant number of small registers.
 This is of course no accident: RAM machines aim at modeling more closely than Turing machines the architecture of actual computing systems, which largely follows the so called [von Neumann architecture](https://en.wikipedia.org/wiki/Von_Neumann_architecture) as described in the report [@vonNeumann45].
-As a result, NAND-RAM is similar in its general outline to assembly languages such as x86 or NIPS.
+As a result, NAND-RAM is similar in its general outline to assembly languages such as x86 or MIPS.
 These assembly languages all have instructions to __(1)__  move data from registers to memory, __(2)__ perform arithmetic or logical computations on registers, and __(3)__ conditional execution and loops ("if" and "goto", commonly known as "branches" and "jumps" in the context of assembly languages).
 
 The main difference between RAM machines and actual microprocessors (and correspondingly between NAND-RAM and assembly languages) is that actual microprocessors have a fixed word size $w$ so that all registers and memory cells hold numbers in $[2^w]$ (or equivalently strings in $\{0,1\}^w$).
