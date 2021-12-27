@@ -143,7 +143,7 @@ The above approach is not the only way to obtain a proof of [RAMTMequivalencethm
 ::: {.remark title="RAM machines / NAND-RAM and assembly language (optional)" #NANDRAMassembly}
 RAM machines correspond quite closely to actual microprocessors such as those in the Intel x86 series that also contains a large _primary memory_ and a constant number of small registers.
 This is of course no accident: RAM machines aim at modeling more closely than Turing machines the architecture of actual computing systems, which largely follows the so called [von Neumann architecture](https://en.wikipedia.org/wiki/Von_Neumann_architecture) as described in the report [@vonNeumann45].
-As a result, NAND-RAM is similar in its general outline to assembly languages such as x86 or NIPS.
+As a result, NAND-RAM is similar in its general outline to assembly languages such as x86 or MIPS.
 These assembly languages all have instructions to __(1)__  move data from registers to memory, __(2)__ perform arithmetic or logical computations on registers, and __(3)__ conditional execution and loops ("if" and "goto", commonly known as "branches" and "jumps" in the context of assembly languages).
 
 The main difference between RAM machines and actual microprocessors (and correspondingly between NAND-RAM and assembly languages) is that actual microprocessors have a fixed word size $w$ so that all registers and memory cells hold numbers in $[2^w]$ (or equivalently strings in $\{0,1\}^w$).
@@ -399,7 +399,7 @@ A _computational model_ is a map $\mathcal{M}:\{0,1\}^* \rightarrow \mathcal{F}$
 
 We say that a program $P \in \{0,1\}^*$  _$\mathcal{M}$-computes_ a function $F\in \mathcal{F}$ if $\mathcal{M}(P) = F$.
 
-A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_{\mathcal{M}}:\{0,1\}^* \rightarrow \{0,1\}^*$ for every Turing machine $N$ (represented as a string),  $\mathcal{M}(ENCODE_{\mathcal{M}}(N))$ is equal to the partial function computed by $N$.
+A computational model $\mathcal{M}$ is _Turing complete_ if there is a computable map $ENCODE_{\mathcal{M}}:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every Turing machine $N$ (represented as a string),  $\mathcal{M}(ENCODE_{\mathcal{M}}(N))$ is equal to the partial function computed by $N$.
 
 A computational model $\mathcal{M}$ is _Turing equivalent_ if it is Turing complete and there exists a computable map $DECODE_{\mathcal{M}}:\{0,1\}^* \rightarrow \{0,1\}^*$ such that or every string $P\in \{0,1\}^*$,  $N=DECODE_{\mathcal{M}}(P)$ is a string representation of a Turing machine that computes the function $\mathcal{M}(P)$.
 :::
@@ -935,7 +935,7 @@ Showing __(2)__ essentially amounts to simulating a Turing machine (or writing a
 We only sketch the proof. The "if" direction is simple. As mentioned above, evaluating λ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND-RAM as well, which we can then transform to a NAND-TM program.
 
 For the "only if" direction we need to simulate a Turing machine using a λ expression.
-We will do so by first showing that showing for every Turing machine $M$ a λ expression to compute the next-step function $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ that maps a configuration of $M$ to the next one (see [turingmachinesconfigsec](){.ref}).
+We will do so by first showing that for every Turing machine $M$ there exists a λ expression to compute the next-step function $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ that maps a configuration of $M$ to the next one (see [turingmachinesconfigsec](){.ref}).
 
 A configuration of $M$ is a string $\alpha \in \overline{\Sigma}^*$ for a finite set $\overline{\Sigma}$. We can encode every symbol $\sigma \in \overline{\Sigma}$ by a finite string $\{0,1\}^\ell$, and so we will encode a configuration $\alpha$ in the  λ calculus as a list $\langle \alpha_0, \alpha_1, \ldots, \alpha_{m-1}, \bot \rangle$ where $\alpha_i$ is an $\ell$-length string (i.e., an $\ell$-length  list of $0$'s and $1$'s) encoding a symbol in $\overline{\Sigma}$.
 
