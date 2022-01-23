@@ -110,7 +110,7 @@ We say that a function $f:S \rightarrow T$ is _one to one_ (also known as _injec
 
 [onetoonedef](){.ref} captures a simple concept, but even so it uses quite a bit of notation.
 When reading such a definition, it is often useful to annotate it with a pen as you're going through it (see [onetoonedefannotatedef](){.ref}).
-For example, when you see an identifier such as $f$, $S$ or $x$,  make sure that you realize what sort of object is it: is it a set, a function, an element, a number, a gremlin?
+For example, when you see an identifier such as $f$, $S$ or $x$,  make sure that you realize what sort of object it is: is it a set, a function, an element, a number, a gremlin?
 You might also find it useful to explain the definition in words to a friend (or to yourself).
 
 
@@ -130,9 +130,9 @@ You might also find it useful to explain the definition in words to a friend (or
 Theorems, lemmas, claims and the like are true statements about the concepts we defined.
 Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Claim" is a judgement call, and does not make a mathematical difference.
 All three correspond to statements which were proven to be true.
-The difference is that a _Theorem_ refers to a significant result, that we would want to remember and highlight.
+The difference is that a _Theorem_ refers to a significant result that we would want to remember and highlight.
 A _Lemma_ often refers to a technical result that is not necessarily important in its own right, but that can be often very useful in proving other theorems.
-A _Claim_ is a "throwaway" statement, that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
+A _Claim_ is a "throwaway" statement that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
 
 ### Proofs
 
@@ -940,7 +940,7 @@ Thus, $f$ is a valid layering for $G$ which completes the proof.
 Reading a proof is no less of an important skill than producing one.
 In fact, just like understanding code, it is a highly non-trivial skill in itself.
 Therefore I strongly suggest that you re-read the above proof, asking yourself at every sentence whether the assumption it makes is justified, and whether this sentence truly demonstrates what it purports to achieve.
-Another good habit is to ask yourself when reading a proof for every variable you encounter (such as $u$, $i$, $G'$, $f'$, etc. in the above proof) the following questions: __(1)__ What _type_ of variable is it? is it a number? a graph? a vertex? a function? and __(2)__ What do we know about it? Is it an arbitrary member of the set? Have we shown some facts about it?, and __(3)__ What are we _trying_ to show about it?.
+Another good habit is to ask yourself when reading a proof for every variable you encounter (such as $u$, $i$, $G'$, $f'$, etc. in the above proof) the following questions: __(1)__ What _type_ of variable is it? Is it a number? a graph? a vertex? a function? and __(2)__ What do we know about it? Is it an arbitrary member of the set? Have we shown some facts about it?, and __(3)__ What are we _trying_ to show about it?.
 
 ### Minimality and uniqueness
 
@@ -968,7 +968,7 @@ However, since $f$ and $g$ are just labels we give to two minimal layerings, by 
 
 
 ::: {.proof data-ref="minimallayeruniquethm"}
-Let $G=(V,E)$ be a DAG and $f,g:V \rightarrow \N$ be two minimal valid layering of $G$. We will prove that for every $v \in V$, $f(v) \leq g(v)$.
+Let $G=(V,E)$ be a DAG and $f,g:V \rightarrow \N$ be two minimal valid layerings of $G$. We will prove that for every $v \in V$, $f(v) \leq g(v)$.
 Since we didn't assume anything about $f,g$ except their minimality, the same proof will imply that for every $v\in V$, $g(v) \leq f(v)$ and hence that $f(v)=g(v)$ for every $v\in V$, which is what we needed to show.
 
 We will prove that $f(v) \leq g(v)$ for every $v \in V$ by induction on $i = f(v)$. The case $i=0$ is immediate: since in this case $f(v)=0$, $g(v)$ must be at least $f(v)$.
@@ -993,7 +993,7 @@ Most of the notation we use in this book is standard and is used in most mathema
 
 * _Partial_ functions are functions that are not necessarily defined on all inputs. When we write $f:A \rightarrow B$ this means that $f$ is a _total_ function unless we say otherwise. When we want to emphasize that $f$ can be a partial function, we will sometimes write $f: A \rightarrow_p B$.
 
-* As we will see later on in the course, we will mostly describe our computational problems in terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other textbooks refer to the same task as _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding function $F$ such that $F(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.
+* As we will see later on in the course, we will mostly describe our computational problems in terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other textbooks refer to the same task as _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding function $F$ such that $F(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving _promise problem_.
 Because the language notation is so prevalent in other textbooks, we will occasionally remind the reader of this correspondence.
 
 * We use $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then this means that $x$ is of length $\lceil \sqrt{n}\, \rceil$. (We round up for the sake of convention, but in most such cases, it will not make a difference whether we round up or down.)
@@ -1092,7 +1092,7 @@ b. Write a logical expression $\varphi(x)$ involving the variables $x_0,x_1,x_2$
 ::: {.exercise title="Quantifiers" #quantifiersex}
 Use the logical quantifiers $\forall$ (for all), $\exists$ (there exists), as well as $\wedge,\vee,\neg$ and the arithmetic operations $+,\times,=,>,<$ to write the following:
 
-a. An expression $\varphi(n,k)$ such that for every natural numbers $n,k$, $\varphi(n,k)$ is true if and only if $k$  divides $n$.
+a. An expression $\varphi(n,k)$ such that for every natural number $n,k$, $\varphi(n,k)$ is true if and only if $k$  divides $n$.
 
 b. An expression $\varphi(n)$ such that for every natural number $n$, $\varphi(n)$ is true if and only if $n$ is a power of three.
 
