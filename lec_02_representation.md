@@ -778,7 +778,7 @@ If $E:\mathcal{O} \rightarrow \{0,1\}^*$ is the (potentially not prefix-free) re
 To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix-free.
 In fact, prefix freeness is a stronger condition than one-to-one (if two strings are equal then in particular one of them is a prefix of the other) and hence it suffices to prove __(2)__, which we now do.
 
-Let $o \neq o'$ in $\mathcal{O}$ be two distinct objects. We will prove  that $\overline{E}(o)$ is a not a prefix of $\overline{E}(o')$.
+Let $o \neq o'$ in $\mathcal{O}$ be two distinct objects. We will prove that $\overline{E}(o)$ is not a prefix of $\overline{E}(o')$.
 Define $x = E(o)$ and $x'=E(o')$.
 Since $E$ is one-to-one, $x \neq x'$.
 Under our assumption, $PF(x)$ is a prefix of $PF(x')$.
@@ -883,7 +883,7 @@ StL(LtS([234,12,5]))
 We can represent a letter or symbol by a string, and then if this representation is prefix-free, we can represent a sequence of symbols by merely concatenating the representation of each symbol.
 One such representation is the [ASCII](https://en.wikipedia.org/wiki/ASCII) that represents $128$ letters and symbols as strings of $7$ bits.
 Since the ASCII representation is fixed-length, it is automatically prefix-free (can you see why?).
-[Unicode](https://en.wikipedia.org/wiki/Unicode) is representation of (at the time of this writing) about 128,000 symbols as numbers (known as _code points_) between $0$ and  $1,114,111$.
+[Unicode](https://en.wikipedia.org/wiki/Unicode) is the representation of (at the time of this writing) about 128,000 symbols as numbers (known as _code points_) between $0$ and  $1,114,111$.
 There are several types of prefix-free representations of the code points, a popular one being [UTF-8](https://en.wikipedia.org/wiki/UTF-8) that encodes every codepoint into a string of length between $8$ and $32$.
 <!-- (For example, the UTF-8 encoding for the "confused face" emoji 😕 is `11110000100111111001100010010101`) -->
 
@@ -1259,6 +1259,6 @@ While many functions may be described (or computed) by one or more formulas, tod
 We have mentioned that all representations of the real numbers are inherently _approximate_. Thus an important endeavor is to understand what guarantees we can offer on the approximation quality of the output of an algorithm, as a function of the approximation quality of the inputs. This question is known as the question of determining the [numerical stability](https://en.wikipedia.org/wiki/Numerical_stability) of given equations.
 The  [Floating-Point Guide website](https://floating-point-gui.de/) contains an extensive description of the floating-point representation, as well the many ways in which it could subtly fail, see also the website [0.30000000000000004.com](http://0.30000000000000004.com/).
 
-Dauben [@Dauben90cantor] gives a biography of Cantor with emphasis on the development of his mathematical ideas. [@halmos1960naive] is a classic textbook on set theory, including also Cantor's theorem. Cantor's Theorem is also covered in many texts on discrete mathematics, including [@LehmanLeightonMeyer, @LewisZax19].
+Dauben [@Dauben90cantor] gives a biography of Cantor with emphasis on the development of his mathematical ideas. [@halmos1960naive] is a classic textbook on set theory, also including Cantor's theorem. Cantor's Theorem is also covered in many texts on discrete mathematics, including [@LehmanLeightonMeyer, @LewisZax19].
 
 The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [Spielman's course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We will return to this view much later in this book when we talk about _random walks_.
