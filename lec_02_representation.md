@@ -319,7 +319,7 @@ Every real number can be approximated by a rational number, and thus we can repr
 For example, we can represent $\pi$ by $22/7$ within an error of about $10^{-3}$.  If we want a smaller error (e.g., about $10^{-4}$) then we can use $311/99$, and so on and so forth.
 
 
-![The _floating-point representation_ of a real number $x\in \R$ is its approximation as a number of the form $\sigma b \cdot 2^e$ where $\sigma \in \{\pm 1 \}$, $e$ is an (potentially negative) integer, and $b$ is a rational number between $1$ and $2$ expressed as a binary fraction $1.b_0b_1b_2\ldots b_{k}$ for some $b_1,\ldots,b_k \in \{0,1\}$ (that is $b = 1 + b_1/2 + b_2/4 + \ldots + b_k/2^k$). Commonly-used floating-point representations fix the numbers  $\ell$ and $k$  of bits to represent $e$ and $b$ respectively. In the example above, assuming we use two's complement representation for $e$, the number represented is $-1 \times 2^{5} \times ( 1 + 1/2 + 1/4 + 1/64 + 1/512) = -56.5625$.](../figure/floatingpoint.png){#floatingpointfig}
+![The _floating-point representation_ of a real number $x\in \R$ is its approximation as a number of the form $\sigma b \cdot 2^e$ where $\sigma \in \{\pm 1 \}$, $e$ is an (potentially negative) integer, and $b$ is a rational number between $1$ and $2$ expressed as a binary fraction $1.b_1b_2\ldots b_{k}$ for some $b_1,\ldots,b_k \in \{0,1\}$ (that is $b = 1 + b_1/2 + b_2/4 + \ldots + b_k/2^k$). Commonly-used floating-point representations fix the numbers  $\ell$ and $k$  of bits to represent $e$ and $b$ respectively. In the example above, assuming we use two's complement representation for $e$, the number represented is $-1 \times 2^{5} \times ( 1 + 1/2 + 1/4 + 1/64 + 1/512) = -56.5625$.](../figure/floatingpoint.png){#floatingpointfig}
 
 
 
