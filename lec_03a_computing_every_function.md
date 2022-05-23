@@ -8,9 +8,9 @@ chapternum: "4"
 # Syntactic sugar, and computing every function {#finiteuniversalchap }
 
 > ### { .objectives }
-* Get comfortable with syntactic sugar or automatic translation of higher level logic to low level gates. \
+* Get comfortable with syntactic sugar or automatic translation of higher-level logic to low-level gates. \
 * Learn proof of major result: every finite function can be computed by a Boolean circuit. \
-* Start thinking _quantitatively_ about number of lines required for computation.
+* Start thinking _quantitatively_ about the number of lines required for computation.
 
 
 
@@ -24,7 +24,7 @@ chapternum: "4"
 
 The computational models we considered thus far are as "bare bones" as they come.
 For example, our NAND-CIRC "programming language" has only the single operation `foo = NAND(bar,blah)`.
-In this chapter we will  see that these simple models are actually _equivalent_ to more sophisticated ones.
+In this chapter we will see that these simple models are actually _equivalent_ to more sophisticated ones.
 The key observation is that we can implement more complex features using our basic building blocks, and then use these new features themselves as building blocks for even more sophisticated features.
 This is known as "syntactic sugar" in the field of programming language design since we are not modifying the underlying programming model itself, but rather we merely implement new features by syntactically transforming a program that uses such features into one that doesn't.
 
@@ -52,10 +52,10 @@ Despite being an important result, [circuit-univ-thm](){.ref} is actually not th
 However, in [secsyntacticsugar](){.ref} and [seclookupfunc](){.ref} we derive this result using the concept of "syntactic sugar" (see [synsugar](){.ref}).
 This is an important concept for programming languages theory and practice.
 The idea behind "syntactic sugar" is that we can extend a programming language by implementing advanced features from its basic components.
-For example, we can take the AON-CIRC and NAND-CIRC programming languages we saw in [compchap](){.ref}, and extend them to achieve features such as user-defined functions (e.g., `def Foo(...)`), conditional statements (e.g., `if blah ...`), and  more. 
+For example, we can take the AON-CIRC and NAND-CIRC programming languages we saw in [compchap](){.ref}, and extend them to achieve features such as user-defined functions (e.g., `def Foo(...)`), conditional statements (e.g., `if blah ...`), and more. 
 Once we have these features, it is not that hard to show that we can take the "truth table" (table of all inputs and outputs) of any function, and use that to create an AON-CIRC or NAND-CIRC program that maps each input to its corresponding output.
 
-We will also get our first glimpse of _quantitative measures_ in  this chapter. While [circuit-univ-thm](){.ref} tells us that every function can be computed by _some_ circuit, the number of gates in this circuit can be exponentially large.
+We will also get our first glimpse of _quantitative measures_ in this chapter. While [circuit-univ-thm](){.ref} tells us that every function can be computed by _some_ circuit, the number of gates in this circuit can be exponentially large.
 (We are not using here "exponentially" as some colloquial term for "very very big" but in a very precise mathematical sense, which also happens to coincide with being very very big.)
 It turns out that _some functions_ (for example, integer addition and multiplication) can be in fact computed using far fewer gates. 
 We will explore this issue of "gate complexity" more deeply in [codeanddatachap](){.ref} and following chapters.
@@ -72,7 +72,7 @@ This is convenient because many of the syntactic sugar transformations we presen
 However,  by [equivalencemodelsthm](){.ref}, all of our results hold equally well for circuits, whether ones using NAND gates or Boolean circuits that use the  AND, OR, and NOT operations.
 Enumerating the examples of such  syntactic sugar transformations can be a little tedious, but we do it for two reasons:
 
-1. To convince you that despite their seeming simplicity and limitations, simple models such as Boolean circuits or  the NAND-CIRC programming language are actually quite powerful.
+1. To convince you that despite their seeming simplicity and limitations, simple models such as Boolean circuits or the NAND-CIRC programming language are actually quite powerful.
 
 2. So you can realize how lucky you are to be taking a theory of computation course and not a compilers course... `:)`
 
@@ -87,7 +87,7 @@ Enumerating the examples of such  syntactic sugar transformations can be a littl
 ### User-defined procedures
 
 One staple of almost any programming language is the ability to define and then execute _procedures_ or _subroutines_.
-(These are often  known as _functions_ in some programming languages, but we prefer the name _procedures_
+(These are often known as _functions_ in some programming languages, but we prefer the name _procedures_
 to avoid confusion with the function that a program computes.)
 The NAND-CIRC programming language does not have this mechanism built in.
 However, we can achieve the same effect using the time-honored technique of  "copy and paste".
@@ -115,7 +115,7 @@ When doing that we will need to ensure that all other variables appearing in `pr
 We can always do so by renaming variables to new names that were not used before.
 The above reasoning leads to the proof of the following theorem:
 
-> ### {.theorem title="Procedure definition synctatic sugar" #functionsynsugarthm}
+> ### {.theorem title="Procedure definition syntatic sugar" #functionsynsugarthm}
 Let NAND-CIRC-PROC be the programming language NAND-CIRC augmented with the syntax above for defining procedures.
 Then for every NAND-CIRC-PROC program $P$, there exists a standard (i.e., "sugar-free") NAND-CIRC program $P'$ that computes the same function as $P$.
 
@@ -161,13 +161,13 @@ print(MAJ(0,1,1))
 
 
 ::: { .bigidea #synsugar}
-Once we show that a computational model $X$ is equivalent to a model that has feature $Y$, we can assume we have  $Y$ when showing that a function $f$ is computable by $X$.
+Once we show that a computational model $X$ is equivalent to a model that has feature $Y$, we can assume we have $Y$ when showing that a function $f$ is computable by $X$.
 :::
 
 
 
 
-![A standard (i.e., "sugar-free") NAND-CIRC program that is obtained by expanding out the procedure definitions in the program for Majority of [majcircnand](){.ref}. The corresponding circuit is on the right. Note that this is not the most efficient NAND circuit/program for majority: we can save on some gates by "short cutting" steps where a gate $u$ computes $NAND(v,v)$ and then a gate $w$ computes $NAND(u,u)$ (as indicated by the dashed green arrows in the above figure).](../figure/progcircmaj.png){#progcircmajfig}
+![A standard (i.e., "sugar-free") NAND-CIRC program that is obtained by expanding out the procedure definitions in the program for Majority of [majcircnand](){.ref}. The corresponding circuit is on the right. Note that this is not the most efficient NAND circuit/program for majority: we can save on some gates by "shortcutting" steps where a gate $u$ computes $NAND(v,v)$ and then a gate $w$ computes $NAND(u,u)$ (as indicated by the dashed green arrows in the above figure).](../figure/progcircmaj.png){#progcircmajfig}
 
 
 
@@ -371,7 +371,7 @@ In fact, we can use Karatsuba's algorithm to show that there is a NAND-CIRC prog
 
 ## The LOOKUP function { #seclookupfunc }
 
-The $LOOKUP$ function  will play an important role in this chapter and later.
+The $LOOKUP$ function will play an important role in this chapter and later.
 It is defined as follows:
 
 
@@ -801,7 +801,7 @@ at the very end to obtain a program $P'$ that computes $1-f$.
 
 
 ::: {.exercise title="Pairing" #embedtuples-ex}
-This exercise asks you to give a one-to-one map from $\N^2$ to $\N$. This can be useful to implement two-dimensional arrays as "syntactic sugar" in programming languages that only have one-dimensional array.
+This exercise asks you to give a one-to-one map from $\N^2$ to $\N$. This can be useful to implement two-dimensional arrays as "syntactic sugar" in programming languages that only have one-dimensional arrays.
 
 1. Prove that the map $F(x,y)=2^x3^y$ is a one-to-one map from $\N^2$ to $\N$.
 
@@ -886,14 +886,14 @@ Temp[7] = NAND(Temp[5],Temp[5])
 Y[0] = NAND(Temp[6],Temp[7])
 ```
 
-1. Write a program $P'$ with at most three lines of code that uses both `NAND` as well as the syntactic  sugar `OR` that computes the same function as $P$.
+1. Write a program $P'$ with at most three lines of code that uses both `NAND` as well as the syntactic sugar `OR` that computes the same function as $P$.
 
 2. Draw a circuit that computes the same function as $P$ and uses only $AND$ and $NOT$ gates.
 :::
 
 
 
-In the following exercises you are asked  to compare the _power_ of pairs of programming languages.
+In the following exercises you are asked to compare the _power_ of pairs of programming languages.
 By "comparing the power" of two programming languages $X$ and $Y$ we mean determining the relation between the set of functions that are computable using programs in  $X$ and $Y$ respectively. That is, to answer such a question you need to do both of the following:
 
 1. Either prove that for every program $P$ in $X$ there is a program $P'$ in $Y$ that computes the same function as $P$, _or_ give an example for a function that is computable by an $X$-program but not computable by a $Y$-program.

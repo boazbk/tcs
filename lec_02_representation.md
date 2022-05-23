@@ -37,7 +37,7 @@ chapternum: "2"
 
 
 
-To a first approximation,   _computation_  is a process that maps an _input_ to an _output_.
+To a first approximation, _computation_ is a process that maps an _input_ to an _output_.
 
 ![Our basic notion of _computation_ is some process that maps an input to an output](../figure/input_output.png){#computationinputtooutputfig .margin  }
 
@@ -46,7 +46,7 @@ For example, as we've seen, there is more than one way to achieve the computatio
 
 In this chapter we focus on the **what** part, namely defining computational tasks.
 For starters, we need to define the inputs and outputs.
-Capturing all the potential inputs and outputs that we might ever want to compute on seems challenging, since computation today is applied to a wide variety of objects.
+Capturing all the potential inputs and outputs that we might ever want to compute seems challenging, since computation today is applied to a wide variety of objects.
 We do not compute merely on numbers, but also on texts, images, videos, connection graphs of social networks, MRI scans, gene data, and even other programs.
 We will represent all these objects as __strings of zeroes and ones__, that is objects such as $0011101$ or $1011$ or any other finite list of $1$'s and $0$'s. (This choice is for convenience: there  is nothing "holy" about zeroes and ones, and we could have used any other finite collection of symbols.)
 
@@ -75,7 +75,7 @@ The main takeaways from this chapter are:
 
 * A _computational task_ specifies a map from an input to an output--- a _function_. It is crucially important to distinguish between the "what" and the "how", or the _specification_ and _implementation_ (see [secimplvsspec](){.ref}). A _function_  simply defines which output corresponds to which input. It does not specify _how_ to compute the output from the input, and as we've seen in the context of multiplication, there can be more than one way to compute the same function.
 
-* While the set of all possible binary strings is infinite, it still cannot represent _everything_. In particular, there is no representation of the _real numbers_ (with absolute accuracy) as binary strings. This result is also known as "Cantor's Theorem" (see [cantorsec](){.ref}) and is typically referred to as the result that the "reals are uncountable." It is also implies that there are _different levels_ of infinity though we will not get into this topic in this book (see [generalizepowerset](){.ref}).
+* While the set of all possible binary strings is infinite, it still cannot represent _everything_. In particular, there is no representation of the _real numbers_ (with absolute accuracy) as binary strings. This result is also known as "Cantor's Theorem" (see [cantorsec](){.ref}) and is typically referred to as the result that the "reals are uncountable." It is also implied that there are _different levels_ of infinity though we will not get into this topic in this book (see [generalizepowerset](){.ref}).
 
 The two "big ideas" we discuss are [representtuplesidea](){.ref} - we can compose representations for simple objects to represent more complex objects and [functionprogramidea](){.ref} - it is crucial to distinguish between _functions'_ ("what") and _programs'_ ("how").
 The latter will be a theme we will come back to time and again in this book.
@@ -101,7 +101,7 @@ Another way to say this is that we require the encoding function $E$ to be _one 
 ### Representing natural numbers  {#naturalnumsec } 
 
 We now show how we can represent natural numbers as binary strings.
-Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic  decimal system, and many others.
+Over the years people have represented numbers in a variety of ways, including Roman numerals, tally marks, our own Hindu-Arabic decimal system, and many others.
 We can use any one of those as well as many others to represent a number as a string (see [bitmapdigitsfig](){.ref}).
 However, for the sake of concreteness,  we use the _binary basis_ as our default representation of natural numbers as strings.
 For example, we represent the number six as the string $110$ since $1\cdot 2^{2} + 1 \cdot 2^1 + 0 \cdot 2^0 = 6$, and similarly we represent the number thirty-five as the string $y = 100011$ which satisfies $\sum_{i=0}^5 y_i \cdot 2^{|y|-i-1} = 35$.
@@ -159,7 +159,7 @@ print(NtS(236))
 print(NtS(19))
 # 10011
 ```
-We can also use Python to  implement the inverse transformation, mapping a string back to the natural number it represents.
+We can also use Python to implement the inverse transformation, mapping a string back to the natural number it represents.
 
 ```python
 def StN(x):# String to number
@@ -194,7 +194,7 @@ It is natural for us to think of $236$ as the "actual" number, and of $11101100$
 However, for most Europeans in the middle ages `CCXXXVI` would be the "actual" number and $236$ (if they have even heard about it) would be the weird Hindu-Arabic positional representation.^[While the Babylonians already invented a positional system much earlier, the decimal positional system we use today was invented by Indian mathematicians around the third century. Arab mathematicians took it up in the 8th century. It first received significant attention in Europe with the publication of the 1202 book _"Liber Abaci"_ by Leonardo of Pisa, also known as Fibonacci, but it did not displace Roman numerals in common usage until the 15th century.]
 When our AI robot overlords materialize, they will probably think of $11101100$ as the "actual" number and of $236$ as "merely" a representation that they need to use when they give commands to humans.
 
-So what is the "actual" number? This is a question that philosophers of mathematics have pondered over throughout history.
+So what is the "actual" number? This is a question that philosophers of mathematics have pondered throughout history.
 Plato argued that mathematical objects exist in some ideal sphere of existence (that to a certain extent is more "real" than the world we perceive via our senses, as this latter world is merely the shadow of this ideal sphere).
 In Plato's vision, the symbols $236$ are merely notation for some ideal object, that, in homage to the [late musician](https://goo.gl/b93h83), we can refer to as  "the number commonly represented by $236$".
 
@@ -240,7 +240,7 @@ The choice of the particular representation scheme will rarely matter, except th
 
 ### Two's complement representation (optional) {#twoscomplement }
 
-[repnegativeintegerssec](){.ref}'s approach of  representing an integer using a specific "sign bit" is known as the _Signed Magnitude Representation_ and was used in some early computers.
+[repnegativeintegerssec](){.ref}'s approach of representing an integer using a specific "sign bit" is known as the _Signed Magnitude Representation_ and was used in some early computers.
 However,  the [two's complement representation](https://en.wikipedia.org/wiki/Two%27s%5Fcomplement) is much more common in practice.
 The _two's complement representation_ of an integer $k$ in the set $\{ -2^n , -2^n+1, \ldots, 2^n-1 \}$ is the string $ZtS_n(k)$ of length $n+1$ defined as follows:
 $$
@@ -308,7 +308,7 @@ Indeed, this is one instance of a very general principle that we use time and ag
 If we can represent objects of type $T$ as strings, then we can represent tuples of objects of type $T$ as strings as well.
 :::
 
-Repeating the same idea, once we can represent objects of type $T$, we can also represent _lists of lists_ of such objects, and even  lists of lists of lists and so on and so forth.
+Repeating the same idea, once we can represent objects of type $T$, we can also represent _lists of lists_ of such objects, and even lists of lists of lists and so on and so forth.
 We will come back to this point when we discuss _prefix free encoding_ in [prefixfreesec](){.ref}.
 
 
@@ -350,7 +350,7 @@ _"For any collection of fruits, we can make more fruit salads than there are fru
 
 
 Given the issues with floating-point approximations for real numbers,
-a natural question is whether it is possible to  represent real numbers _exactly_ as strings.
+a natural question is whether it is possible to represent real numbers _exactly_ as strings.
 Unfortunately, the following theorem shows that this cannot be done:
 
 > ### {.theorem title="Cantor's Theorem" #cantorthm}
@@ -399,7 +399,7 @@ To turn this idea into a full proof of [cantorthm](){.ref} we need to:
 * Prove that there _is_ a one-to-one function from $\mathcal{X}$ to $\R$.
 
 We now proceed to do precisely that.
-That is, we will define the set $\{0,1\}^\infty$, which will play the role of $\mathcal{X}$, and then  state and prove two lemmas that show that this set satisfies our two desired properties.
+That is, we will define the set $\{0,1\}^\infty$, which will play the role of $\mathcal{X}$, and then state and prove two lemmas that show that this set satisfies our two desired properties.
 
 ::: {.definition #bitsinfdef}
 We denote by $\{0,1\}^\infty$ the set  $\{ f \;|\; f:\N \rightarrow \{0,1\} \}$.
@@ -509,7 +509,7 @@ If $f$ and $g$ are two distinct functions in $\{0,1\}^\infty$, then there must b
 If we take the minimum such $k$, then the numbers $f(0).f(1) f(2) \ldots f(k-1) f(k) \ldots$ and $g(0) . g(1) g(2) \ldots g(k) \ldots$ agree with each other all the way up to the $k-1$-th digit after the decimal point, and disagree on the $k$-th digit.
 But then these numbers must be distinct. 
 Concretely, if $f(k)=1$ and $g(k)=0$ then the first number is larger than the second, and otherwise ($f(k)=0$ and $g(k)=1$) the first number is smaller than the second.
-In the proof we have to be a little  careful since these are numbers with _infinite expansions_. For example, the number one half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up here, since we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.
+In the proof we have to be a little careful since these are numbers with _infinite expansions_. For example, the number one half has two decimal expansions $0.5$ and $0.49999\cdots$. However, this issue does not come up here, since we restrict attention only to numbers with decimal expansions that do not involve the digit $9$.
 :::
 
 ::: {.proof data-ref="sequencestoreals"}
@@ -525,7 +525,7 @@ Let $f,g$ be two distinct functions in $\{0,1\}^\infty$.
 Since $f$ and $g$ are distinct, there must be some input on which they differ, and we define $k$ to be the smallest such input and assume without loss of generality that
 $f(k)=0$ and $g(k)=1$.
 (Otherwise, if $f(k)=1$ and $g(k)=0$, then we can simply switch the roles of $f$ and $g$.)
-The numbers $FtR(f)$ and $FtR(g)$ agree with each other up to the $k-1$-th digit up after the  decimal point.
+The numbers $FtR(f)$ and $FtR(g)$ agree with each other up to the $k-1$-th digit up after the decimal point.
 Since this digit equals $0$ for $FtR(f)$  and equals $1$ for $FtR(g)$, we claim that $FtR(g)$ is bigger than $FtR(f)$ by at least $0.5 \cdot 10^{-k}$.
 To see this note that the difference $FtR(g)-FtR(f)$ will be minimized if   $g(\ell)=0$ for every $\ell>k$  and $f(\ell)=1$ for every $\ell>k$, in which case (since $f$ and $g$ agree up to the $k-1$-th digit)
 
@@ -600,7 +600,7 @@ Make sure you know how to prove the equivalence of all the results above.
 
 ## Representing objects beyond numbers
 
-Numbers are of course by no means the only objects that  we can represent as binary strings.
+Numbers are of course by no means the only objects that we can represent as binary strings.
 A _representation scheme_ for representing objects from some set $\mathcal{O}$ consists of an _encoding_ function that maps an object in $\mathcal{O}$ to a string, and a _decoding_ function that decodes a string back to an object in $\mathcal{O}$.
 Formally, we make the following definition:
 
@@ -778,7 +778,7 @@ If $E:\mathcal{O} \rightarrow \{0,1\}^*$ is the (potentially not prefix-free) re
 To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix-free.
 In fact, prefix freeness is a stronger condition than one-to-one (if two strings are equal then in particular one of them is a prefix of the other) and hence it suffices to prove __(2)__, which we now do.
 
-Let $o \neq o'$ in $\mathcal{O}$ be two distinct objects. We will prove  that $\overline{E}(o)$ is a not a prefix of $\overline{E}(o')$.
+Let $o \neq o'$ in $\mathcal{O}$ be two distinct objects. We will prove that $\overline{E}(o)$ is not a prefix of $\overline{E}(o')$.
 Define $x = E(o)$ and $x'=E(o')$.
 Since $E$ is one-to-one, $x \neq x'$.
 Under our assumption, $PF(x)$ is a prefix of $PF(x')$.
@@ -883,7 +883,7 @@ StL(LtS([234,12,5]))
 We can represent a letter or symbol by a string, and then if this representation is prefix-free, we can represent a sequence of symbols by merely concatenating the representation of each symbol.
 One such representation is the [ASCII](https://en.wikipedia.org/wiki/ASCII) that represents $128$ letters and symbols as strings of $7$ bits.
 Since the ASCII representation is fixed-length, it is automatically prefix-free (can you see why?).
-[Unicode](https://en.wikipedia.org/wiki/Unicode) is representation of (at the time of this writing) about 128,000 symbols as numbers (known as _code points_) between $0$ and  $1,114,111$.
+[Unicode](https://en.wikipedia.org/wiki/Unicode) is the representation of (at the time of this writing) about 128,000 symbols as numbers (known as _code points_) between $0$ and  $1,114,111$.
 There are several types of prefix-free representations of the code points, a popular one being [UTF-8](https://en.wikipedia.org/wiki/UTF-8) that encodes every codepoint into a string of length between $8$ and $32$.
 <!-- (For example, the UTF-8 encoding for the "confused face" emoji 😕 is `11110000100111111001100010010101`) -->
 
@@ -1259,6 +1259,6 @@ While many functions may be described (or computed) by one or more formulas, tod
 We have mentioned that all representations of the real numbers are inherently _approximate_. Thus an important endeavor is to understand what guarantees we can offer on the approximation quality of the output of an algorithm, as a function of the approximation quality of the inputs. This question is known as the question of determining the [numerical stability](https://en.wikipedia.org/wiki/Numerical_stability) of given equations.
 The  [Floating-Point Guide website](https://floating-point-gui.de/) contains an extensive description of the floating-point representation, as well the many ways in which it could subtly fail, see also the website [0.30000000000000004.com](http://0.30000000000000004.com/).
 
-Dauben [@Dauben90cantor] gives a biography of Cantor with emphasis on the development of his mathematical ideas. [@halmos1960naive] is a classic textbook on set theory, including also Cantor's theorem. Cantor's Theorem is also covered in many texts on discrete mathematics, including [@LehmanLeightonMeyer, @LewisZax19].
+Dauben [@Dauben90cantor] gives a biography of Cantor with emphasis on the development of his mathematical ideas. [@halmos1960naive] is a classic textbook on set theory, also including Cantor's theorem. Cantor's Theorem is also covered in many texts on discrete mathematics, including [@LehmanLeightonMeyer, @LewisZax19].
 
 The adjacency matrix representation of graphs is not merely a convenient way to map a graph into a binary string, but it turns out that many natural notions and operations on matrices are useful for graphs as well. (For example, Google's PageRank algorithm relies on this viewpoint.)  The notes of [Spielman's course](http://www.cs.yale.edu/homes/spielman/561/) are an excellent source for this area, known as _spectral graph theory_. We will return to this view much later in this book when we talk about _random walks_.

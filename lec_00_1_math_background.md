@@ -26,7 +26,7 @@ In this chapter we review some of the mathematical concepts that we use in this 
 These concepts are typically covered in courses or textbooks on "mathematics for computer science" or "discrete mathematics"; see the "Bibliographical Notes" section ([notesmathchap](){.ref}) for several excellent resources on these topics that are freely-available online.
 
 
-_A mathematician's apology._  Some students might wonder why  this book contains so much math. The reason is that mathematics is simply a language for modeling concepts in a precise and unambiguous way.
+_A mathematician's apology._  Some students might wonder why this book contains so much math. The reason is that mathematics is simply a language for modeling concepts in a precise and unambiguous way.
 In this book we use math to model the concept of _computation_.
 For example, we will consider questions such as _"is there an efficient algorithm to find the prime factors of a given integer?"_. (We will see that this question is particularly interesting, touching on areas as far apart as Internet security and quantum mechanics!)
 To even _phrase_ such a question, we need to give a precise _definition_ of the notion of an _algorithm_, and of what it means for an algorithm to be _efficient_.
@@ -37,9 +37,9 @@ Also, since there is no empirical experiment to prove the _nonexistence_ of an a
 
 Depending on your background, you can approach this chapter in two different ways:
 
-* If you have already taken a "discrete mathematics", "mathematics for computer science" or similar courses, you do not need to read the whole chapter. You can just take quick look at [secmathoverview](){.ref} to see the main tools we will use, [notationsec](){.ref} for our notation and conventions, and then skip ahead to the rest of this book. Alternatively, you can sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. 
+* If you have already taken "discrete mathematics", "mathematics for computer science" or similar courses, you do not need to read the whole chapter. You can just take a quick look at [secmathoverview](){.ref} to see the main tools we will use, [notationsec](){.ref} for our notation and conventions, and then skip ahead to the rest of this book. Alternatively, you can sit back, relax, and read this chapter just to get familiar with our notation, as well as to enjoy (or not) my philosophical musings and attempts at humor. 
 
-* If your background is less extensive, see [notesmathchap](){.ref} for some resources on these topics. This chapter briefly covers the concepts that we need, but you may find it helpful to see a more in-depth treatment. As usual with math, the best way to get comfort with this material is to work out exercises on your own.
+* If your background is less extensive, see [notesmathchap](){.ref} for some resources on these topics. This chapter briefly covers the concepts that we need, but you may find it helpful to see a more in-depth treatment. As usual with math, the best way to get comfortable with this material is to work out exercises on your own.
 
 * You might also want to start brushing up on _discrete probability_, which we'll use later in this book (see [probabilitychap](){.ref}).
 
@@ -53,7 +53,7 @@ The main mathematical concepts we will use are the following. We just list these
 
 * __Proofs:__ First and foremost, this book involves a heavy dose of formal mathematical reasoning, which includes mathematical _definitions_, _statements_, and _proofs_.
 
-* __Sets and set operations:__ We will use extensively  mathematical _sets_. We use the basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union ($\cup$), intersection ($\cap$), and set difference ($\setminus$).
+* __Sets and set operations:__ We will use extensively mathematical _sets_. We use the basic set _relations_ of membership ($\in$) and containment ($\subseteq$), and set _operations_, principally union ($\cup$), intersection ($\cap$), and set difference ($\setminus$).
 
 * __Cartesian product and Kleene star operation:__   We also use the _Cartesian product_ of two sets $A$ and $B$, denoted as $A \times B$ (that is, $A \times B$ the set of pairs $(a,b)$ where $a\in A$ and $b\in B$). We denote by $A^n$ the $n$ fold Cartesian product (e.g., $A^3 = A \times A \times A$) and by $A^*$ (known as the _Kleene star_) the union of $A^n$ for all $n \in \{0,1,2,\ldots\}$. 
 
@@ -78,7 +78,7 @@ This is partially to remind the reader and reinforce material that might not be 
 
 ## Reading mathematical texts
 
-Mathematicians use jargon for the same reason that it is used in many other professions such engineering, law, medicine, and others.
+Mathematicians use jargon for the same reason that it is used in many other professions such as engineering, law, medicine, and others.
 We want to make terms _precise_ and introduce shorthand for concepts that are frequently reused.
 Mathematical texts tend to "pack a lot of punch" per sentence, and so the key is to read them slowly and carefully, parsing each symbol at a time.
 
@@ -110,7 +110,7 @@ We say that a function $f:S \rightarrow T$ is _one to one_ (also known as _injec
 
 [onetoonedef](){.ref} captures a simple concept, but even so it uses quite a bit of notation.
 When reading such a definition, it is often useful to annotate it with a pen as you're going through it (see [onetoonedefannotatedef](){.ref}).
-For example, when you see an identifier such as $f$, $S$ or $x$,  make sure that you realize what sort of object is it: is it a set, a function, an element, a number, a gremlin?
+For example, when you see an identifier such as $f$, $S$ or $x$,  make sure that you realize what sort of object it is: is it a set, a function, an element, a number, a gremlin?
 You might also find it useful to explain the definition in words to a friend (or to yourself).
 
 
@@ -130,9 +130,9 @@ You might also find it useful to explain the definition in words to a friend (or
 Theorems, lemmas, claims and the like are true statements about the concepts we defined.
 Deciding whether to call a particular statement a "Theorem", a "Lemma" or a "Claim" is a judgement call, and does not make a mathematical difference.
 All three correspond to statements which were proven to be true.
-The difference is that a _Theorem_ refers to a significant result, that we would want to remember and highlight.
+The difference is that a _Theorem_ refers to a significant result that we would want to remember and highlight.
 A _Lemma_ often refers to a technical result that is not necessarily important in its own right, but that can be often very useful in proving other theorems.
-A _Claim_ is a "throw away" statement, that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
+A _Claim_ is a "throwaway" statement that we need to use in order to prove some other bigger results, but do not care so much about for its own sake.
 
 ### Proofs
 
@@ -154,7 +154,7 @@ In this section we quickly review some of the mathematical objects (the "basic d
 A _set_ is an unordered collection of objects.
 For example, when we write $S = \{ 2,4, 7 \}$, we mean that $S$ denotes the set that contains the numbers $2$, $4$, and $7$.
 (We use the notation "$2 \in S$" to denote that $2$ is an element of $S$.)
-Note that the set $\{ 2, 4, 7 \}$ and $\{ 7 , 4, 2 \}$ are identical, since they contain the same elements.
+Note that the set $\{ 2, 4, 7 \}$ and $\{ 7, 4, 2 \}$ are identical, since they contain the same elements.
 Also, a set either contains an element or does not contain it -- there is no notion of containing it  "twice" -- and so we could even write the same set $S$ as  $\{ 2, 2, 4, 7\}$ (though that would be a little weird).
 The _cardinality_ of a finite set $S$, denoted by $|S|$, is the number of elements it contains. (Cardinality can be defined for _infinite_ sets as well; see the sources in [notesmathchap](){.ref}.)
 So, in the example above, $|S|=3$.
@@ -202,7 +202,7 @@ For every set $S$, we denote the set $S\times S$ by $S^2$, $S\times S\times S$ b
 
 ### Special sets { #specialsets }
 
-There are several sets that we will use in this book  time and again.
+There are several sets that we will use in this book time and again.
 The set
 
 $$
@@ -368,7 +368,7 @@ A _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
 We say that two vertices $u,v\in V$ are _connected_ if either $u=v$ or there is a path from $(u_0,\ldots,u_k)$ where $u_0=u$ and $u_k=v$.
 We say that the graph $G$ is _connected_ if every pair of vertices in it is connected.
 
-Here are some basic facts about undirected graphs. We give some informal arguments below, but leave the full proofs as exercises (the proofs can be found  in  many of the resources listed in [notesmathchap](){.ref}). 
+Here are some basic facts about undirected graphs. We give some informal arguments below, but leave the full proofs as exercises (the proofs can be found in many of the resources listed in [notesmathchap](){.ref}). 
 
 
 > ### {.lemma #degreesegeslem}
@@ -386,7 +386,7 @@ The connectivity relation is _transitive_, in the sense that if $u$ is connected
 For every undirected graph $G=(V,E)$ and connected pair $u,v$, the shortest path from $u$ to $v$ is simple.
 In particular, for every connected pair there exists a simple path that connects them.
 
-[simplepathlem](){.ref} can be shown by "shortcutting" any non-simple path from $u$ to $v$ where  the same vertex $w$ appears twice to remove it (see [shortcutpathfig](){.ref}).
+[simplepathlem](){.ref} can be shown by "shortcutting" any non-simple path from $u$ to $v$ where the same vertex $w$ appears twice to remove it (see [shortcutpathfig](){.ref}).
 It is a good exercise to transforming this intuitive reasoning to a formal proof:
 
 ![If there is a path from $u$ to $v$ in a graph that passes twice through a vertex $w$ then we can "shortcut" it by removing the loop from $w$ to itself to find a path from $u$ to $v$ that only passes once through $w$.](../figure/shortcutpath.png){#shortcutpathfig}
@@ -418,7 +418,7 @@ You then transform the informal argument into a rigorous proof.
 This proof need not be very long or overly formal, but should clearly establish why the conclusion of the statement follows from its assumptions.
 :::
 
-The concepts of degrees and connectivity extend naturally  to _directed graphs_, defined as follows.
+The concepts of degrees and connectivity extend naturally to _directed graphs_, defined as follows.
 
 
 > ### {.definition title="Directed graphs" #directedgraphdef}
@@ -578,7 +578,7 @@ Kun's book [@Kun18] contains an extensive discussion on the similarities and dif
 
 It is often very cumbersome to describe precisely quantities such as running time and is also not needed, since we are typically mostly interested in the "higher order terms".
 That is, we want to understand the _scaling behavior_ of the quantity as the input variable grows.
-For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between an $100n^2 + 10n$ time algorithm and an $10n^2$ time algorithm.
+For example, as far as running time goes, the difference between an $n^5$-time algorithm and an $n^2$-time one is much more significant than the difference between a $100n^2 + 10n$ time algorithm and a $10n^2$ time algorithm.
 For this purpose, $O$-notation is extremely useful as a way to "declutter" our text and focus our attention on what really matters.
 For example, using $O$-notation, we can say that both $100n^2 + 10n$ and $10n^2$ are simply $\Theta(n^2)$ (which informally means "the same up to constant factors"), while $n^2 = o(n^5)$ (which informally means that $n^2$ is "much smaller than" $n^5$).
 
@@ -654,7 +654,7 @@ To produce such a proof you need to:
 
 In many cases, the first part is the most important one.
 Understanding what a statement means is oftentimes more than halfway towards understanding why it is true.
-In the third part, to convince the reader beyond a shadow of a doubt, we will often want to break down the reasoning to "basic steps", where each basic step is simple enough to be "self evident". The combination of all steps yields the desired statement.
+In the third part, to convince the reader beyond a shadow of a doubt, we will often want to break down the reasoning to "basic steps", where each basic step is simple enough to be "self-evident". The combination of all steps yields the desired statement.
 
 ### Proofs and programs
 
@@ -663,7 +663,7 @@ Writing a _program_ involves:
 
 1. Understanding what is the _task_ we want the program to achieve.
 
-2. Convincing _yourself_ that the task can be achieved by a computer, perhaps by planning on a whiteboard or notepad how you will break it up to simpler tasks.
+2. Convincing _yourself_ that the task can be achieved by a computer, perhaps by planning on a whiteboard or notepad how you will break it up into simpler tasks.
 
 3. Converting this plan into code that a compiler or interpreter can understand, by breaking up each task into a sequence of the basic operations of some programming language.
 
@@ -689,7 +689,7 @@ When you write a proof, for every equation or sentence you include, ask yourself
 
 1. Is this sentence or equation stating that some statement is true?
 
-2. If so, does this statement   follow from the previous steps,  or are we going to establish it in the next step?
+2. If so, does this statement follow from the previous steps,  or are we going to establish it in the next step?
 
 3. What is the _role_ of this sentence or equation? Is it one step towards proving the original statement, or is it a step towards proving some intermediate claim that you have stated before?
 
@@ -897,7 +897,7 @@ To do so, we need to somehow find a way, given a graph $G$ of $n$ vertices, to r
 The idea is that we will find a _source_ of $G$: a vertex $v$ that has no in-neighbors. We can then assign to $v$ the layer $0$, and layer the remaining vertices using the inductive hypothesis in layers $1,2,\ldots$.
 
 The above is the intuition behind the proof of [acyclictosortlem](){.ref}, but when writing the formal proof below, we use the benefit of hindsight, and try to streamline what was a messy journey into a linear and easy-to-follow flow of logic that starts with the word __"Proof:"__ and ends with __"QED"__ or the symbol $\blacksquare$.^[QED stands for "quod erat demonstrandum", which is Latin for "what was to be demonstrated" or "the very thing it was required to have shown".]
-Discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/100%20Proofwriting%20Checklist.pdf)) "every sentence must be load bearing".
+Discussions, examples and digressions can be very insightful, but we keep them outside the space delimited between these two words, where (as described by this [excellent handout](http://web.stanford.edu/class/cs103/handouts/100%20Proofwriting%20Checklist.pdf)) "every sentence must be load-bearing".
 Just like we do in programming, we can break the proof into little "subroutines" or "functions" (known as _lemmas_ or _claims_ in math language), which will be smaller statements that help us prove the main result.
 However, the proof should be structured in a way that ensures that it is always crystal-clear to the reader in what stage we are of the proof.
 The reader should be able to tell what the role of every sentence is in the proof and which part it belongs to.
@@ -940,7 +940,7 @@ Thus, $f$ is a valid layering for $G$ which completes the proof.
 Reading a proof is no less of an important skill than producing one.
 In fact, just like understanding code, it is a highly non-trivial skill in itself.
 Therefore I strongly suggest that you re-read the above proof, asking yourself at every sentence whether the assumption it makes is justified, and whether this sentence truly demonstrates what it purports to achieve.
-Another good habit is to ask yourself when reading a proof for every variable you encounter (such as $u$, $i$, $G'$, $f'$, etc. in the above proof) the following questions: __(1)__ What _type_ of variable is it? is it a number? a graph? a vertex? a function? and __(2)__ What do we know about it? Is it an arbitrary member of the set? Have we shown some facts about it?, and __(3)__ What are we _trying_ to show about it?.
+Another good habit is to ask yourself when reading a proof for every variable you encounter (such as $u$, $i$, $G'$, $f'$, etc. in the above proof) the following questions: __(1)__ What _type_ of variable is it? Is it a number? a graph? a vertex? a function? and __(2)__ What do we know about it? Is it an arbitrary member of the set? Have we shown some facts about it?, and __(3)__ What are we _trying_ to show about it?.
 
 ### Minimality and uniqueness
 
@@ -968,7 +968,7 @@ However, since $f$ and $g$ are just labels we give to two minimal layerings, by 
 
 
 ::: {.proof data-ref="minimallayeruniquethm"}
-Let $G=(V,E)$ be a DAG and $f,g:V \rightarrow \N$ be two minimal valid layering of $G$. We will prove that for every $v \in V$, $f(v) \leq g(v)$.
+Let $G=(V,E)$ be a DAG and $f,g:V \rightarrow \N$ be two minimal valid layerings of $G$. We will prove that for every $v \in V$, $f(v) \leq g(v)$.
 Since we didn't assume anything about $f,g$ except their minimality, the same proof will imply that for every $v\in V$, $g(v) \leq f(v)$ and hence that $f(v)=g(v)$ for every $v\in V$, which is what we needed to show.
 
 We will prove that $f(v) \leq g(v)$ for every $v \in V$ by induction on $i = f(v)$. The case $i=0$ is immediate: since in this case $f(v)=0$, $g(v)$ must be at least $f(v)$.
@@ -993,7 +993,7 @@ Most of the notation we use in this book is standard and is used in most mathema
 
 * _Partial_ functions are functions that are not necessarily defined on all inputs. When we write $f:A \rightarrow B$ this means that $f$ is a _total_ function unless we say otherwise. When we want to emphasize that $f$ can be a partial function, we will sometimes write $f: A \rightarrow_p B$.
 
-* As we will see later on in the course, we will mostly describe our computational problems in terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other textbooks refer to the same task as _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding function $F$ such that $F(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving a _promise problem_.
+* As we will see later on in the course, we will mostly describe our computational problems in terms of computing a _Boolean function_ $f: \{0,1\}^* \rightarrow \{0,1\}$. In contrast, many other textbooks refer to the same task as _deciding a language_ $L \subseteq \{0,1\}^*$. These two viewpoints are equivalent, since for every set $L\subseteq \{0,1\}^*$ there is a corresponding function $F$ such that $F(x)=1$ if and only if $x\in L$. Computing _partial functions_ corresponds to the task known in the literature as a solving _promise problem_.
 Because the language notation is so prevalent in other textbooks, we will occasionally remind the reader of this correspondence.
 
 * We use $\ceil{x}$ and $\floor{x}$ for the "ceiling" and "floor" operators that correspond to "rounding up" or "rounding down" a number to the nearest integer. We use $(x \mod y)$ to denote the "remainder" of $x$ when divided by $y$. That is, $(x \mod y) = x - y\floor{x/y}$. In context when an integer is expected we'll typically "silently round" the quantities to an integer. For example, if we say that $x$ is a string of length $\sqrt{n}$ then this means that $x$ is of length $\lceil \sqrt{n}\, \rceil$. (We round up for the sake of convention, but in most such cases, it will not make a difference whether we round up or down.)
@@ -1005,7 +1005,7 @@ Because the language notation is so prevalent in other textbooks, we will occasi
 
 * As is often the case in mathematical literature, we use the apostrophe character to enrich our set of identifiers. Typically if $x$ denotes some object, then $x'$, $x''$, etc. will denote other objects of the same type.
 
-* To save on "cognitive load" we will often use round constants such as $10,100,1000$ in the statements of both theorems and problem set questions. When you see such a "round" constant, you can typically assume that it has no special significance and was just chosen arbitrarily. For example, if you see a theorem of the form "Algorithm $A$ takes at most $1000\cdot n^2$ steps to compute function $F$ on inputs of length $n$" then probably the number $1000$ is an abitrary sufficiently large constant, and one could prove the same theorem with a bound of the form $c \cdot n^2$ for a constant $c$ that is smaller than $1000$. Similarly, if a problem asks you to prove that some quantity is at least $n/100$, it is quite possible that in truth the quantity is at least $n/d$ for some constant $d$ that is smaller than $100$.
+* To save on "cognitive load" we will often use round constants such as $10,100,1000$ in the statements of both theorems and problem set questions. When you see such a "round" constant, you can typically assume that it has no special significance and was just chosen arbitrarily. For example, if you see a theorem of the form "Algorithm $A$ takes at most $1000\cdot n^2$ steps to compute function $F$ on inputs of length $n$" then probably the number $1000$ is an arbitrary sufficiently large constant, and one could prove the same theorem with a bound of the form $c \cdot n^2$ for a constant $c$ that is smaller than $1000$. Similarly, if a problem asks you to prove that some quantity is at least $n/100$, it is quite possible that in truth the quantity is at least $n/d$ for some constant $d$ that is smaller than $100$.
 
 
 ### Variable name conventions {#conventionsec }
@@ -1052,7 +1052,7 @@ Some examples of such idioms that we use in this text include the following:
 * __"Let $X$ be $\ldots$"__,  __"let $X$ denote $\ldots$"__, or __"let $X= \ldots$":__ These are all different ways for us to say that we are _defining_ the symbol $X$ to stand for whatever expression is in the $\ldots$. When $X$ is a _property_ of some objects we might define $X$ by writing something along the lines of __"We say that $\ldots$ has the property $X$ if $\ldots$."__. While we often try to define terms before they are used, sometimes a mathematical sentence reads easier if we use a term before defining it, in which case we add **"Where $X$ is $\ldots$"** to explain how $X$ is defined in the preceding expression.
 
 
-* __Quantifiers:__ Mathematical texts involve many quantifiers such as "for all" and "exists". We sometimes spell these in words as in **"for all $i\in\N$"** or **"there is $x\in \{0,1\}^*$"**,  and sometimes use the formal symbols $\forall$ and $\exists$. It is important to keep track on which variable is quantified in what way the _dependencies_ between the variables. For example, a sentence fragment such as __"for every $k >0$ there exists $n$"__ means that $n$ can be chosen in a way that _depends_ on $k$. The order of quantifiers is important. For example, the following is a true statement: _"for every natural number $k>1$ there exists a prime number $n$ such that $n$ divides $k$."_ In contrast, the following statement is false: _"there exists a prime number $n$ such that for every natural number $k>1$, $n$ divides $k$."_
+* __Quantifiers:__ Mathematical texts involve many quantifiers such as "for all" and "exists". We sometimes spell these in words as in **"for all $i\in\N$"** or **"there is $x\in \{0,1\}^*$"**,  and sometimes use the formal symbols $\forall$ and $\exists$. It is important to keep track of which variable is quantified in what way the _dependencies_ between the variables. For example, a sentence fragment such as __"for every $k >0$ there exists $n$"__ means that $n$ can be chosen in a way that _depends_ on $k$. The order of quantifiers is important. For example, the following is a true statement: _"for every natural number $k>1$ there exists a prime number $n$ such that $n$ divides $k$."_ In contrast, the following statement is false: _"there exists a prime number $n$ such that for every natural number $k>1$, $n$ divides $k$."_
 
 
 * __Numbered equations, theorems, definitions:__ To keep track of all the terms we define and statements we prove, we often assign them a (typically numeric) label, and then refer back to them in other parts of the text. 
@@ -1063,7 +1063,7 @@ Some examples of such idioms that we use in this text include the following:
 * __"Thus"__, __"Therefore"__ , __"We get that"__: This means that the following sentence is implied by the preceding one, as in "The $n$-vertex graph $G$ is connected. Therefore it contains at least $n-1$ edges." We sometimes use __"indeed"__ to indicate that the following text justifies the claim that was made in the preceding sentence as in _"The $n$-vertex graph $G$ has at least $n-1$ edges. Indeed, this follows since $G$ is connected."_
 
 
-* __Constants:__ In Computer Science, we typically care about how our algorithms' resource consumption (such as running time) _scales_ with certain quantities (such as the length of the input). We refer to quantities that do not depend on the length of the input as _constants_ and so often use statements such as  _"there exists a constant $c>0$ such that for every $n\in \N$, Algorithm $A$ runs in at most $c \cdot n^2$ steps on inputs of length $n$."_ The qualifier "constant" for $c$ is not strictly needed but is added to emphasize that $c$ here is a fixed number independent of $n$. In fact sometimes, to reduce cognitive load, we will simply replace $c$ by a sufficiently  large round number such as $10$, $100$, or $1000$, or use $O$-notation and write  _"Algorithm $A$ runs in $O(n^2)$ time."_ 
+* __Constants:__ In Computer Science, we typically care about how our algorithms' resource consumption (such as running time) _scales_ with certain quantities (such as the length of the input). We refer to quantities that do not depend on the length of the input as _constants_ and so often use statements such as  _"there exists a constant $c>0$ such that for every $n\in \N$, Algorithm $A$ runs in at most $c \cdot n^2$ steps on inputs of length $n$."_ The qualifier "constant" for $c$ is not strictly needed but is added to emphasize that $c$ here is a fixed number independent of $n$. In fact sometimes, to reduce cognitive load, we will simply replace $c$ by a sufficiently large round number such as $10$, $100$, or $1000$, or use $O$-notation and write  _"Algorithm $A$ runs in $O(n^2)$ time."_ 
 
 
 
@@ -1075,7 +1075,7 @@ Some examples of such idioms that we use in this text include the following:
 * We can use basic objects to define more complex notions. For example, _graphs_ can be defined as a list of _pairs_.
 * Given precise _definitions_ of objects, we can state unambiguous and precise _statements_. We can then use mathematical _proofs_ to determine whether these statements are true or false.
 * A mathematical proof is not a formal ritual but rather a clear, precise and "bulletproof" argument certifying the truth of a certain statement.
-* Big-$O$ notation is an extremely useful formalism to suppress less significant details and allows us to focus on the high level behavior of quantities of interest.
+* Big-$O$ notation is an extremely useful formalism to suppress less significant details and allows us to focus on the high-level behavior of quantities of interest.
 * The only way to get comfortable with mathematical notions is to apply them in the contexts of solving problems. You should expect to need to go back time and again to the definitions and notation in this chapter as you work through problems in this course.
 
 
@@ -1092,7 +1092,7 @@ b. Write a logical expression $\varphi(x)$ involving the variables $x_0,x_1,x_2$
 ::: {.exercise title="Quantifiers" #quantifiersex}
 Use the logical quantifiers $\forall$ (for all), $\exists$ (there exists), as well as $\wedge,\vee,\neg$ and the arithmetic operations $+,\times,=,>,<$ to write the following:
 
-a. An expression $\varphi(n,k)$ such that for every natural numbers $n,k$, $\varphi(n,k)$ is true if and only if $k$  divides $n$.
+a. An expression $\varphi(n,k)$ such that for every natural number $n,k$, $\varphi(n,k)$ is true if and only if $k$  divides $n$.
 
 b. An expression $\varphi(n)$ such that for every natural number $n$, $\varphi(n)$ is true if and only if $n$ is a power of three.
 
@@ -1192,9 +1192,9 @@ There are many online sources for the mathematical background needed for this bo
 Similarly, [Berkeley CS 70: "Discrete Mathematics and Probability Theory"](http://www.eecs70.org/) has extensive lecture notes online.
 
 Other sources for discrete mathematics are Rosen [@Rosen19discrete]  and Jim Aspens' online book [@AspensDiscreteMath].
-Lewis and Zax [@LewisZax19], as well as the online book of Fleck [@Fleck], give a more gentle overview of the much of the same material.
-Solow [@Solow14] is a good introduction to proof reading and writing. Kun [@Kun18] gives an introduction to mathematics aimed at readers with programming background.
-Stanford's [CS 103 course](https://cs103.stanford.edu)  has a wonderful collections of handouts on mathematical proof techniques and discrete mathematics.
+Lewis and Zax [@LewisZax19], as well as the online book of Fleck [@Fleck], give a more gentle overview of much of the same material.
+Solow [@Solow14] is a good introduction to proof reading and writing. Kun [@Kun18] gives an introduction to mathematics aimed at readers with programming backgrounds.
+Stanford's [CS 103 course](https://cs103.stanford.edu)  has a wonderful collection of handouts on mathematical proof techniques and discrete mathematics.
 
 
 The word _graph_ in the sense of [undirgraph](){.ref} was coined by the mathematician Sylvester in 1878 in analogy with the chemical graphs used to visualize molecules.

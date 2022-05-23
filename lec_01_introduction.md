@@ -61,8 +61,8 @@ Structures from computer science, such as bits, strings, graphs, and even the no
 
 
 In addition to coming up with the place-value system, the Babylonians also invented the "standard algorithms" that we were all taught in elementary school for adding and multiplying numbers.
-These algorithms have been essential throughout the ages for people using  abaci, papyrus, or pencil and paper,  but in our computer age, do they still serve any purpose beyond torturing third-graders?
-To see why these algorithms are still very much relevant, let us compare the Babylonian digit-by-digit multiplication algorithm ("grade-school multiplication") with the  naive algorithm that multiplies numbers through  repeated addition.
+These algorithms have been essential throughout the ages for people using abaci, papyrus, or pencil and paper, but in our computer age, do they still serve any purpose beyond torturing third-graders?
+To see why these algorithms are still very much relevant, let us compare the Babylonian digit-by-digit multiplication algorithm ("grade-school multiplication") with the naive algorithm that multiplies numbers through repeated addition.
 We start by formally describing both algorithms, see [naivemultalg](){.ref} and [gradeschoolalg](){.ref}.
 
 
@@ -97,14 +97,14 @@ Suppose that $x$ and $y$ are two integers of $n=20$ decimal digits each.
 (This roughly corresponds to 64 binary digits, which is a common size in many programming languages.)
 Computing $x \cdot y$ using [naivemultalg](){.ref} entails adding $x$ to itself $y$ times which entails (since $y$ is a $20$-digit number) at least $10^{19}$ additions.
 In contrast, the grade-school algorithm (i.e., [gradeschoolalg](){.ref}) involves $n^2$ shifts and single-digit products, and so at most $2n^2 = 800$ single-digit operations.
-To understand the difference, consider that a grade-schooler can perform a single-digit operation in about 2 seconds,  and so would require about $1,600$ seconds (about half an hour) to compute $x\cdot y$ using [gradeschoolalg](){.ref}.
+To understand the difference, consider that a grade-schooler can perform a single-digit operation in about 2 seconds, and so would require about $1,600$ seconds (about half an hour) to compute $x\cdot y$ using [gradeschoolalg](){.ref}.
 In contrast, even though it is more than a billion times faster than a human, if we used [naivemultalg](){.ref} to compute $x\cdot y$ using a modern PC, it would take us $10^{20}/10^9 = 10^{11}$ seconds (which is more than three millennia!) to compute the same result.
 
 
 Computers have not made algorithms obsolete.
 On the contrary, the vast increase in our ability to measure, store, and communicate data has led to much higher demand for developing better and more sophisticated algorithms that empower us to make better decisions based on these data.
 We also see that in no small extent the notion of _algorithm_ is independent of the actual computing device that executes it.
-The digit-by-digit multiplication algorithm is vastly better than iterated addition, regardless whether the technology we use to implement it is a silicon-based chip, or a third-grader with pen and paper.
+The digit-by-digit multiplication algorithm is vastly better than iterated addition, regardless of whether the technology we use to implement it is a silicon-based chip, or a third-grader with pen and paper.
 
 
 Theoretical computer science is concerned with the _inherent_ properties of algorithms and computation; namely, those properties that are _independent_ of current technology.
@@ -121,7 +121,7 @@ A full description of an algorithm has three components:
 
 * __Analysis:__ __Why__ does this sequence of instructions achieve the desired task. A full description of [naivemultalg](){.ref} and [gradeschoolalg](){.ref} will include a _proof_ for each one of these algorithms that on input $x,y$, the algorithm does indeed output $x\cdot y$.
 
-Often as part of the analysis we show that the algorithm is not only __correct__ but also __efficient__. That is, we want to show that not only will the algorithm compute the desired task, but will do so in prescribed number of operations. For example [gradeschoolalg](){.ref} computes the multiplication function on inputs of $n$ digits using $O(n^2)$ operations, while [karatsubaalg](){.ref} (described below) computes the same function using $O(n^{1.6})$ operations. (We define the $O$ notations used here in [secbigohnotation](){.ref}.)
+Often as part of the analysis we show that the algorithm is not only __correct__ but also __efficient__. That is, we want to show that not only will the algorithm compute the desired task, but will do so in a prescribed number of operations. For example [gradeschoolalg](){.ref} computes the multiplication function on inputs of $n$ digits using $O(n^2)$ operations, while [karatsubaalg](){.ref} (described below) computes the same function using $O(n^{1.6})$ operations. (We define the $O$ notations used here in [secbigohnotation](){.ref}.)
 :::
 
 
@@ -137,7 +137,7 @@ A young student named Anatoly Karatsuba was in the audience, and within a week h
 Such a number becomes much smaller than $n^2$ as $n$ grows and so for large $n$ Karatsuba's algorithm
 is superior to the grade-school one. (For example,  [Python's implementation](https://svn.python.org/projects/python/trunk/Objects/longobject.c) switches from the grade-school algorithm to Karatsuba's algorithm for numbers that are 1000 bits or larger.)
 While the difference between  an $O(n^{1.6})$ and an $O(n^2)$ algorithm can be sometimes crucial in practice (see [algsbeyondarithmetic](){.ref} below), in this book we will mostly ignore such distinctions.
-However, we describe Karatsuba's algorithm below since it is a good example of how algorithms can  often be surprising, as well as a demonstration of the _analysis of algorithms_, which  is central to this book and to theoretical computer science at large.
+However, we describe Karatsuba's algorithm below since it is a good example of how algorithms can often be surprising, as well as a demonstration of the _analysis of algorithms_, which is central to this book and to theoretical computer science at large.
 
 Karatsuba's algorithm is based on a faster way to multiply _two-digit_ numbers.
 Suppose that $x,y \in [100]=\{0,\ldots, 99 \}$ are a pair of two-digit numbers.
@@ -258,7 +258,7 @@ As mentioned above, we leave completing the proof to the reader as [karatsuba-ex
 Karatsuba's algorithm is by no means the end of the line for multiplication algorithms.
 In the 1960's, Toom and Cook extended Karatsuba's ideas to get an $O(n^{\log_k (2k-1)})$ time multiplication algorithm for every constant  $k$.
 In 1971, Schönhage and Strassen got even better algorithms using the _Fast Fourier Transform_; their idea was to somehow treat integers as "signals" and do the multiplication more efficiently by moving to the Fourier domain. 
-(The _Fourier transform_ is a central tool in mathematics and engineering, used in a great many applications; if you have not seen it yet, you are likely encounter it at some point in your studies.)
+(The _Fourier transform_ is a central tool in mathematics and engineering, used in a great many applications; if you have not seen it yet, you are likely to encounter it at some point in your studies.)
 In the years that followed researchers kept improving the algorithm, and only very recently Harvey and Van Der Hoeven managed to obtain an $O(n \log n)$ time algorithm for multiplication (though it only starts beating the Schönhage-Strassen algorithm for truly astronomical numbers).
 Yet, despite all this progress, we still don't know whether or not there is an $O(n)$ time algorithm for multiplying two $n$ digit numbers!
 
@@ -280,7 +280,7 @@ You can see that we can compute this matrix by _eight_ products of numbers.
 
 Now suppose that $n$ is even and $x$ and $y$ are a pair of  $n\times n$ matrices which we can think of as each composed of four $(n/2)\times (n/2)$ blocks $x_{0,0},x_{0,1},x_{1,0},x_{1,1}$ and $y_{0,0},y_{0,1},y_{1,0},y_{1,1}$.
 Then the formula for the matrix product of $x$ and $y$ can be expressed in the same way as above, just replacing products $x_{a,b}y_{c,d}$ with _matrix_ products, and addition with matrix addition.
-This means that we can use the formula above to give an algorithm that _doubles_ the dimension of the matrices at the expense of increasing the number of operation by a factor of $8$, which for $n=2^\ell$ results in $8^\ell = n^3$ operations.
+This means that we can use the formula above to give an algorithm that _doubles_ the dimension of the matrices at the expense of increasing the number of operations by a factor of $8$, which for $n=2^\ell$ results in $8^\ell = n^3$ operations.
 
 
 In 1969 Volker Strassen noted that we can compute the product of a pair of two-by-two matrices using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting the following seven terms: $t_1 = (x_{0,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $t_2 = (x_{0,0}+x_{1,1})y_{0,0}$, $t_3 = x_{0,0}(y_{0,1}-y_{1,1})$, $t_4 = x_{1,1}(y_{0,1}-y_{0,0})$, $t_5 = (x_{0,0}+x_{0,1})y_{1,1}$, $t_6 = (x_{1,0}-x_{0,0})(y_{0,0}+y_{0,1})$,
@@ -289,7 +289,7 @@ Indeed, one can verify that $xy = \begin{pmatrix}   t_1 + t_4 - t_5 + t_7 & t_3 
 
 
 Using this observation, we can obtain an algorithm such that doubling the dimension of the matrices results in increasing the number of operations by a factor of  $7$, which means that for $n=2^\ell$ the cost is $7^\ell = n^{\log_2 7} \sim n^{2.807}$.
-A long sequence of work has since improved this algorithm, and the [current record](https://en.wikipedia.org/wiki/Matrix_multiplication_algorithm#Sub-cubic_algorithms) has running time about $O(n^{2.373})$.
+A long sequence of work has since improved this algorithm, and the [current record](https://en.wikipedia.org/wiki/Matrix_multiplication_algorithm#Sub-cubic_algorithms) has a running time of about $O(n^{2.373})$.
 However, unlike the case of integer multiplication, at the moment we don't know of any algorithm for matrix multiplication that runs in time linear or even close to linear in the size of the input matrices (e.g., an $O(n^2 polylog(n))$ time algorithm).
 People have tried to use [group representations](https://en.wikipedia.org/wiki/Group_representation), which can be thought of as generalizations of the Fourier transform, to obtain faster algorithms, but this effort [has not yet succeeded](http://discreteanalysisjournal.com/article/1245-on-cap-sets-and-the-group-theoretic-approach-to-matrix-multiplication).
 :::
@@ -315,7 +315,7 @@ For the related problem of actually finding the factors of a composite number, n
 
 Despite all this progress, there are still many more questions than answers in the world of algorithms.
 For almost all natural problems, we do not know whether the current algorithm is the "best", or whether a significantly better one is still waiting to be discovered.
-As alluded in Cobham's opening quote for this chapter, even for the basic problem of multiplying numbers we have not yet answered the question of whether there is a multiplication algorithm  that is as efficient as our algorithms for addition.
+As alluded to in Cobham's opening quote for this chapter, even for the basic problem of multiplying numbers we have not yet answered the question of whether there is a multiplication algorithm that is as efficient as our algorithms for addition.
 But at least we now know the right way to _ask_ it.
 
 
@@ -336,8 +336,8 @@ The impossibility of proving  Euclid's fifth axiom from the first four gave rise
 
 In an analogous way, impossibility results for computation correspond to "computational laws of nature" that tell us about the fundamental limits of any information processing apparatus, whether based on silicon, neurons, or quantum particles.
 Moreover, computer scientists found creative approaches to _apply_ computational limitations to achieve certain useful tasks.
-For example, much of modern Internet traffic is encrypted using the [RSA encryption scheme](https://en.wikipedia.org/wiki/RSA_\(cryptosystem\)), which relies on its security on the (conjectured) impossibility of efficiently factoring large integers.
-More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses a digital analog of the "gold standard" where, instead of using a precious metal,  new currency is obtained by "mining"  solutions for computationally difficult problems.
+For example, much of modern Internet traffic is encrypted using the [RSA encryption scheme](https://en.wikipedia.org/wiki/RSA_\(cryptosystem\)), the security of which relies on the (conjectured) impossibility of efficiently factoring large integers.
+More recently, the [Bitcoin](https://en.wikipedia.org/wiki/Bitcoin) system uses a digital analog of the "gold standard" where, instead of using a precious metal, new currency is obtained by "mining"  solutions for computationally difficult problems.
 
 
 
@@ -369,7 +369,7 @@ The same ideas also show up in _cryptography_, which has undergone not just a te
 
 Theoretical Computer Science is a vast topic, branching out and touching upon many scientific and engineering disciplines.
 This book provides a very partial (and biased) sample of this area.
-More than anything, I hope I will manage to "infect" you with at least some of my love for this field, which is inspired and enriched by the connection to practice, but is also deep and beautiful regardless of  applications.
+More than anything, I hope I will manage to "infect" you with at least some of my love for this field, which is inspired and enriched by the connection to practice, but is also deep and beautiful regardless of applications.
 
 ### Dependencies between chapters
 
@@ -379,7 +379,7 @@ This book is divided into the following parts, see [dependencystructurefig](){.r
 
 * __Part I: Finite computation (Boolean circuits):__  Equivalence of circuits and straight-line programs. Universal gate sets. Existence of a circuit for every function, representing circuits as strings, universal circuit, lower bound on circuit size using the counting argument.
 
-* __Part II: Uniform computation (Turing machines):__ Equivalence of Turing machines and programs with loops. Equivalence of models (including RAM machines, $\lambda$ calculus, and cellular automata), configurations of Turing machines, existence of a universal Turing machine, uncomputable functions (including the Halting problem and Rice's Theorem), Gödel's incompleteness theorem, restricted computational models models (regular and context free languages).
+* __Part II: Uniform computation (Turing machines):__ Equivalence of Turing machines and programs with loops. Equivalence of models (including RAM machines, $\lambda$ calculus, and cellular automata), configurations of Turing machines, existence of a universal Turing machine, uncomputable functions (including the Halting problem and Rice's Theorem), Gödel's incompleteness theorem, restricted computational models (regular and context free languages).
 
 * __Part III: Efficient computation:__ Definition of running time, time hierarchy theorem, $\mathbf{P}$ and $\mathbf{NP}$, $\mathbf{P_{/poly}}$, $\mathbf{NP}$ completeness and the Cook-Levin Theorem, space bounded computation.
 
@@ -407,7 +407,7 @@ A course based on this book can use all of Parts I, II, and III  (possibly skipp
 ## Exercises
 
 ::: {.exercise }
-Rank the significance of the following inventions in speeding up multiplication of large (that is 100-digit or more) numbers. That is, use "back of the envelope" estimates to order them in terms of the speedup factor they offered over the previous state of affairs.
+Rank the significance of the following inventions in speeding up the multiplication of large (that is 100-digit or more) numbers. That is, use "back of the envelope" estimates to order them in terms of the speedup factor they offered over the previous state of affairs.
 
 a. Discovery of the grade-school digit by digit algorithm (improving upon repeated addition).
 
@@ -417,7 +417,7 @@ c.  Invention of modern electronic computers (improving upon calculations with p
 :::
 
 ::: {.exercise}
-The 1977 Apple II personal computer had a processor speed of 1.023 Mhz or about $10^6$ operations per seconds. At the time of this writing the world's fastest supercomputer performs 93 "petaflops" ($10^{15}$ floating point operations per second) or about $10^{18}$ basic steps per second. For each one of the following running times (as a function of the input length $n$), compute for both computers how large an input they could handle in a week of computation, if they run an algorithm that has this running time:
+The 1977 Apple II personal computer had a processor speed of 1.023 Mhz or about $10^6$ operations per second. At the time of this writing the world's fastest supercomputer performs 93 "petaflops" ($10^{15}$ floating point operations per second) or about $10^{18}$ basic steps per second. For each one of the following running times (as a function of the input length $n$), compute for both computers how large an input they could handle in a week of computation, if they run an algorithm that has this running time:
 
 a. $n$ operations.
 
@@ -486,4 +486,4 @@ The deterministic polynomial-time algorithm for testing primality was given by A
 
 
 We alluded briefly to classical impossibility results in mathematics, including the impossibility of proving Euclid's fifth postulate from the other four, impossibility of trisecting an angle with a straightedge and compass and the impossibility of solving a quintic equation via radicals. A geometric proof of the impossibility of angle trisection (one of the three [geometric problems of antiquity](http://mathworld.wolfram.com/GeometricProblemsofAntiquity.html), going back to the ancient Greeks) is given in this [blog post of Tao](https://terrytao.wordpress.com/2011/08/10/a-geometric-proof-of-the-impossibility-of-angle-trisection-by-straightedge-and-compass/). The book of Mario Livio [@Livio05] covers some of the background and ideas behind these impossibility results.
-Some [exciting recent research](http://www.scottaaronson.com/barbados-2016.pdf) is focused on trying to use computational complexity to shed light on fundamental questions in physics such understanding black holes and reconciling general relativity with quantum mechanics
+Some [exciting recent research](http://www.scottaaronson.com/barbados-2016.pdf) is focused on trying to use computational complexity to shed light on fundamental questions in physics such as understanding black holes and reconciling general relativity with quantum mechanics
