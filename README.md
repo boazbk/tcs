@@ -6,7 +6,7 @@ The book is posted (in both html and pdf formats)  on the web page https://intro
 Please use the [issues](https://github.com/boazbk/tcs/issues) and [pull requests](https://github.com/boazbk/tcs/pulls) to post any suggestions, comments, typo fixes, etc.
 
 
-There are two chapters that are still mising: space bounded computation and proofs and programs.
+There are two chapters that are still missing: space bounded computation and proofs and programs.
 
 Supplemental code for the book is on [github.com/boazbk/tcscode](https://github.com/boazbk/tcscode)
 

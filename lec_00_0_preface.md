@@ -39,7 +39,7 @@ We will use programming metaphors and idioms, occasionally mentioning specific p
 
 Proofs in this book, including the existence of a universal Turing Machine, the fact that every finite function can be computed by some circuit, the Cook-Levin theorem, and many others, are often constructive and algorithmic, in the sense that they ultimately involve transforming one program to another.
 While it is possible to follow these proofs without seeing the code, I do think that having access to the code, and the ability to play around with it and see how it acts on various programs, can make these theorems more concrete for the students.
-To that end, an accompanying website (which is still work in progress) allows executing programs in the various computational models we define, as well as see constructive proofs of some of the theorems.
+To that end, an accompanying website (which is still a work in progress) allows executing programs in the various computational models we define, as well as seeing constructive proofs of some of the theorems.
 
 ## To the student
 
@@ -142,12 +142,12 @@ Thanks to Anil Ada, Venkat Guruswami,  and Ryan O'Donnell for helpful tips from 
 Thanks to Adam Hesterberg and Madhu Sudan for their comments from their experience teaching CS 121 with this book.
 Kunal Marwaha gave many comments, as well as provided great help with the technical aspects of producing the book.
 
-Thanks to everyone  that sent me comments, typo reports, or posted issues or pull requests on the GitHub repository  [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
+Thanks to everyone that sent me comments, typo reports, or posted issues or pull requests on the GitHub repository  [https://github.com/boazbk/tcs](https://github.com/boazbk/tcs).
 In particular I would like to acknowledge helpful feedback from Scott Aaronson, Michele Amoretti, Aadi Bajpai, Marguerite Basta, Anindya Basu, Sam Benkelman, Jarosław Błasiok, Emily Chan, Christy Cheng, Michelle Chiang, Daniel Chiu, Chi-Ning Chou, Michael Colavita, Brenna Courtney, Rodrigo Daboin Sanchez, Robert Darley Waddilove, Anlan Du, Juan Esteller, David Evans, Michael Fine, Simon Fischer, Leor Fishman, Zaymon Foulds-Cook, William Fu, Kent Furuie, Piotr Galuszka, Carolyn Ge, Jason Giroux, Mark Goldstein, Alexander Golovnev, Sayan Goswami, Michael Haak, Rebecca Hao, Lucia Hoerr, Joosep Hook, Austin Houck, Thomas HUET, Emily Jia, Chan Kang, Nina Katz-Christy, Vidak Kazic, Joe Kerrigan, Eddie Kohler, Estefania Lahera, Allison Lee, Benjamin Lee, Ondřej Lengál, Raymond Lin, Emma Ling, Alex Lombardi, Lisa Lu, Kai Ma, Aditya Mahadevan, Kunal Marwaha, Christian May, Josh Mehr, Jacob Meyerson, Leon Mlodzian, George Moe, Todd Morrill, Glenn Moss, Hamish Nicholson, Owen Niles, Sandip Nirmel, Sebastian Oberhoff, Thomas Orton, Joshua Pan, Pablo Parrilo, Juan Perdomo, Banks Pickett, Aaron Sachs, Abdelrhman Saleh, Brian Sapozhnikov, Anthony Scemama, Peter Schäfer, Josh Seides, Alaisha Sharma, Nathan Sheely, Haneul Shin, Noah Singer, Matthew Smedberg, Miguel Solano, Hikari Sorensen, David Steurer, Alec Sun, Amol Surati, Everett Sussman, Marika Swanberg, Garrett Tanzer, Eric Thomas, Sarah Turnill, Salil Vadhan, Patrick Watts, Jonah Weissman, Ryan Williams, Licheng Xu, Richard Xu, Wanqian Yang, Elizabeth Yeoh-Wang, Josh Zelinsky, Fred Zhang, Grace Zhang, Alex Zhao, and Jessica Zhu.
 
 
 
-I am using many open source software packages in the production of these notes for which I am grateful.
+I am using many open-source software packages in the production of these notes for which I am grateful.
 In particular, I am thankful to Donald Knuth and Leslie Lamport for [LaTeX](https://www.latex-project.org/) and
 to John MacFarlane for [Pandoc](http://pandoc.org/).
 David Steurer wrote the original scripts to produce this text.

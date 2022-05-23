@@ -63,6 +63,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * George Moe
 * Todd Morrill
 * Glenn Moss
+* Haley Mulligan
 * Hamish Nicholson
 * Owen Niles
 * Sandip Nirmel
@@ -106,5 +107,6 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Grace Zhang
 * Alex Zhao
 * Jessica Zhu
+* Serdar Kaçka
 
 
