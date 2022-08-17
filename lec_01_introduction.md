@@ -225,7 +225,7 @@ $$
 x\cdot y =   10^{2m}\overline{x}\overline{y} + 10^{m}\left[ (\overline{x}+\underline{x})(\overline{y}+\underline{y}) - \underline{x}\underline{y}  - \overline{x}\overline{y} \right]  + \underline{x}\underline{y} \;.
  \label{eqkarastubatwo}
 $$
-since the numbers $\underline{x}$,$\overline{x}$, $\underline{y}$,$\overline{y}$,$\overline{x}+\underline{x}$,$\overline{y}+\underline{y}$ all have at most $m+1<n$ digits, the induction hypothesis implies that the values $A,B,C$ computed by the recursive calls will satisfy $A=\overline{x}\overline{y}$, $B=(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ and $C=\underline{x}\underline{y}$.
+since the numbers $\underline{x}$,$\overline{x}$, $\underline{y}$,$\overline{y}$,$\overline{x}+\underline{x}$,$\overline{y}+\underline{y}$ all have at most $m+2<n$ digits, the induction hypothesis implies that the values $A,B,C$ computed by the recursive calls will satisfy $A=\overline{x}\overline{y}$, $B=(\overline{x}+\underline{x})(\overline{y}+\underline{y})$ and $C=\underline{x}\underline{y}$.
 Plugging this into  [eqkarastubatwo](){.eqref} we see that $x\cdot y$ equals  the value $(10^{2m}-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$ computed by [karatsubaalg](){.ref}.
 :::
 
@@ -283,7 +283,7 @@ Then the formula for the matrix product of $x$ and $y$ can be expressed in the s
 This means that we can use the formula above to give an algorithm that _doubles_ the dimension of the matrices at the expense of increasing the number of operations by a factor of $8$, which for $n=2^\ell$ results in $8^\ell = n^3$ operations.
 
 
-In 1969 Volker Strassen noted that we can compute the product of a pair of two-by-two matrices using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting the following seven terms: $t_1 = (x_{0,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $t_2 = (x_{0,0}+x_{1,1})y_{0,0}$, $t_3 = x_{0,0}(y_{0,1}-y_{1,1})$, $t_4 = x_{1,1}(y_{0,1}-y_{0,0})$, $t_5 = (x_{0,0}+x_{0,1})y_{1,1}$, $t_6 = (x_{1,0}-x_{0,0})(y_{0,0}+y_{0,1})$,
+In 1969 Volker Strassen noted that we can compute the product of a pair of two-by-two matrices using only _seven_ products of numbers by observing that each entry of the matrix $xy$ can be computed by adding and subtracting the following seven terms: $t_1 = (x_{1,0}+x_{1,1})(y_{0,0}+y_{1,1})$, $t_2 = (x_{0,0}+x_{1,1})y_{0,0}$, $t_3 = x_{0,0}(y_{0,1}-y_{1,1})$, $t_4 = x_{1,1}(y_{0,1}-y_{0,0})$, $t_5 = (x_{0,0}+x_{0,1})y_{1,1}$, $t_6 = (x_{1,0}-x_{0,0})(y_{1,0}+y_{0,1})$,
 $t_7 = (x_{0,1}-x_{1,1})(y_{1,0}+y_{1,1})$.
 Indeed, one can verify that $xy = \begin{pmatrix}   t_1 + t_4 - t_5 + t_7 & t_3 + t_5 \\ t_2 +t_4 & t_1 + t_3 - t_2 + t_6 \end{pmatrix}$.
 
