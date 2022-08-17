@@ -405,7 +405,7 @@ If you haven't done so already, now might be a good time to review $O$ notation 
 
 
 Unlike [bounded-univ](){.ref}, [eff-bounded-univ](){.ref} is not a trivial corollary of the fact that every finite function can be computed by some circuit.
-Proving [bounded-univ](){.ref} requires us to present a concrete NAND-CIRC program for computing the function $EVAL_{s,n,m}$.
+Proving [eff-bounded-univ](){.ref} requires us to present a concrete NAND-CIRC program for computing the function $EVAL_{s,n,m}$.
 We will do so in several stages.
 
 1. First, we will describe the algorithm to evaluate $EVAL_{s,n,m}$ in  "pseudo code".
@@ -541,7 +541,7 @@ We saw that we can compute $LOOKUP_\ell$  in time $O(2^\ell) =  O(s)$ for our ch
 For every $\ell$, let $UPDATE_\ell:\{0,1\}^{2^\ell + \ell +1} \rightarrow \{0,1\}^{2^\ell}$ correspond to the  `UPDATE` function for arrays of length $2^\ell$.
 That is,  on input $V\in \{0,1\}^{2^\ell}$ , $i\in \{0,1\}^\ell$, $b\in \{0,1\}$, $UPDATE_\ell(V,b,i)$ is equal to $V' \in \{0,1\}^{2^\ell}$ such that
 $$
-V'_j = \begin{cases} V_j & j \neq i \\ b & j = 1 \end{cases}
+V'_j = \begin{cases} V_j & j \neq i \\ b & j = i \end{cases}
 $$
 where we identify the string $i \in \{0,1\}^\ell$ with a number in  $\{0,\ldots, 2^{\ell}-1 \}$ using the binary representation.
 We can compute $UPDATE_\ell$ using an $O(2^\ell \ell)=(s \log s)$ line NAND-CIRC program as follows:
