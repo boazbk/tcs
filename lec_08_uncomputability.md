@@ -959,7 +959,7 @@ Prove that for every $\mathcal{M}$-semantic $F:\{0,1\}^* \rightarrow \{0,1\}$ th
 
 
 ::: {.exercise title="Busy Beaver" #beaverex}
-In this question we  define the NAND-TM variant of the  busy beaver function (see Aaronson's [1999 essay](https://www.scottaaronson.com/writings/bignumbers.html), [2017 blog post](https://www.scottaaronson.com/blog/?p=3445) and 2020 survey [@aaronson20beaver]; see also Tao's [highly recommended presentation](http://tiny.cc/taoladder) on how civilization's scientific progress can be measured by the quantities we can grasp).
+In this question we  define the NAND-TM variant of the  busy beaver function (see Aaronson's [1999 essay](https://www.scottaaronson.com/writings/bignumbers.html), [2017 blog post](https://www.scottaaronson.com/blog/?p=3445) and 2020 survey [@aaronson20beaver]; see also Tao's [highly recommended presentation](https://terrytao.wordpress.com/2020/10/10/climbing-the-cosmic-distance-ladder-book-announcement/) on how civilization's scientific progress can be measured by the quantities we can grasp).
 
 1.  Let  $T_{BB}:\{0,1\}^* \rightarrow \mathbb{N}$ be defined as follows. For every string $P\in \{0,1\}^*$, if $P$ represents a NAND-TM program  such  that when $P$ is executed on the input $0$ then it halts within $M$ steps then $T_{BB}(P)=M$. Otherwise  (if $P$ does not represent a NAND-TM program, or it is a program that does not halt on $0$), $T_{BB}(P)=0$. Prove that $T_{BB}$ is uncomputable.
 
