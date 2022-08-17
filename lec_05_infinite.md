@@ -871,7 +871,7 @@ An important corollary of [dfaregequivthm](){.ref} is that this set is also clos
 If $F:\{0,1\}^* \rightarrow \{0,1\}$ is regular then so is the function $\overline{F}$, where $\overline{F}(x) = 1 - F(x)$ for every $x\in \{0,1\}^*$.
 
 ::: {.proof data-ref="regcomplementlem"}
-If $F$ is regular then by [reglintimethm](){.ref} it can be computed by a DFA $A$. But we can then construct a DFA $\overline{A}$  which does the same computation but flips the set of accepted states. The DFA \overline{A}$ will compute  $\overline{F}$.
+If $F$ is regular then by [reglintimethm](){.ref} it can be computed by a DFA $A$. But we can then construct a DFA $\overline{A}$  which does the same computation but flips the set of accepted states. The DFA $\overline{A}$ will compute  $\overline{F}$.
 By [dfaregequivthm](){.ref}  this implies that $\overline{F}$ is regular as well.
 :::
 
