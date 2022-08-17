@@ -287,7 +287,7 @@ See [xorautomatonfig](){.ref} for the graphical representation of the XOR automa
 
 
 Formally, a DFA is specified by __(1)__ the table of the $C \cdot 2$ rules, which can be represented as a _transition function_ $T$ that maps a state $s \in [C]$ and bit $\sigma \in \{0,1\}$
-to the state $s' \in [C]$ which the DFA will transition to from state $c$ on input $\sigma$ and __(2)__ the set $\mathcal{S}$ of accepting states.
+to the state $s' \in [C]$ which the DFA will transition to from state $s$ on input $\sigma$ and __(2)__ the set $\mathcal{S}$ of accepting states.
 This leads to the following definition.
 
 ::: {.definition title="Deterministic Finite Automaton" #DFAdef}
@@ -555,11 +555,11 @@ OUTPUT:  $\Phi_e(x)$
 
 procedure{Match}{$e$,$x$}
 lIf {$e=\emptyset$} return $0$ lendif
-lIf {$x=""$} return $\CALL{MatchEmpty}(e)$lendif
+lIf {$x=""$} return $\CALL{MatchEmpty}{e}$lendif
 lIf {$e \in \Sigma$} return $1$ iff $x=e$ lendif
 lIf {$e = (e' | e'')$} return {$Match(e',x)$ or $Match(e'',x)$} lendif
 If {$e= (e')(e'')$}
-   For {$i \in [|x|+1]$}
+   For {$i \in [|x|]$}
       lIf {$Match(e',x_0 \cdots x_{i-1})$ and  $Match(e'',x_i \cdots x_{|x|-1})$} return $1$ lendif
    Endfor
 Endif
@@ -607,14 +607,18 @@ We can obtain such a recursive algorithm by using the following observations:
 
 Given the above observations, we see that the following algorithm will check if $e$ matches the empty string:
 
+``` { .algorithm title="Check for empty string" #regexpmatchemptyalg }
+INPUT: Regular expression $e$ over $\Sigma^*$, $x\in \Sigma^*$
+
+OUTPUT:  $1$ iff $e$ matches the emptry string.
 procedure{MatchEmpty}{$e$}
-lIf {$e=\emptyset$} return $0$ lendif
 lIf {$e=""$} return $1$ lendif
 lIf {$e=\emptyset$ or $e \in \Sigma$} return $0$ lendif
 lIf {$e=(e'|e'')$} return $MatchEmpty(e')$ or $MatchEmpty(e'')$ lendif
-LIf {$e=(e')(r')$} return $MatchEmpty(e')$ or $MatchEmpty(e'')$ lendif
+LIf {$e=(e')(e'')$} return $MatchEmpty(e')$ and $MatchEmpty(e'')$ lendif
 lIf {$e=(e')^*$} return $1$ lendif
 endprocedure
+```
 
 :::
 
@@ -644,7 +648,7 @@ This will result in an expression for the running time of the form $T(n) = T(n-1
 
 __Restrictions of regular expressions.__  The central definition for the algorithm behind [reglintimethm](){.ref} is the notion of a _restriction_ of a regular expression.
 The idea is that for every regular expression $e$ and symbol $\sigma$ in its alphabet, it is possible to define a regular expression $e[\sigma]$ such that $e[\sigma]$ matches a string $x$ if and only if $e$ matches the string $x\sigma$. 
-For example, if $e$ is the regular expression $01|(01)*(01)$ (i.e., one or more occurrences of $01$) then $e[1]$ is equal to  $0|(01)*0$ and $e[0]$ will be $\emptyset$. (Can you see why?)
+For example, if $e$ is the regular expression $(01)*(01)$ (i.e., one or more occurrences of $01$) then $e[1]$ is equal to  $(01)*0$ and $e[0]$ will be $\emptyset$. (Can you see why?)
 
 
 [regexprestrictionalg](){.ref} computes the resriction $e[\sigma]$ given a regular expression $e$ and an alphabet symbol $\sigma$.
@@ -761,7 +765,7 @@ INPUT: Regular expression $e$ over $\Sigma^*$, $x\in \Sigma^n$ where $n\in\N$
 OUTPUT:  $\Phi_e(x)$
 
 procedure{DFAMatch}{$e$,$x$}
-Let $S \leftarrow S(e)$ be the set $\{ e[\alpha] | \alpha\in \{0,1\}^* \}$ as defined in the proof of [reglintimethm](){.ref}.
+Let $S \leftarrow S(e)$ be the set $\{ e[\alpha] | \alpha\in \{0,1\}^* \}$ as defined in the proof of the linear-time matching theorem.
 For {$e' \in S$}
     Let $v_{e'} \leftarrow 1$ -if $\Phi_{e'}("")=1$ and $v_{e'} \leftarrow 0$ otherwise
 endfor
@@ -777,11 +781,11 @@ endprocedure
 
 ::: {.proof data-ref="DFAforREGthm"}
 [regexpmatchdfaalg](){.ref} checks if a given string $x\in \Sigma^*$ is matched by the regular expression $e$.
-For every regular expression $e$, this algorithm has a constant number  $2|S(e)|$ Boolean variables ($v_{e'}, last_{e'}$ for $e' \in S(e)$),
-and it makes a single pass over the input string.
+For every regular expression $e$, this algorithm has a constant number of Boolean variables (specifically a variable $v_{e'}$ for every $e' \in S(e)$ and a variable $last_{e'}$ for every $e'$ in $S(e)$, using the fact that $e'[x_i]$ is in $S(e)$ for every $e'\in S(e)$). 
+It makes a single pass over the input string.
 Hence it corresponds to a DFA.
 We prove its correctness by induction on the length $n$ of the input.
-Specifically, we will argue that before reading the $i$-th bit of $x$, the variable $v_{e'}$ is equal to $\Phi_{e'}(x_0 \cdots x_{i-1})$ for every $e' \in S(e)$.
+Specifically, we will argue that before reading $x_i$, the variable $v_{e'}$ is equal to $\Phi_{e'}(x_0 \cdots x_{i-1})$ for every $e' \in S(e)$.
 In the case $i=0$ this holds since we initialize $v_{e'} = \Phi_{e'}("")$ for all $e' \in S(e)$.
 For $i>0$ this holds by induction since the inductive hypothesis implies that $last_e' = \Phi_{e'}(x_0 \cdots x_{i-2})$ for all $e' \in S(e)$ and by the definition of the set $S(e')$, for every $e' \in S(e)$ and $x_{i-1} \in \Sigma$, $e'' = e'[x_{i-1}]$ is in $S(e)$ and 
 $\Phi_{e'}(x_0 \cdots x_{i-1}) = \Phi_{e''}(x_0 \cdots x_i)$.
@@ -830,7 +834,7 @@ Therefore in this case $F^0_{v,w}$ corresponds to one of the four regular expres
 
 
 __Inductive step:__ Now that we've seen the base case, let us prove the general case by induction.
-Assume, via the induction hypothesis, that for every $v',w' \in [C]$, we have a regular expression $R_{v,w}^t$ that computes $F_{v',w'}^t$.
+Assume, via the induction hypothesis, that for every $v',w' \in [C]$, we have a regular expression $R_{v',w'}^t$ that computes $F_{v',w'}^t$.
 We need to prove that $F_{v,w}^{t+1}$ is regular for every $v,w$.
 If the automaton arrives from $v$ to $w$ using the intermediate states $[t+1]$, then it visits the $t$-th state zero or more times.
 If the path labeled by $x$ causes the automaton to get from $v$ to $w$ without visiting the $t$-th state at all, then $x$ is matched by the regular expression $R_{v,w}^t$.
@@ -867,7 +871,7 @@ An important corollary of [dfaregequivthm](){.ref} is that this set is also clos
 If $F:\{0,1\}^* \rightarrow \{0,1\}$ is regular then so is the function $\overline{F}$, where $\overline{F}(x) = 1 - F(x)$ for every $x\in \{0,1\}^*$.
 
 ::: {.proof data-ref="regcomplementlem"}
-If $F$ is regular then by [reglintimethm](){.ref} it can be computed by a DFA $A=(T,\mathcal{A})$ with some $C$ states. But then the DFA $\overline{A}=(T,[C] \setminus \mathcal{A})$ which does the same computation but where flips the set of accepted states will compute  $\overline{F}$.
+If $F$ is regular then by [reglintimethm](){.ref} it can be computed by a DFA $A$. But we can then construct a DFA $\overline{A}$  which does the same computation but flips the set of accepted states. The DFA \overline{A}$ will compute  $\overline{F}$.
 By [dfaregequivthm](){.ref}  this implies that $\overline{F}$ is regular as well.
 :::
 
@@ -935,7 +939,7 @@ Like all induction proofs, this will be somewhat lengthy, but at the end of the 
 
 Our inductive hypothesis is that for an $n$ length expression,  $n_0=2n$ satisfies the conditions of the lemma.
 The __base case__ is when the expression is a single symbol $\sigma \in \Sigma$ or that the expression is $\emptyset$ or $""$.
-In all these cases the conditions of the lemma are satisfied simply because there $n_0=2$ and there is no string $x$ of length larger than $n_0$ that is matched by the expression.
+In all these cases the conditions of the lemma are satisfied simply because $n_0=2$, and there exists no string $x$ of length larger than $n_0$ that is matched by the expression.
 
 We now prove the __inductive step__.   Let $e$ be a regular expression with $n>1$ symbols.
 We set $n_0=2n$ and let $w\in \Sigma^*$ be a string satisfying $|w|>n_0$.
@@ -948,11 +952,11 @@ If $e'$ matches $w$ then, since $|w|>2|e'|$, by the induction hypothesis there e
 
 In the case __(b)__, if $w$ is matched by $(e')(e'')$ then we can write $w=w'w''$ where $e'$ matches $w'$ and $e''$ matches $w''$.
 We split to subcases.
-If $|w'|>2|e'|$ then by the induction hypothesis there exist $x,y,z'$ with $|y| \leq 1$, $|xy| \leq 2|e'| < n_0$ such that $w'=xyz'$ and $e'$ matches $xy^kz'$ for every $k\in \N$.
+If $|w'|>2|e'|$ then by the induction hypothesis there exist $x,y,z'$ with $|y| \geq 1$, $|xy| \leq 2|e'| < n_0$ such that $w'=xyz'$ and $e'$ matches $xy^kz'$ for every $k\in \N$.
 This completes the proof since if we set $z=z'w''$ then we see that $w=w'w''=xyz$ and $e=(e')(e'')$ matches $xy^kz$ for every $k\in \N$.
 Otherwise, if $|w'| \leq 2|e'|$ then since $|w|=|w'|+|w''|>n_0=2(|e'|+|e''|)$, it must be that  $|w''|>2|e''|$.
 Hence by the induction hypothesis there exist $x',y,z$ such that $|y| \geq 1$, $|x'y| \leq 2|e''|$ and $e''$ matches $x'y^kz$ for every $k\in \N$.
-But now if we set $x=w'x'$ we see that $|xy| \leq |w'| + |x'y| \leq 2|e'| + 2|e''| =n_0$ and on the other hand  the expression $e=(e')(e'')$ matches $xy^kz = w'x'y^kz$ for every $k\in \N$.
+But now if we set $x=w'x'$ we see that $|xy| = |w'| + |x'y| \leq 2|e'| + 2|e''| =n_0$ and on the other hand  the expression $e=(e')(e'')$ matches $xy^kz = w'x'y^kz$ for every $k\in \N$.
 
 In case __(c)__, if $w$ is matched by $(e')^*$ then $w= w_0\cdots w_t$ where for every $i\in [t]$, $w_i$ is a nonempty string matched by $e'$.
 If $|w_0|>2|e'|$, then we can use the same approach as in the concatenation case above.
@@ -969,7 +973,7 @@ Using the pumping lemma, we can easily prove [regexpparn](){.ref} (i.e., the non
 ::: {.proof data-ref="regexpparn"}
 Suppose, towards the sake of contradiction, that there is an expression $e$ such that $\Phi_{e}= MATCHPAREN$.
 Let $n_0$ be the number obtained from  [pumping](){.ref} and let
-$w =\langle^{n_0}\rangle^{n_0}$ (i.e., $n_0$ left parenthesis followed by $n_0$ right parenthesis). Then we see that if we write $w=xyz$ as in [regexpparn](){.ref}, the condition $|xy| \leq n_0$ implies that $y$ consists solely of left parenthesis. Hence the string $xy^2z$ will contain more left parenthesis than right parenthesis.
+$w =\langle^{n_0}\rangle^{n_0}$ (i.e., $n_0$ left parenthesis followed by $n_0$ right parenthesis). Then we see that if we write $w=xyz$ as in [pumping](){.ref}, the condition $|xy| \leq n_0$ implies that $y$ consists solely of left parenthesis. Hence the string $xy^2z$ will contain more left parenthesis than right parenthesis.
 Hence $MATCHPAREN(xy^2z)=0$ but by the pumping lemma $\Phi_{e}(xy^2z)=1$, contradicting our assumption that $\Phi_{e}=MATCHPAREN$.
 :::
 
