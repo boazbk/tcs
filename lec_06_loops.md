@@ -343,8 +343,9 @@ def M(Tape):
         # based on current state and cell at head
         # below are just examples for how program looks for a particular transition function
         if Tape[i]=="0" and state==7: # δ_M(7,"0")=(19,"1","R")
-            i += 1
             Tape[i]="1"
+            i += 1
+
             state = 19
         elif Tape[i]==">" and state == 13: # δ_M(13,">")=(15,"0","S")
             Tape[i]="0"
@@ -369,7 +370,7 @@ To do so, we extend the NAND-CIRC programming language with two constructs:
 
 * _Arrays_: A NAND-CIRC program of $s$ lines touches at most $3s$ variables. While we can use variables with names such as  `Foo_17` or `Bar[22]` in NAND-CIRC, they are not true arrays, since the number in the identifier is a constant that is "hardwired" into the program. NAND-TM contains actual arrays that can have a length that is not a priori bounded.
 
-![A NAND-TM program has _scalar_ variables that can take a Boolean value, _array_ variables that hold a sequence of Boolean values, and a special _index_ variable `i` that can be used to index the array variables. We refer to the `i`-th value of the array variable `Spam` using `Spam[i]`. At each iteration of the program the index variable can be incremented or decremented by one step using the `MODANDJMP` operation.](../figure/nandtmprog.png){#nandtmfig}
+![A NAND-TM program has _scalar_ variables that can take a Boolean value, _array_ variables that hold a sequence of Boolean values, and a special _index_ variable `i` that can be used to index the array variables. We refer to the `i`-th value of the array variable `Spam` using `Spam[i]`. At each iteration of the program the index variable can be incremented or decremented by one step using the `MODANDJUMP` operation.](../figure/nandtmprog.png){#nandtmfig}
 
 Thus a good way to remember NAND-TM is using the following informal equation:
 
@@ -417,13 +418,13 @@ The output of a NAND-TM program is the string `Y[`$0$`]`, $\ldots$, `Y[`$m-1$`]`
 Formally, NAND-TM programs are defined as follows:
 
 ::: {.definition title="NAND-TM programs" #NANDTM}
-A _NAND-TM program_ consists of a sequence of lines of the form `foo = NAND(bar,blah)` ending with a line  of the form `MODANDJMP(foo,bar)`, where `foo`,`bar`,`blah` are either _scalar variables_ (sequences of letters, digits, and underscores) or _array variables_ of the form `Foo[i]` (starting with capital letters and indexed by `i`). The program has the array variables `X`, `X_nonblank`, `Y`, `Y_nonblank` and the index variable `i` built in, and can use additional array and scalar variables.
+A _NAND-TM program_ consists of a sequence of lines of the form `foo = NAND(bar,blah)` ending with a line  of the form `MODANDJUMP(foo,bar)`, where `foo`,`bar`,`blah` are either _scalar variables_ (sequences of letters, digits, and underscores) or _array variables_ of the form `Foo[i]` (starting with capital letters and indexed by `i`). The program has the array variables `X`, `X_nonblank`, `Y`, `Y_nonblank` and the index variable `i` built in, and can use additional array and scalar variables.
 
 If $P$ is a NAND-TM program and $x\in \{0,1\}^*$ is an input then an execution of $P$ on $x$ is the following process:
 
 1. The arrays `X` and `X_nonblank` are initialized by `X[`$i$`]`$=x_i$ and `X_nonblank[`$i$`]`$=1$ for all $i\in [|x|]$. All other variables and cells are initialized to $0$. The index variable `i` is also initialized  to $0$.
 
-2. The program is executed line by line. When the last line `MODANDJMP(foo,bar)` is executed we do as follows:
+2. The program is executed line by line. When the last line `MODANDJUMP(foo,bar)` is executed we do as follows:
 
    a. If `foo`$=1$ and `bar`$=0$, jump to the first line without modifying the value of `i`.
 
@@ -573,25 +574,24 @@ We can encode its components as follows:
 
 Hence we can identify $\delta_M$ with a function $\overline{M}:\{0,1\}^{\ell+\ell'}  \rightarrow \{0,1\}^{\ell+\ell'+2}$, mapping strings of length $\ell+\ell'$ to strings of length $\ell+\ell'+2$.
 By [NAND-univ-thm](){.ref} there exists a finite length NAND-CIRC program `ComputeM` that computes this function $\overline{M}$.
-The NAND-TM program to simulate $M$ will essentially be the following:
+The idea behind the NAND-TM program to simulate $M$ is to:
 
-``` {.algorithm title="NAND-TM program to simulate TM $M$" #simMwithNANDTMarg}
-INPUT: $x\in \{0,1\}^*$
-OUTPUT: $M(x)$ -if $M$ halts on $x$. Otherwise go into infinite loop
+1. Use variables `state_`$0$ $\ldots$ `state_`$\ell-1$ to encode $M$'s state.
 
-# We use variables `state_`$0$ $\ldots$ `state_`$\ell-1$ to encode $M$'s state
-# We use arrays `Tape_`$0$`[]` $\ldots$ `Tape_`$\ell'-1$`[]` to encode $M$'s tape
-# We omit the initial and final "book keeping" to copy input to `Tape` and copy output from `Tape`
+2. Use arrays `Tape_`$0$`[]` $\ldots$ `Tape_`$\ell'-1$`[]` to encode $M$'s tape.
 
-# Use the fact that transition is finite and computable by NAND-CIRC program:
+3. Use the fact that transition is finite and computable by NAND-CIRC program.
+
+Given the above, we can write code of the form:
+
+
 `state_`$0$ $\ldots$ `state_`$\ell-1$, `Tape_`$0$`[i]`$\ldots$ `Tape_`$\ell'-1$`[i]`, `dir0`,`dir1` $\leftarrow$ `TRANSITION(` `state_`$0$ $\ldots$ `state_`$\ell-1$, `Tape_`$0$`[i]`$\ldots$ `Tape_`$\ell'-1$`[i]`, `dir0`,`dir1` `)`
 
-`MODANDJMP(dir0,dir1)`
-```
+`MODANDJUMP(dir0,dir1)`
 
 Every step of the main loop of the above program perfectly mimics the computation of the Turing machine $M$, and so the program carries out exactly the definition of computation by a Turing machine as per [TM-def](){.ref}.
 
-For the other direction, suppose that $P$ is a NAND-TM program with $s$ lines, $\ell$ scalar variables, and $\ell' $ array variables. We will show that there exists a Turing machine $M_P$ with $2^\ell+C$ states and alphabet $\Sigma$ of size $C' + 2^{\ell'}$ that computes the same functions as $P$ (where $C$, $C' $ are some constants to be determined later).
+For the other direction, suppose that $P$ is a NAND-TM program with $s$ lines, $\ell$ scalar variables, and $\ell' $ array variables. We will show that there exists a Turing machine $M_P$ with $2^\ell+C$ states and alphabet $\Sigma$ of size $C' + 2^{\ell'}$ that computes the same functions as $P$ (where $C$, $C'$ are some constants to be determined later).
 
 Specifically, consider the function $\overline{P}:\{0,1\}^\ell \times \{0,1\}^{\ell'} \rightarrow \{0,1\}^\ell \times \{0,1\}^{\ell'}$ that on input the contents of $P$'s scalar variables and the contents of the array variables at location `i` in the beginning of an iteration, outputs all the new values of these variables at the last line of the iteration, right before the `MODANDJUMP` instruction is executed.
 
@@ -602,9 +602,9 @@ The overall operation of the Turing machine will be as follows:
 1. The machine $M_P$ encodes the contents of the array variables of $P$ in its tape and the contents of the scalar variables in (part of) its state. Specifically, if $P$ has $\ell$ local variables and $t$ arrays, then the state space of $M$ will be large enough to encode all $2^\ell$ assignments to the local variables, and the alphabet $\Sigma$ of $M$ will be large enough to encode all $2^t$ assignments for the array variables at each location. The head location corresponds to the index variable `i`.
 
 
-2. Recall that every line of the program $P$ corresponds to reading and writing either a scalar variable, or an array variable at the location `i`. In one iteration of $P$ the value of `i` remains fixed, and so the machine $M$ can simulate this iteration by reading the values of all array variables at `i` (which are encoded by the single symbol in the alphabet $\Sigma$  located at the `i`-th cell of the tape) , reading the values of all scalar variables (which are encoded by the state), and updating both. The transition function of $M$ can output $\mathsf{L},\mathsf{S},\mathsf{R}$ depending on whether the values given to the `MODANDJMP` operation are $01$, $10$ or $11$ respectively.
+2. Recall that every line of the program $P$ corresponds to reading and writing either a scalar variable, or an array variable at the location `i`. In one iteration of $P$ the value of `i` remains fixed, and so the machine $M$ can simulate this iteration by reading the values of all array variables at `i` (which are encoded by the single symbol in the alphabet $\Sigma$  located at the `i`-th cell of the tape) , reading the values of all scalar variables (which are encoded by the state), and updating both. The transition function of $M$ can output $\mathsf{L},\mathsf{S},\mathsf{R}$ depending on whether the values given to the `MODANDJUMP` operation are $01$, $10$ or $11$ respectively.
 
-3. When the program halts (i.e., `MODANDJMP` gets $00$) then the Turing machine will enter into a special loop to copy the results of the `Y` array into the output and then halt. We can achieve this by adding a few more states.
+3. When the program halts (i.e., `MODANDJUMP` gets $00$) then the Turing machine will enter into a special loop to copy the results of the `Y` array into the output and then halt. We can achieve this by adding a few more states.
 
 The above is not a full formal description of a Turing machine, but our goal is just to show that such a machine exists. One can see that $M_P$ simulates every step of $P$, and hence computes the same function as $P$.
 :::
@@ -828,7 +828,7 @@ Prove that the following functions are computable. For all of these functions, y
 ::: {.exercise title="Two index NAND-TM" #twoindexex}
 Define NAND-TM' to be the variant of NAND-TM where there are _two_ index variables `i` and `j`.
 Arrays can be indexed by either `i` or `j`.
-The operation `MODANDJMP` takes four variables $a,b,c,d$ and uses the values of $c,d$ to decide whether to increment `j`, decrement `j` or keep it in the same value (corresponding to $01$, $10$, and $00$ respectively).
+The operation `MODANDJUMP` takes four variables $a,b,c,d$ and uses the values of $c,d$ to decide whether to increment `j`, decrement `j` or keep it in the same value (corresponding to $01$, $10$, and $00$ respectively).
 Prove that for every function $F:\{0,1\}^* \rightarrow \{0,1\}^*$, $F$ is computable by a NAND-TM program if and only if $F$ is computable by a NAND-TM' program.
 :::
 
