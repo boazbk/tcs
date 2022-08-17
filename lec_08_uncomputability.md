@@ -258,7 +258,7 @@ It is not often the case that a few lines of mathematical reasoning establish a 
 
 The type of argument used to prove [uncomputable-func](){.ref} is known as _diagonalization_ since it can be described as defining a function based on the diagonal entries of a table as in [diagonal-fig](){.ref}.
 The proof can be thought of as an infinite version of the _counting_ argument we used for showing lower bound for NAND-CIRC programs in [counting-lb](){.ref}.
-Namely, we show that it's not possible to compute all functions from $\{0,1\}^* \rightarrow \{0,1\}$ by Turing machines simply because there are more functions like that then there are Turing machines.
+Namely, we show that it's not possible to compute all functions from $\{0,1\}^* \rightarrow \{0,1\}$ by Turing machines simply because there are more functions like that than there are Turing machines.
 
 
 As mentioned in [decidablelanguagesrem](){.ref}, many texts use the "language" terminology and so will call a set $L \subseteq \{0,1\}^*$ an  [_undecidable_](https://goo.gl/3YvQvL)  or _non-recursive_ language if the function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F(x)=1 \leftrightarrow x\in L$ is uncomputable.
