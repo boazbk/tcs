@@ -244,7 +244,7 @@ On the other hand, by the definition of $F^*$, since $x$ is the representation o
 $F^*(x) = 1 - G(x) = 1 - M(x)$,   hence yielding a contradiction.
 :::
 
-![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig   }
+![We construct an uncomputable function by defining for every two strings $x,y$ the value $1-M_y(x)$ which equals $0$ if the machine described by $y$ outputs $1$ on $x$, and $1$ otherwise.  We then define $F^*(x)$ to be the "diagonal" of this table, namely $F^*(x)=1-M_x(x)$ for every $x$. The function $F^*$ is uncomputable, because if it was computable by some machine whose string description is $x^*$ then we would get that $M_{x^*}(x^*)=F^*(x^*)=1-M_{x^*}(x^*)$.](../figure/diagonal_proof.png){#diagonal-fig   }
 
 
 ::: { .bigidea #uncomputablefunctions}
@@ -261,7 +261,7 @@ The proof can be thought of as an infinite version of the _counting_ argument we
 Namely, we show that it's not possible to compute all functions from $\{0,1\}^* \rightarrow \{0,1\}$ by Turing machines simply because there are more functions like that then there are Turing machines.
 
 
-As mentioned in [decidablelanguagesrem](){.ref}, many texts use the "language" terminology and so will call a set $L \subseteq \{0,1\}^*$ an  [_undecidable_](https://goo.gl/3YvQvL)  or _non-recursive_ language if the function $F:\{0,1\}^* :\rightarrow \{0,1\}$ such that $F(x)=1 \leftrightarrow x\in L$ is uncomputable.
+As mentioned in [decidablelanguagesrem](){.ref}, many texts use the "language" terminology and so will call a set $L \subseteq \{0,1\}^*$ an  [_undecidable_](https://goo.gl/3YvQvL)  or _non-recursive_ language if the function $F:\{0,1\}^* \rightarrow \{0,1\}$ such that $F(x)=1 \leftrightarrow x\in L$ is uncomputable.
 
 
 ## The Halting problem {#haltingsec }
@@ -481,7 +481,7 @@ We will see several examples of such results in this chapter and the exercises, 
 The idea behind such uncomputability results is conceptually simple but can at first be quite confusing.
 If we know that $HALT$ is uncomputable, and we want to show that some other function $BLAH$ is uncomputable, then we can do so via a _contrapositive_ argument (i.e., proof by contradiction).
 That is, we show that __if__ there exists a Turing machine that computes $BLAH$ __then__ there exists a Turing machine that computes $HALT$.
-(Indeed, this is exactly how we showed that $HALT$ itself is uncomputable, by reducing this fact to the uncomputability of the function $F^*$ from [uncomputable-func](){.ref}.)
+(Indeed, this is exactly how we showed that $HALT$ itself is uncomputable, by deriving this fact from the uncomputability of the function $F^*$ of [uncomputable-func](){.ref}.)
 
 For example, to prove that $BLAH$ is uncomputable,  we could show that there is a computable function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ such that for every pair $M$ and $x$, $HALT(M,x)=BLAH(R(M,x))$.
 The existence of such a function $R$ implies that __if__ $BLAH$ was computable __then__ $HALT$ would be computable as well, hence leading to a contradiction!
@@ -502,9 +502,9 @@ A reduction is an _algorithm_, which means that, as discussed in [implspecanarem
 
 * __Specification (what):__ In the case of a reduction from $HALT$ to $BLAH$, the specification is that function $R:\{0,1\}^* \rightarrow \{0,1\}^*$ should satisfy that $HALT(M,x)=BLAH(R(M,x))$ for every Turing machine $M$ and input $x$. In general, to reduce a function $F$ to $G$, the reduction should satisfy $F(w)=G(R(w))$ for every input $w$ to $F$.
 
-* __Implementation (how):__ The algorithm's description: the precise instructions how to transform an input $w$ to the output $R(w)$.
+* __Implementation (how):__ The algorithm's description: the precise instructions how to transform an input $w$ to the output $y=R(w)$.
 
-* __Analysis (why):__ A _proof_ that the algorithm meets the specification. In particular, in a reduction from $F$ to $G$ this is a proof that for every input $w$, the output $y$ of the algorithm satisfies that $F(w)=G(y)$.
+* __Analysis (why):__ A _proof_ that the algorithm meets the specification. In particular, in a reduction from $F$ to $G$ this is a proof that for every input $w$, the output $y=R(w)$ of the algorithm satisfies that $F(w)=G(y)$.
 :::
 
 
@@ -582,9 +582,8 @@ Thus if the hypothetical algorithm $A$ satisfies $A(M)=HALTONZERO(M)$ for every 
 
 
 > ### {.remark title="The hardwiring technique" #hardwiringrem}
-In the proof of [haltonzero-thm](){.ref} we used the technique of  "hardwiring" an input  $x$ to a program/machine $P$.
-That is, modifying a program $P$ that it uses "hardwired constants" for some of all of its input.
-This technique is quite common in reductions and elsewhere, and we will often use it again in this course.
+In the proof of [haltonzero-thm](){.ref} we used the technique of  "hardwiring" an input  $x$ to a program/machine $P$. That is, we take a program that computes the function $x \mapsto f(x)$ and "fix" or "hardwire" some of the inputs to some constant value.  For example, if you have a program that takes as input a pair of numbers $x,y$ and outputs their product (i.e., computes the function $f(x,y) =x\times y$), then you can "hardwire" the second input to be $17$  and obtain a program that takes as input a number $x$ and outputs $x\times 17$ (i.e., computes the function $g(x) = x\times 17$). 
+This technique is quite common in reductions and elsewhere, and we will use it time and again in this book.
 
 
 
@@ -843,7 +842,7 @@ The field of _software verification_ is concerned with verifying that given prog
 These conditions can be that the program computes a certain function, that it never writes into a dangerous memory location, that is respects certain invariants, and others.
 While the general tasks of verifying this may be uncomputable, researchers have managed to do so for many interesting cases, especially if the program is written in the first place in a formalism or programming language that makes verification easier.
 That said, verification, especially of large and complex programs, remains a highly challenging task in practice as well, and the number of programs that have been formally proven correct is still quite small.
-Moreover, even phrasing the right theorem to prove (i.e., the specification) if often a highly non-trivial endeavor.
+Moreover, even phrasing the right theorem to prove (i.e., the specification) is often a highly non-trivial endeavor.
 
 ![The set $\mathbf{R}$ of computable Boolean functions ([classRdef](){.ref}) is a proper subset of the set of all functions mapping $\{0,1\}^*$ to $\{0,1\}$. In this chapter we saw a few examples of elements in the latter set that are not in the former.](../figure/inclusion_noncomputable.png){#inclusionuncomputablefig .class  }
 
@@ -972,7 +971,7 @@ Prove that $NBB$ grows _faster_ than $TOWER$, in the sense that $TOWER(n) = o(NB
 
 ## Bibliographical notes { #uncomputablebibnotes }
 
-The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} and taken from [Charles Cooper's website](https://www.coopertoons.com/education/haltingproblem/haltingproblem.html).
+The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} and taken from [Charles Cooper's website](https://www.coopertoons.com/education/haltingproblem/haltingproblem.html), Copyright 2019 Charles F. Cooper.
 
 Section 7.2 in [@MooreMertens11] gives a highly recommended overview of uncomputability.
 Gödel, Escher, Bach [@hofstadter1999] is a classic popular science book that touches on uncomputability, and unprovability, and specifically Gödel's Theorem that we will see in [godelchap](){.ref}.
@@ -1007,5 +1006,3 @@ It is typically stated in a form somewhat different than what we used, see [rice
 
 We do not discuss in the chapter the concept of _recursively enumerable_ languages, but it is covered briefly in [recursiveenumerableex](){.ref}.
 As usual, we use function, as opposed to language, notation.
-
-The cartoon of the Halting problem in [universalchapoverviewfig](){.ref} is copyright 2019 Charles F. Cooper.
