@@ -248,7 +248,7 @@ runs in polynomial time.
 
 Let $R$ be the function computed by [zerooneeqreduction](){.ref}. The heart of the proof is to show that for every 3CNF $\varphi$, $01EQ(R(\varphi)) = 3SAT(\varphi)$.
 We split the proof into two parts.
-The first part, traditionally known as the __completeness__ property, is to show that if $3SAT(\varphi)=1$ then $O1EQ(R(\varphi))=1$.
+The first part, traditionally known as the __completeness__ property, is to show that if $3SAT(\varphi)=1$ then $01EQ(R(\varphi))=1$.
 The second part, traditionally known as the __soundness__ property, is to show that if $01EQ(R(\varphi))=1$ then $3SAT(\varphi)=1$.
 (The names "completeness" and "soundness"  derive viewing a solution to $R(\varphi)$ as a "proof" that $\varphi$ is satisfiable, 
 in which case these conditions corresponds to completeness and soundness as defined in  [#godelproofsystemssec](){.ref}. 
@@ -318,7 +318,7 @@ INPUT: Set $E$ of linear equations over $n$ variables $x_0,\ldots,x_{n-1}$.
 
 OUTPUT: Set $E'$ of quadratic eqations ovar $m$ variables $w_0,\ldots,w_{m-1}$ such that there is an $0/1$ assignment $x\in \{0,1\}^n$
 satisfying the equations of $E$ -iff there is an assignment $w \in \R^m$ satisfying the equations of $E'$.
-That is, $O1EQ(E) = QUADEQ(E')$.
+That is, $01EQ(E) = QUADEQ(E')$.
 
 Let $m \leftarrow n$.
 Variables of $E'$ are set to be same variable $x_0,\ldots, x_{n-1}$ as $E$.
@@ -427,7 +427,7 @@ This completes the proof of the completeness condition.
 
 __Part 2: Soundness.__ The "soundness" direction is to show that if $G$ has an independent set $S^*$ of $m$ vertices, then $\varphi$ has a satisfying assignment $x^* \in \{0,1\}^n$. Let us now show this.
 
-Indeed, suppose that $G$ has an independent set $S*$ with $m$ vertices.
+Indeed, suppose that $G$ has an independent set $S^*$ with $m$ vertices.
 We will define an assignment $x^* \in \{0,1\}^n$  for the variables of $\varphi$ as follows. For every $i\in [n]$, we set $x^*_i$ according to the following rules:
 
 * If $S^*$ contains a vertex of the form $(C,x_i)$ then we set $x^*_i=1$.
@@ -476,6 +476,8 @@ are in the set $\overline{S} = V \setminus S$, and vice versa.
 In other words, $S$ is a vertex cover if and only if $\overline{S}$ is an independent set.
 Since the size of $\overline{S}$ is $|V|-|S|$, we see that the polynomial-time map $R(G,k)=(G,n-k)$ (where $n$ is the number of vertices of $G$) satisfies that $VC(R(G,k))= ISET(G,k)$ which means that it is a reduction from independent set to vertex cover.
 :::
+
+
 
 
 
@@ -619,7 +621,7 @@ A reduction consists of four parts:
 
   
 
-  * __Soundness:__ This is the condition that if $F(x)=0$ then $G(R(x))=0$ or (taking the contrapositive) if $G(R(x))=1$ then $F(x)=1$. This is sometimes straightforward but can often be  harder to show than the completeness condition, and in more advanced reductions (such as the reduction $SAT \leq_p ISET$ of [isetnpc](){.ref}) demonstrating soundness is the main part of the analysis.
+  * __Soundness:__ This is the condition that if $F(x)=0$ then $G(R(x))=0$ or (taking the contrapositive) if $G(R(x))=1$ then $F(x)=1$. This is sometimes straightforward but can often be  harder to show than the completeness condition, and in more advanced reductions (such as the reduction $3SAT \leq_p ISET$ of [isetnpc](){.ref}) demonstrating soundness is the main part of the analysis.
   For example, in [dominatingsetex](){.ref} to show soundness we needed to show that for _every_ dominating set $D$ in the graph $H$, there exists a vertex cover $S$ of size at most $|D|-\ell$ in the graph $G$ (where $\ell$ is the number of isolated vertices).
   This was challenging since the dominating set $D$ might not be necessarily the one we "had in mind".
   In particular, in the proof above we needed to modify $D$ to ensure that it does not contain vertices of the form $w_{u,v}$, and it was important to show that this modification still maintains the property that $D$ is a dominating set, and also does not make it bigger.
