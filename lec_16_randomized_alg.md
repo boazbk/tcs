@@ -221,7 +221,7 @@ For example, we will see in [maxcutex](){.ref} that there is in fact a determini
 We will discuss this question in generality   in  [chapmodelrand](){.ref}.
 For now, let us see a couple of examples where randomization leads to algorithms that are better in some sense than the known deterministic algorithms.
 
-### Solving SAT through randomization
+## Solving SAT through randomization
 
 The 3SAT problem is $\mathbf{NP}$ hard, and so it is unlikely that it has a polynomial (or even subexponential) time algorithm.
 But this does not mean that we can't do at least somewhat better than the trivial $2^n$  algorithm for $n$-variable 3SAT.
@@ -275,7 +275,7 @@ __Claim 2:__ With probability at least $1/2$ over a random $x\in \{0,1\}^n$, $\D
 __Proof of Claim II:__ Consider the map $FLIP:\{0,1\}^n \rightarrow \{0,1\}^n$ that simply "flips" all the bits of its input from $0$ to $1$ and vice versa. That is,  $FLIP(x_0,\ldots,x_{n-1}) = (1-x_0,\ldots,1-x_{n-1})$.
 Clearly $FLIP$ is one to one. Moreover, if $x$ is of distance $k$ to $x^*$, then $FLIP(x)$ is distance $n-k$ to $x^*$.
 Now let $B$ be the "bad event" in which $x$ is of distance $>n/2$ from $x^*$.
-Then the set $A = FLIP(B) = \{ FLIP(x) \;:\; x\in \{0,1\}^n \}$ satisfies $|A|=|B|$ and that if $x\in A$ then $x$ is of distance $<n/2$ from $x^*$.
+Then the set $A = FLIP(B) = \{ FLIP(x) \;:\; x\in B \}$ satisfies $|A|=|B|$ and that if $x\in A$ then $x$ is of distance $<n/2$ from $x^*$.
 Since $A$ and $B$ are disjoint events, $\Pr[A] + \Pr[B] \leq 1$. Since they have the same cardinality, they have the same probability and so we get that $2\Pr[B] \leq 1$ or $\Pr[B] \leq 1/2$. (See also [flipaanalysisfig](){.ref}).
 
 
@@ -288,7 +288,7 @@ Since any single iteration of the outer loop succeeds with probability at least 
 
 ![For every $x^* \in \{0,1\}^n$, we can sort all strings in $\{0,1\}^n$ according to their distance from $x^*$ (top to bottom in the above figure), where we let $A = \{ x\in \{0,1\}^n \;|\; dist(x,x^* \leq n/2 \}$ be the "top half" of strings. If we define $FLIP:\{0,1\}^n \rightarrow \{0,1\}$ to be the map that "flips" the bits of a given string $x$ then it maps every $x\in \overline{A}$ to an output $FLIP(x)\in A$ in a one-to-one way, and so it demonstrates that $|\overline{A}| \leq |A|$ which implies that $\Pr[A] \geq \Pr[\overline{A}]$ and hence $\Pr[A] \geq 1/2$.](../figure/flipaanalysis.png){#flipaanalysisfig .margin  }
 
-### Bipartite matching
+## Bipartite matching
 
 The _matching_ problem is one of the canonical optimization problems, arising in all kinds of applications: matching residents with hospitals, kidney donors with patients, flights with crews, and many others.
 One prototypical variant is _bipartite perfect matching_.
@@ -314,16 +314,15 @@ $$
 P(x_{0,0},\ldots,x_{n-1,n-1}) = \sum_{\pi \in S_n} \left( \prod_{i=0}^{n-1} sign(\pi)A_{i,\pi(i)} \right) \prod_{i=0}^{n-1} x_{i,\pi(i)} \label{matchpolyeq}
 $$
 Then $G$ has a perfect matching if and only if $P$ is not identically zero.
-That is, $G$ has a perfect matching if and only if there exists some assignment $x=(x_{i,j})_{i,j\in [n]} \in \R^{n^2}$ such that $P(x) \neq 0$.^[The [sign](https://goo.gl/ELnXhq) of a permutation $\pi:[n] \rightarrow [n]$, denoted by $sign(\pi)$, can be defined in several equivalent ways, one of which is that $sign(\pi)=(-1)^{INV(\pi)}$ where $INV(pi)=|\{(x,y) \in [n] \;|\; x<y \; \wedge \; \pi(x)>\pi(y)\}$ (i.e., $INV(\pi)$ is the number of pairs of elements that are _inverted_ by $\pi$). The importance of the term $sign(\pi)$ is that it makes $P$ equal to the _determinant_ of the matrix $(x_{i,j})$ and hence efficiently computable.]
+That is, $G$ has a perfect matching if and only if there exists some assignment $x=(x_{i,j})_{i,j\in [n]} \in \R^{n^2}$ such that $P(x) \neq 0$.^[The [sign](https://goo.gl/ELnXhq) of a permutation $\pi:[n] \rightarrow [n]$, denoted by $sign(\pi)$, can be defined in several equivalent ways, one of which is that it equals $-1$ if the number of pairs $x<y$ s.t. $\pi(x)>\pi(y)$ is odd and equals $+1$ otherwise. The importance of the term $sign(\pi)$ is that it makes $P$ equal to the _determinant_ of the matrix $(x_{i,j})$ and hence efficiently computable.]
 
-> ### {.proof data-ref="matchpolylem"}
-If $G$ has a perfect matching $M^*$, then let $\pi^*$ be the permutation corresponding to $M$ and let $x^* \in \Z^{n^2}$ defined as follows: $x_{i,j}=1$ if $j=\pi(i)$ and $x_{i,j}=0$ otherwise.
-Note that for every $\pi \neq \pi^*$, $\prod_{i=0}^{n-1} x_{i,\pi(i)}=0$ but $\prod_{i=0}^{n-1} x^*_{i,\pi^*(i)}=1$. Hence $P(x^*)$ will equal $\prod_{i=0}^{n-1} A_{i,\pi^*(i)}$.
-But since $M^*$ is a perfect matching in $G$, $\prod_{i=0}^{n-1} A_{i,\pi^*(i)} = 1$.
->
+::: ### {.proof data-ref="matchpolylem"}
+If $G$ has a perfect matching $M^*$, then let $\pi^*$ be the permutation corresponding to $M$ and let $x^* \in \mathbb{R}^{n^2}$ defined as follows: $x_{i,j}=1$ if $j=\pi^*(i)$ and $x^*_{i,j}=0$ otherwise. (That is, $x^*_{i,j}=1$ iff $\pi^*(i)=j$.) We claim that $P(x^*) = sign(\pi^*)$ which in particular means that $P$ is not identically zero. To see why this is true, write $P(x^*) = \sum_{\pi \in S_n} sign(\pi) P_\pi(x^*)$ where $P_\pi(x^*)=\prod_{i=0}^{n-1} A_{i,\pi(i)} x^*_{i,\pi(i)}$.  But for all $\pi \neq \pi^*$ there will be some $i$ such that $\pi(i) \neq \pi^*(j)$ and so $x^*_{i,\pi(i)}=0$, which means that $\Pi_{\pi}(x^*)=0$. On the other hand, since $\pi^*$ is a matching in $G$, $A_{i,\pi^*(i)}=1$ for all $i$, and hence   $P_{\pi^*}(x^*) = \prod_{i=0}^{n-1} A_{i,\pi^*(i)} x^*_{i,\pi^*(i)}=1$, and so $P(x^*) = sign(\pi^*)$. 
+
 On the other hand, suppose that $P$ is not identically zero.
-By [matchpolyeq](){.eqref}, this means that at least one of the terms $\prod_{i=0}^{n-1}A_{i,\pi(i)}$ is not equal to zero.
-But then this permutation $\pi$ must be a perfect matching in $G$.
+By [matchpolyeq](){.eqref}, this means there is some $x \in \{0,1\}^{n^2}$ and some permutation $\pi$ such that $\prod_{i=0}^{n-1}A_{i,\pi(i)}x_{i,\pi(i)} \neq 0$. But for this to happen, it must be that $A_{i,\pi(i)} \neq 0$ for all $i$, which means that for every $i$, the edge $(i,\pi(i))$ exists in the graph, and hence $\pi$ must be a perfect matching in $G$.
+:::
+
 
 
 As we've seen before, for every $x \in \R^{n^2}$, we can compute $P(x)$ by simply computing the _determinant_ of the matrix $A(x)$, which is obtained by replacing $A_{i,j}$ with $A_{i,j}x_{i,j}$.
