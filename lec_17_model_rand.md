@@ -68,7 +68,8 @@ The result of applying this operation is that `foo` is assigned a random bit in 
 We call the programming languages that are augmented with this extra operation RNAND-TM, RNAND-RAM, and RNAND-CIRC respectively. 
 
 Similarly, we can easily define randomized Turing machines as Turing machines in which the transition function $\delta$ gets as an extra input (in addition to the current state and symbol read from the tape) a bit $b$ that in each step is chosen at random \in $\{0,1\}$.
-Of course the function can ignore this bit (and have the same output regardless of whether $b=0$ or $b=1$) and hence randomized Turing machines generalize deterministic Turing machines.
+Of course the transition function can ignore this bit (and have the same output regardless of whether $b=0$ or $b=1$), and hence randomized Turing machines generalize deterministic Turing machines.
+
 
 
 We can use the `RAND()` operation to define the notion of a function being computed by a randomized $T(n)$ time algorithm for every nice time bound $T:\N \rightarrow \N$, as well as the notion of a finite function being computed by a size $S$ randomized NAND-CIRC program (or, equivalently, a randomized circuit with $S$ gates that correspond to either the NAND or coin-tossing operations).
