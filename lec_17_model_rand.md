@@ -429,7 +429,7 @@ Note that it takes several parameters:
 
 * $\epsilon$ is how close is the output of the pseudorandom generator to the true uniform distribution over $\{0,1\}^m$. The smaller $\epsilon$ is, the stronger the generator.
 
-* $\ell$ is the input length and $m$ is the output length. If $\ell \geq m$ then it is trivial to come up with such a generator: on input $s\in \{0,1\}^\ell$, we can output $s_0,\ldots,s_{m-1}$. In this case $\Pr_{s\sim \{0,1\}^\ell}[ P(G(s))=1]$ will simply equal $\Pr_{r\in \{0,1\}^m}[ P(r)=1]$, no matter how many lines $P$ has. So, the smaller $\ell$ is and the larger $m$ is, the stronger the generator, and to get anything non-trivial, we need $m>\ell$.
+* $\ell$ is the input length and $m$ is the output length. If $\ell \geq m$ then it is trivial to come up with such a generator: on input $s\in \{0,1\}^\ell$, we can output $s_0,\ldots,s_{m-1}$. In this case $\Pr_{s\sim \{0,1\}^\ell}[ P(G(s))=1]$ will simply equal $\Pr_{r\sim \{0,1\}^m}[ P(r)=1]$, no matter how many lines $P$ has. So, the smaller $\ell$ is and the larger $m$ is, the stronger the generator, and to get anything non-trivial, we need $m>\ell$.
 
 Furthermore note that although our eventual goal is to fool probabilistic randomized algorithms that take an unbounded number of inputs,  [prgdef](){.ref} refers to _finite_ and _deterministic_ NAND-CIRC programs.
 :::
@@ -528,7 +528,7 @@ If $\mathbf{P}=\mathbf{NP}$ then $\mathbf{BPP}=\mathbf{P}$.
 
 ::: { .pause }
 Before reading the proof, it is instructive to think why this result is not "obvious." If $\mathbf{P}=\mathbf{NP}$ then given any randomized algorithm $A$ and input $x$, we will be able to figure out in polynomial time if there is a string $r\in \{0,1\}^m$ of random coins for $A$ such that $A(xr)=1$.
-The problem is that even if $\Pr_{r\in \{0,1\}^m}[A(xr)=F(x)] \geq 0.9999$, it can still be the case that even when $F(x)=0$ there exists a string $r$ such that $A(xr)=1$.
+The problem is that even if $\Pr_{r\sim \{0,1\}^m}[A(xr)=F(x)] \geq 0.9999$, it can still be the case that even when $F(x)=0$ there exists a string $r$ such that $A(xr)=1$.
 
 The proof is rather subtle. It is much more important that you understand the _statement_ of the theorem than that you follow all the details of the proof.
 :::
@@ -538,20 +538,21 @@ The construction follows the "quantifier elimination" idea which we have seen in
 We will show that for every $F \in \mathbf{BPP}$, we can reduce the question of some input $x$ satisfies $F(x)=1$ to the question of whether a formula of the form $\exists_{u\in \{0,1\}^m} \forall_{v \in \{0,1\}^k} P(u,v)$ is true, where $m,k$ are polynomial in the length of $x$ and $P$ is polynomial-time computable.
 By [PH-collapse-thm](){.ref}, if $\mathbf{P}=\mathbf{NP}$ then we can decide in polynomial time whether such a formula is true or false.
 
-The idea behind this construction is that using amplification we can obtain a randomized algorithm $A$ for computing $F$ using $m$ coins such that for every $x\in \{0,1\}^n$, if $F(x)=0$ then the set $S \subseteq \{0,1\}^m$ of coins that make $A$ output $1$ is extremely tiny, and if $F(x)=1$ then it is very large. Now in the case $F(x)=1$, one can show that this means that there exists a small number $k$ of "shifts" $s_0,\ldots,s_{k-1}$ such that the union of the sets $S \oplus s_i$ (i.e., sets of the form $\{ s\oplus s_i \;|\; s\in S \}$) covers $\{0,1\}^m$, while in the case $F(x)=0$ this union will always be of size at most $k|S|$ which is much smaller than $2^m$.
-We can express the condition that there exists $s_0,\ldots,s_{k-1}$ such that $\cup_{i\in [k]} (S \oplus s_i) = \{0,1\}^m$ as a statement with a constant number of quantifiers.
+The idea behind this construction is that using amplification we can obtain a randomized algorithm $A$ for computing $F$ using $m$ coins such that for every $x\in \{0,1\}^n$, if $F(x)=0$ then the set $S \subseteq \{0,1\}^m$ of coins that make $A$ output $1$ is extremely tiny (i.e., exponentially small relative to $2^m$), and if $F(x)=1$ then $S$ is very large (of size close to $2^m$). We then consider "shifts" of the set $S$: sets of the form $S \oplus s$ where $s\in \{0,1\}^m$ is some string, where $S \oplus s$ is defined as $\{ r \oplus s \;|\; r \in S \}$. Note that for every such shift $s$, the cardinality of $S \oplus s$ is the same as the cardinality of $S$. Hence, if $F(x)=0$, and so $S$ is "tiny", then for every polynomial number of shifts $s_0,\ldots,s_k \in \{0,1\}^m$, the union of the sets $S \oplus s_i$ will not cover $\{0,1\}^m$. On the other hand, we will show that if $S$ is very large, then there exists a polynomial number of such shifts such as $\cup_{i=0}^{k-1} (S \oplus s_i) = \{0,1\}^m$.
+ 
+We can express the condition that there exists $s_0,\ldots,s_{k-1}$ such that $\cup_{i\in [k]} (S \oplus s_i) = \{0,1\}^m$ as a statement with a constant number of quantifiers. (Specifically, this condition holds if for _every_ $y\in \{0,1\}^m$, there _exists_ $s \in S$ and $i\in \{0,\ldots,k-1\}$ such that $y=s\oplus s_i$.)
 :::
 
-![If $F\in \mathbf{BPP}$ then through amplification we can ensure that there is an algorithm $A$ to compute $F$ on $n$-length inputs and using $m$ coins such that $\Pr_{r\in \{0,1\}^m}[ A(xr)\neq F(x)] \ll 1/poly(m)$. Hence if $F(x)=1$ then almost all of the $2^m$ choices for $r$ will cause $A(xr)$ to output $1$, while if $F(x)=0$ then $A(xr)=0$ for almost all $r$'s. To prove the Sipser–Gács Theorem we consider several "shifts" of the set $S \subseteq \{0,1\}^m$ of the coins $r$ such that $A(xr)=1$. If $F(x)=1$ then we can find a set of $k$ shifts $s_0,\ldots,s_{k-1}$ for which $\cup_{i\in [k]} (S \oplus s_i) = \{0,1\}^m$. If $F(x)=0$ then for every such set $|cup_{i\in [k]} S_i| \leq k |S| \ll 2^m$. We can phrase the question of whether there is such a set of shift using a constant number of quantifiers, and so can solve it in polynomial time if $\mathbf{P}=\mathbf{NP}$.](../figure/strongamplification.png){#strongampbppfig .margin  }
+![If $F\in \mathbf{BPP}$ then through amplification we can ensure that there is an algorithm $A$ to compute $F$ on $n$-length inputs and using $m$ coins such that $\Pr_{r\sim \{0,1\}^m}[ A(xr)\neq F(x)] \ll 1/poly(m)$. Hence if $F(x)=1$ then almost all of the $2^m$ choices for $r$ will cause $A(xr)$ to output $1$, while if $F(x)=0$ then $A(xr)=0$ for almost all $r$'s. To prove the Sipser–Gács Theorem we consider several "shifts" of the set $S \subseteq \{0,1\}^m$ of the coins $r$ such that $A(xr)=1$. If $F(x)=1$ then we can find a set of $k$ shifts $s_0,\ldots,s_{k-1}$ for which $\cup_{i\in [k]} (S \oplus s_i) = \{0,1\}^m$. If $F(x)=0$ then for every such set $|\cup_{i\in [k]} S_i| \leq k |S| \ll 2^m$. We can phrase the question of whether there is such a set of shift using a constant number of quantifiers, and so can solve it in polynomial time if $\mathbf{P}=\mathbf{NP}$.](../figure/strongamplification.png){#strongampbppfig .margin  }
 
 
 
 
 ::: {.proof data-ref="BPPvsNP"}
-Let $F \in \mathbf{BPP}$. Using [amplificationthm](){.ref}, there exists a polynomial-time algorithm $A$ such that for every $x\in \{0,1\}^n$, $\Pr_{x \in \{0,1\}^m}[ A(xr)=F(x)] \geq 1 - 2^{-n}$ where $m$ is polynomial in $n$.
+Let $F \in \mathbf{BPP}$. Using [amplificationthm](){.ref}, there exists a polynomial-time algorithm $A$ such that for every $x\in \{0,1\}^n$, $\Pr_{r \in \{0,1\}^m}[ A(xr)=F(x)] \geq 1 - 2^{-n}$ where $m$ is polynomial in $n$.
 In particular (since an exponential dominates a polynomial, and we can always assume $n$ is sufficiently large), it holds that
 $$
-\Pr_{x \in \{0,1\}^m}[ A(xr)=F(x)] \geq 1 - \tfrac{1}{10m^2}  \;. \label{sipsergacseq}
+\Pr_{r \in \{0,1\}^m}[ A(xr)=F(x)] \geq 1 - \tfrac{1}{10m^2}  \;. \label{sipsergacseq}
 $$
 
 
@@ -592,7 +593,7 @@ which (since $A$ is computable in polynomial time) is exactly the type of statem
 We see that all that is left is to prove __CLAIM I__ and __CLAIM II__. __CLAIM I__ follows immediately from the fact that
 
 $$
-\cup_{i \in [100m-1]} |S_x \oplus s_i| \leq \sum_{i=0}^{100m-1} |S_x \oplus s_i| = \sum_{i=0}^{100m -1} |S_x| = 100m|S_x| \;.
+\left| \cup_{i \in [100m-1]} S_x \oplus s_i \right| \leq \sum_{i=0}^{100m-1} |S_x \oplus s_i| = \sum_{i=0}^{100m -1} |S_x| = 100m|S_x| \;.
 $$
 
 To prove __CLAIM II__, we will use a technique known as the _probabilistic method_ (see the proof of [prgexist](){.ref} for a more extensive discussion). Note that this is a completely different use of probability than in the theorem statement, we just use the methods of probability to prove an _existential_ statement.
@@ -610,9 +611,9 @@ $$\Pr[ BAD_z ] = \Pr[ \cap_{i\in [100m-1]} BAD_z^i ] = \prod_{i=0}^{100m-1} \Pr[
 So this means that the result will follow by showing that $\Pr[ BAD_z^i ] \leq \tfrac{1}{2}$ for every $z\in \{0,1\}^m$ and $i\in [100m]$ (as that would allow to bound the right-hand side of [sipsergacsprodboundeq](){.eqref} by $2^{-100m}$).
 In other words, we need to show that for every $z\in \{0,1\}^m$ and set $S \subseteq \{0,1\}^m$ with $|S| \geq \tfrac{1}{2} 2^m$,
 
-$$\Pr_{s \in \{0,1\}^m}[ z \in S \oplus s ] \geq \tfrac{1}{2}\; \label{sipsergacsprodboundtwoeq}.$$
+$$\Pr_{s \sim \{0,1\}^m}[ z \in S \oplus s ] \geq \tfrac{1}{2}\; \label{sipsergacsprodboundtwoeq}.$$
 
-To show this, we observe that $z \in S \oplus s$ if and only if $s \in S \oplus z$ (can you see why). Hence we can rewrite the probability on the left-hand side of [sipsergacsprodboundtwoeq](){.eqref} as $\Pr_{s\in \{0,1\}^m}[ s\in S \oplus z]$ which simply equals $|S \oplus z|/2^m  = |S|/2^m \geq 1/2$!
+To show this, we observe that $z \in S \oplus s$ if and only if $s \in S \oplus z$ (can you see why). Hence we can rewrite the probability on the left-hand side of [sipsergacsprodboundtwoeq](){.eqref} as $\Pr_{s\sim \{0,1\}^m}[ s\in S \oplus z]$ which simply equals $|S \oplus z|/2^m  = |S|/2^m \geq 1/2$!
 This concludes the proof of __CLAIM I__ and hence of [BPPvsNP](){.ref}.
 :::
 
