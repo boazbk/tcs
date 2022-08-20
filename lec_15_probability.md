@@ -159,7 +159,7 @@ $$ \E[ X+Y ] = \E[X] + \E[Y] $$
 $$
 \begin{gathered}
 \E [X+Y] = \sum_{x\in \{0,1\}^n}2^{-n}\left(X(x)+Y(x)\right) =  \\
-\sum_{x\in \{0,1\}^b} 2^{-n}X(x) + \sum_{x\in \{0,1\}^b} 2^{-n}Y(x) = \\
+\sum_{x\in \{0,1\}^n} 2^{-n}X(x) + \sum_{x\in \{0,1\}^n} 2^{-n}Y(x) = \\
 \E[X] + \E[Y]
 \end{gathered}
 $$
@@ -244,7 +244,7 @@ For example, if we think of the experiment of tossing $3$ random coins $x\in \{0
 On the other hand, if we let $C$ be the event that $x_1=1$, then because the second coin toss is not affected by the result of the first one, the events $A$ and $C$ are independent.
 
 The formal definition is that events $A$ and $B$ are _independent_ if $\Pr[A \cap B]=\Pr[A] \cdot \Pr[B]$.
-If $\Pr[A \cap B] > \Pr[A]\cdot \Pr[B]$ then we say that $A$ and $B$ are _positively correlated_, while if $\Pr[ A \cap B] < \Pr[A] \cdot \Pr[B]$ then we say that $A$ and $B$ are _negatively correlated_ (see [coinexperimentfig](){.ref}).
+If $\Pr[A \cap B] > \Pr[A]\cdot \Pr[B]$ then we say that $A$ and $B$ are _positively correlated_, while if $\Pr[ A \cap B] < \Pr[A] \cdot \Pr[B]$ then we say that $A$ and $B$ are _negatively correlated_ (see [independencefig](){.ref}).
 
 
 ![Two events $A$ and $B$ are _independent_ if $\Pr[A \cap B]=\Pr[A]\cdot \Pr[B]$. In the two figures above, the empty $x\times x$ square is the sample space, and $A$ and $B$ are two events in this sample space. In the left figure, $A$ and $B$ are independent, while in the right figure they are negatively correlated, since $B$ is less likely to occur if we condition on $A$ (and vice versa). Mathematically, one can see this by noticing that in the left figure the areas of $A$ and $B$ respectively are $a\cdot x$ and $b\cdot x$, and so their probabilities are $\tfrac{a\cdot x}{x^2}=\tfrac{a}{x}$ and
@@ -290,7 +290,7 @@ For example, if $x\sim \{0,1\}^3$, then the events $\{ x_0=1 \}$, $\{ x_1 = 1\}$
 On the other hand, the events $\{x_0 = 1 \}$, $\{x_1 = 1\}$ and $\{ x_0 + x_1 = 0 \mod 2 \}$ are _not_ mutually independent, even though every pair of these events is independent (can you see why? see also [independencecoinsfig](){.ref}).
 
 
-![Consider the sample space $\{0,1\}^n$ and the events $A,B,C,D,E$ corresponding to $A$: $x_0=1$, $B$: $x_1=1$, $C$: $x_0+x_1+x_2 \geq 2$, $D$: $x_0+x_1+x_2 = 0 mod 2$ and $D$: $x_0+x_1 = 0 mod 2$. We can see that $A$ and $B$ are independent, $C$ is positively correlated with $A$ and positively correlated with $B$, the three events $A,B,D$ are mutually independent, and while every pair out of $A,B,E$ is independent, the three events $A,B,E$ are not mutually independent since their intersection has probability $\tfrac{2}{8}=\tfrac{1}{4}$ instead of $\tfrac{1}{2}\cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = \tfrac{1}{8}$.](../figure/independencecoins.png){#independencecoinsfig .margin  }
+![Consider the sample space $\{0,1\}^n$ and the events $A,B,C,D,E$ corresponding to $A$: $x_0=1$, $B$: $x_1=1$, $C$: $x_0+x_1+x_2 \geq 2$, $D$: $x_0+x_1+x_2 = 0 \mod 2$ and $E$: $x_0+x_1 = 0 \mod 2$. We can see that $A$ and $B$ are independent, $C$ is positively correlated with $A$ and positively correlated with $B$, the three events $A,B,D$ are mutually independent, and while every pair out of $A,B,E$ is independent, the three events $A,B,E$ are not mutually independent since their intersection has probability $\tfrac{2}{8}=\tfrac{1}{4}$ instead of $\tfrac{1}{2}\cdot \tfrac{1}{2} \cdot \tfrac{1}{2} = \tfrac{1}{8}$.](../figure/independencecoins.png){#independencecoinsfig .margin  }
 
 ### Independent random variables
 
@@ -307,7 +307,7 @@ Then $X$ and $Y$ are independent.
 The notation in the lemma's statement is a bit cumbersome, but at the end of the day, it simply says that if $X$ and $Y$ are random variables that depend on two disjoint sets $S$ and $T$ of coins (for example, $X$ might be the sum of the first $n/2$ coins, and $Y$ might be the largest consecutive stretch of zeroes in the second $n/2$ coins), then they are independent.
 
 > ### {.proof data-ref="indcoins"}
-Let $a,b\in \R$, and let $A = \{ x \in \{0,1\}^k : F(x)=a \}$ and $B=\{ x\in \{0,1\}^m : F(x)=b \}$.
+Let $a,b\in \R$, and let $A = \{ x \in \{0,1\}^k : F(x)=a \}$ and $B=\{ x\in \{0,1\}^m : G(x)=b \}$.
 Since $S$ and $T$ are disjoint, we can reorder the indices so that $S = \{0,\ldots,k-1\}$ and $T=\{k,\ldots,k+m-1\}$ without affecting any of the probabilities.
 Hence we can write $\Pr[X=a \wedge Y=b] = |C|/2^n$ where $C= \{ x_0,\ldots,x_{n-1} : (x_0,\ldots,x_{k-1}) \in A \wedge (x_k,\ldots,x_{k+m-1}) \in B \}$.
 Another way to write this using string concatenation is that $C = \{ xyz : x\in A, y\in B, z\in \{0,1\}^{n-k-m} \}$, and hence $|C|=|A||B|2^{n-k-m}$, which means that
@@ -330,7 +330,7 @@ where the first equality  ($=^{(1)}$) follows from the independence of $X$ and $
 
 Another useful fact is that if $X$ and $Y$ are independent random variables, then so are $F(X)$ and $G(Y)$ for all functions $F,G:\R \rightarrow \R$.
 This is intuitively true since learning $F(X)$ can only provide us with less information than does learning $X$ itself.
-Hence, if learning $X$ does not teach us anything about $Y$ (and so also about $F(Y)$) then neither will learning $F(X)$.
+Hence, if learning $X$ does not teach us anything about $Y$ (and so also about $G(Y)$) then neither will learning $F(X)$.
 Indeed, to prove this we can write for every $a,b \in \R$:
 
 $$
@@ -540,7 +540,7 @@ We prove the claim using the Chernoff bound. Specifically, for every such $h$, l
 
 $$X_i = \begin{cases}1 & h(x_i) \neq y_i \\ 0 & \text{otherwise} \end{cases}.$$
 
-Since the samples $(x_0,y_0),\ldots,(x_{n-1},y_{n-1})$ are drawn independently from the same distribution $D$, the random variables $X_0,\ldots,X_{n-1}$ are independently and identically distributed. Moreover, for every $i$, $\E[X_i] = L(h)$. Hence by the Chernoff bound (see [eqchernoffsimpler](){.eqref}), the probability that $| \sum_{i=0}^n X_i  - n\cdot L(h)| \geq \epsilon n$ is at most $e^{-\epsilon^2 n} < e^{-k \log(1/\delta)} < \delta/2^k$ (using the fact that $e>2$).
+Since the samples $(x_0,y_0),\ldots,(x_{n-1},y_{n-1})$ are drawn independently from the same distribution $D$, the random variables $X_0,\ldots,X_{n-1}$ are independently and identically distributed. Moreover, for every $i$, $\E[X_i] = L(h)$. Hence by the Chernoff bound (see [eqchernoffsimpler](){.eqref}), the probability that $| \sum_{i=0}^{n-1} X_i  - n\cdot L(h)| \geq \epsilon n$ is at most $e^{-\epsilon^2 n} < e^{-k \log(1/\delta)} < \delta/2^k$ (using the fact that $e>2$).
 Since $\hat{L}(h) = \tfrac{1}{n}\sum_{i\in [n]}X_i$, this completes the proof of the claim.
 
 Given the claim, the theorem follows from the union bound.
