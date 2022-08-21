@@ -35,6 +35,6 @@ See the [github.com/boazbk/tcscode](the tcscode repository) for jupyter notebook
 For prior versions of the book, see the [repository release page](https://github.com/boazbk/tcs/releases). The most updated version of this book is always on this page.
 
 
-__Frozen version for Fall 2021:__ I will be only making minor edits (typos, local fixes) during the fall so as not to disrupt teaching. For consistency in references and exercises, instructors can use 
-the following version frozen as of August 9 2021:  [Introduction to TCS version 0.93 - August 9, 2021](https://github.com/boazbk/tcs/releases/download/0.93/introtcs_august_2021.pdf)
+__Frozen version for Fall 2022:__ I will be only making minor edits (typos, local fixes) during the fall so as not to disrupt teaching. For consistency in references and exercises, instructors can use 
+the following version frozen as of August 21 2022:  [Introduction to TCS version 0.94 - August 21, 2022](https://github.com/boazbk/tcs/releases/download/v0.94/introtcs_august21_2022.pdf)
 
