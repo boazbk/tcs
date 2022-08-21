@@ -33,6 +33,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Mark Goldstein
 * Alexander Golovnev
 * Sayan Goswami
+* Maxwell Grozovsky
 * Michael Haak
 * Rebecca Hao
 * Lucia Hoerr
@@ -40,6 +41,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Austin Houck
 * Thomas HUET
 * Emily Jia
+* Serdar Kaçka
 * Chan Kang
 * Nina Katz-Christy
 * Vidak Kazic
@@ -107,6 +109,5 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Grace Zhang
 * Alex Zhao
 * Jessica Zhu
-* Serdar Kaçka
 
 
