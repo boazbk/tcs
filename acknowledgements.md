@@ -19,6 +19,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Rodrigo Daboin Sanchez
 * Robert Darley Waddilove
 * Anlan Du
+* Dennis Du
 * Juan Esteller
 * David Evans
 * Michael Fine
