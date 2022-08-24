@@ -407,7 +407,7 @@ Let $k$ be the shortest length of a path between $u$ and $v$ and let $P=(u_0,u_1
 We claim that $P$ is simple.
 Indeed, suppose otherwise that there is some vertex $w$ that occurs twice in the path: $w = u_i$ and $w=u_j$ for some $i<j$.
 Then we can "shortcut" the path $P$ by considering the path $P' = (u_0,u_1,\ldots,u_{i-1},w,u_{j+1},\ldots,u_k)$ obtained by taking the first $i$ vertices of $P$ (from $u_0=0$ to the first occurrence of $w$) and the last $k-j$ ones (from the vertex $u_{j+1}$ following the second occurrence of $w$ to  $u_k=v$).
-The path $P'$ is a valid path between $u$ and $v$ since every consecutive pair of vertices  in it is connected by an edge  (in particular, since $w=u_i=w_j$, both $(u_{i-1},w)$ and $(w,u_{j+1})$ are  edges in $E$), but since the length of $P'$ is  $k-(j-i)<k$, this contradicts the minimality of $P$.
+The path $P'$ is a valid path between $u$ and $v$ since every consecutive pair of vertices  in it is connected by an edge  (in particular, since $w=u_i=u_j$, both $(u_{i-1},w)$ and $(w,u_{j+1})$ are  edges in $E$), but since the length of $P'$ is  $k-(j-i)<k$, this contradicts the minimality of $P$.
 :::
 
 ::: {.remark title="Finding proofs" #comingupwithproofs}
