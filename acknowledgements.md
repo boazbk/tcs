@@ -64,6 +64,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Jacob Meyerson
 * Leon Mlodzian
 * George Moe
+* Kian Moretz
 * Todd Morrill
 * Glenn Moss
 * Haley Mulligan
