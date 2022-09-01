@@ -542,7 +542,7 @@ Luckily, the AON-CIRC programming language is simple enough that we can define i
 An AON-CIRC program is a sequence of strings, which we call "lines", satisfying the following conditions: 
 
 
-* Every line has one of the following forms: `foo = AND(bar,blah)`,  `foo = OR(bar,baz)`, or  `foo = NOT(bar)` where `foo`, `bar` and `baz` are _variable identifiers_. (We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz` as stand-ins for generic identifiers.) The line `foo = AND(bar,baz)` corresponds to the operation of assigning to the variable `foo` the logical AND of the values of the variables `bar` and `baz`. Similarly  `foo = OR(bar,baz)` and `foo = NOT(bar)` correspond to the logical OR and logical NOT operations. 
+* Every line has one of the following forms: `foo = AND(bar,baz)`,  `foo = OR(bar,baz)`, or  `foo = NOT(bar)` where `foo`, `bar` and `baz` are _variable identifiers_. (We follow the common [programming languages convention](https://goo.gl/QyHa3b)  of using names such as `foo`, `bar`, `baz` as stand-ins for generic identifiers.) The line `foo = AND(bar,baz)` corresponds to the operation of assigning to the variable `foo` the logical AND of the values of the variables `bar` and `baz`. Similarly  `foo = OR(bar,baz)` and `foo = NOT(bar)` correspond to the logical OR and logical NOT operations. 
 
 
 * A _variable identifier_ in the AON-CIRC programming language can be any combination of letters, numbers,  underscores, and brackets. There are two special types of variables:
