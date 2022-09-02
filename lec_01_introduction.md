@@ -236,7 +236,7 @@ If $x,y$ are integers of at most $n$ digits,  [karatsubaalg](){.ref} will take $
 ::: {.proof data-ref="karatsubaefficient"}
 [karatsubafig](){.ref} illustrates the idea behind the proof, which we only sketch here, leaving filling out the details as [karatsuba-ex](){.ref}.
 The proof is again by induction. We define $T(n)$ to be the maximum number of steps that [karatsubaalg](){.ref} takes on inputs of length at most $n$.
-Since in the base case $n\leq 2$, [karatsuba-ex](){.ref} performs a constant number of computation, we know that $T(2) \leq c$ for some constant $c$ and for $n>2$, it satisfies the recursive equation
+Since in the base case $n\leq 4$, [karatsuba-ex](){.ref} performs a constant number of computation, we know that $T(4) \leq c$ for some constant $c$ and for $n>4$, it satisfies the recursive equation
 $$
 T(n) \leq 3T(\floor{n/2}+1) + c' n \label{eqkaratsubarecursion}
 $$

@@ -12,6 +12,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Emily Chan
 * Christy Cheng
 * Michelle Chiang
+* Gabriel Chiong
 * Daniel Chiu
 * Chi-Ning Chou
 * Michael Colavita
