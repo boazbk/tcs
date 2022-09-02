@@ -717,7 +717,7 @@ We define $SIZE_{n,m}(s)$ to be the set of functions mapping $n$ bits to $m$ bit
 Formally, the definition is as follows:
 
 > ### {.definition title="Size class of functions" #sizedef}
-For every natural numbers $n,m,s$, let $SIZE_{n,m}(s)$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that there NAND circuit of at most $s$ gates computing $f$.
+For all natural numbers $n,m,s$, let $SIZE_{n,m}(s)$ denote the set of all functions $f:\{0,1\}^n \rightarrow \{0,1\}^m$ such that there exists a NAND circuit of at most $s$ gates computing $f$.
 We denote by $SIZE_n(s)$ the set $SIZE_{n,1}(s)$.
 For every integer $s \geq 1$, we let $SIZE(s) = \cup_{n,m} SIZE_{n,m}(s)$ be the set of all functions $f$ for which there exists a NAND circuit of at most $s$ gates that compute $f$.
 
