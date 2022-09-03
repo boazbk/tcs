@@ -136,7 +136,7 @@ $$NtS(n) = \begin{cases}
             NtS(\floor{n/2}) parity(n) & n>1
 \end{cases} \label{ntseq}$$
 where $parity:\N \rightarrow \{0,1\}$  is the function defined as $parity(n)=0$ if $n$ is even and $parity(n)=1$ if $n$ is odd, and as usual, for strings $x,y \in \{0,1\}^*$, $xy$ denotes the concatenation of $x$ and $y$.
-The function $NtS$ is defined _recursively_: for every $n>0$ we define $rep(n)$ in terms of the representation of the smaller number $\floor{n/2}$.
+The function $NtS$ is defined _recursively_: for every $n>1$ we define $rep(n)$ in terms of the representation of the smaller number $\floor{n/2}$.
 It is also possible to define $NtS$ non-recursively, see [binaryrepex](){.ref}.
 
 Throughout most of this book, the particular choices of representation of numbers as binary strings would not matter much: we just need to know that such a representation exists.
@@ -653,7 +653,7 @@ Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$.
 If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$.
 Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$.
 Hence, in this case, $E(s_m)$ must map to an element that was already marked before. 
-(This observation is sometimes known as the "Pigeon Hole Principle": the principle that if you have a pigeon coop with $m$ holes and $k>m$ pigeons, then there must be two pigeons in the same hole.)
+(This observation is sometimes known as the "Pigeonhole Principle": the principle that if you have a pigeon coop with $m$ holes and $k>m$ pigeons, then there must be two pigeons in the same hole.)
 
 ### Prefix-free encoding { #prefixfreesec }
 
