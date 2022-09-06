@@ -362,7 +362,7 @@ We say that two vertices $u,v \in V$ are _neighbors_, if the edge $\{u,v\}$ is i
 
 Given this definition, we can define several other properties of graphs and their vertices.
 We define the _degree_ of $u$ to be the number of neighbors $u$ has.
-A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^{k+1}$, for some $k>0$ such that $u_{i+1}$ is a neighbor of $u_i$ for every $i\in [k]$.
+A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in E^{k+1}$, for some $k>0$ such that $u_{i+1}$ is a neighbor of $u_i$ for every $i\in [k]$.
 A _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct.
 A _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
 We say that two vertices $u,v\in V$ are _connected_ if either $u=v$ or there is a path from $(u_0,\ldots,u_k)$ where $u_0=u$ and $u_k=v$.
@@ -427,7 +427,7 @@ If the edge $u \rightarrow v$ is present in the graph then we say that $v$ is an
 
 A directed graph might contain both $u \rightarrow v$ and $v \rightarrow u$  in which case $u$ will be both an in-neighbor and an out-neighbor of $v$ and vice versa.
 The _in-degree_ of $u$ is the number of in-neighbors it has, and the _out-degree_ of $v$ is the number of out-neighbors it has.
-A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in V^{k+1}$, for some $k>0$ such that $u_{i+1}$ is an out-neighbor of $u_i$ for every $i\in [k]$.
+A _path_ in the graph is a tuple $(u_0,\ldots,u_k) \in E^{k+1}$, for some $k>0$ such that $u_{i+1}$ is an out-neighbor of $u_i$ for every $i\in [k]$.
 As in the undirected case, a _simple path_ is a path $(u_0,\ldots,u_{k-1})$ where all the $u_i$'s are distinct and a _cycle_ is a path $(u_0,\ldots,u_k)$ where $u_0=u_{k}$.
 One type of directed graphs we often care about is _directed acyclic graphs_ or _DAGs_, which, as their name implies, are directed graphs without any cycles:
 
