@@ -91,6 +91,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Hikari Sorensen
 * David Steurer
 * Alec Sun
+* Warren Sunada-Wong
 * Amol Surati
 * Everett Sussman
 * Marika Swanberg
