@@ -778,10 +778,9 @@ If $E:\mathcal{O} \rightarrow \{0,1\}^*$ is the (potentially not prefix-free) re
 To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix-free.
 In fact, prefix freeness is a stronger condition than one-to-one (if two strings are equal then in particular one of them is a prefix of the other) and hence it suffices to prove __(2)__, which we now do.
 
-Let $o \neq o'$ in $\mathcal{O}$ be two distinct objects. We will prove that $\overline{E}(o)$ is not a prefix of $\overline{E}(o')$.
-Define $x = E(o)$ and $x'=E(o')$.
-Since $E$ is one-to-one, $x \neq x'$.
-Under our assumption, $PF(x)$ is a prefix of $PF(x')$.
+Let $o \neq o'$ in $\mathcal{O}$ be two distinct objects. 
+We will prove that $\overline{E}(o)$ is not a prefix of $\overline{E}(o')$, or in other words $PF(x)$ is not a prefix of $PF(x')$ where $x = E(o)$ and $x'=E(o')$.
+Since $E$ is one-to-one, $x \neq x'$. We will split into three cases, depending on whether $|x|<|x'|$, $|x|=|x'|$, or $|x|>|x'|$.
 If $|x|<|x'|$ then the two bits in positions $2|x|,2|x|+1$ in $PF(x)$ have the value $01$ but the corresponding bits in $PF(x')$ will equal either $00$ or $11$ (depending on the $|x|$-th bit of $x'$) and hence $PF(x)$ cannot be a prefix of $PF(x')$.
 If $|x|=|x'|$ then, since $x \neq x'$, there must be a coordinate $i$ in which they differ, meaning that the strings $PF(x)$ and $PF(x')$  differ in the coordinates $2i,2i+1$, which again means that $PF(x)$ cannot be a prefix of $PF(x')$.
 If $|x|>|x'|$ then $|PF(x)|=2|x|+2>|PF(x')|=2|x'|+2$ and hence $PF(x)$ is longer than (and cannot be a prefix of)  $PF(x')$.
