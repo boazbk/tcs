@@ -648,7 +648,7 @@ This will result in an expression for the running time of the form $T(n) = T(n-1
 
 __Restrictions of regular expressions.__  The central definition for the algorithm behind [reglintimethm](){.ref} is the notion of a _restriction_ of a regular expression.
 The idea is that for every regular expression $e$ and symbol $\sigma$ in its alphabet, it is possible to define a regular expression $e[\sigma]$ such that $e[\sigma]$ matches a string $x$ if and only if $e$ matches the string $x\sigma$. 
-For example, if $e$ is the regular expression $(01)*(01)$ (i.e., one or more occurrences of $01$) then $e[1]$ is equal to  $(01)*0$ and $e[0]$ will be $\emptyset$. (Can you see why?)
+For example, if $e$ is the regular expression $(01)^*(01)$ (i.e., one or more occurrences of $01$) then $e[1]$ is equal to  $(01)^*0$ and $e[0]$ will be $\emptyset$. (Can you see why?)
 
 
 [regexprestrictionalg](){.ref} computes the resriction $e[\sigma]$ given a regular expression $e$ and an alphabet symbol $\sigma$.
