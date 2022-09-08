@@ -685,8 +685,8 @@ OUTPUT:  $\Phi_e(x)$
 
 procedure{FMatch}{$e$,$x$}
 lIf {$x=""$} return $\CALL{MatchEmpty}(e)$ lendif
-Let $e' \leftarrow \CALL{Restrict}{e,x_{n-2}}$
-return $FMatch(e',x_0 \cdots x_{n-1})$
+Let $e' \leftarrow \CALL{Restrict}{e,x_{n-1}}$
+return $FMatch(e',x_0 \cdots x_{n-2})$
 endprocedure
 ```
 
