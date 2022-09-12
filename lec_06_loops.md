@@ -293,7 +293,7 @@ If a Turing machine $M$ fails to halt on some input $x\in \{0,1\}^*$ then we den
 If a partial function $F$ is undefined on $x$ then we can also write $F(x) = \bot$.
 Therefore one might think that [computablepartialfuncdef](){.ref} can be simplified to requiring that $M(x) = F(x)$ for every $x\in \{0,1\}^*$, which would imply that for every $x$, $M$ halts on $x$ if and only if $F$ is defined on $x$.
 However, this is not the case: for a Turing machine $M$ to compute a partial function $F$ it is not _necessary_ for $M$ to enter an infinite loop on inputs $x$ on which $F$ is not defined.
-All that is needed is for $M$ to output $F(x)$ on $x$'s on which $F$ is defined: on other inputs it is OK for $M$ to output an arbitrary value such as $0$, $1$, or anything else, or not to halt at all.
+All that is needed is for $M$ to output $F(x)$ on values of $x$ on which $F$ is defined: on other inputs it is OK for $M$ to output an arbitrary value such as $0$, $1$, or anything else, or not to halt at all.
 To borrow a term from the `C` programming language,  on inputs $x$ on which $F$ is not defined, what $M$ does is "undefined behavior".
 :::
 
