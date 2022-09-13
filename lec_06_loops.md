@@ -701,7 +701,7 @@ These two programs do the same thing.
 The variable `pc` corresponds to the "program counter" and tells the program which line to execute next.
 We can see that if we wanted to emulate a `GOTO("line3")` then we could simply modify the instruction `pc = "line2"` to be `pc = "line3"`.
 
-In NAND-CIRC we could only have `GOTO's that go forward in the code, but since in NAND-TM everything is encompassed within a large outer loop, we can use the same ideas to implement `GOTO` 's that can go backward, as well as conditional loops.
+In NAND-CIRC we could only have `GOTO`s that go forward in the code, but since in NAND-TM everything is encompassed within a large outer loop, we can use the same ideas to implement `GOTO`s that can go backward, as well as conditional loops.
 
 __Other loops.__ Once we have `GOTO`, we can emulate all the standard loop constructs such as `while`, `do .. until` or `for` in NAND-TM as well. For example, we can replace the code
 
