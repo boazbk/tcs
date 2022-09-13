@@ -648,7 +648,7 @@ This will result in an expression for the running time of the form $T(n) = T(n-1
 
 __Restrictions of regular expressions.__  The central definition for the algorithm behind [reglintimethm](){.ref} is the notion of a _restriction_ of a regular expression.
 The idea is that for every regular expression $e$ and symbol $\sigma$ in its alphabet, it is possible to define a regular expression $e[\sigma]$ such that $e[\sigma]$ matches a string $x$ if and only if $e$ matches the string $x\sigma$. 
-For example, if $e$ is the regular expression $(01)*(01)$ (i.e., one or more occurrences of $01$) then $e[1]$ is equal to  $(01)*0$ and $e[0]$ will be $\emptyset$. (Can you see why?)
+For example, if $e$ is the regular expression $(01)^*(01)$ (i.e., one or more occurrences of $01$) then $e[1]$ is equal to  $(01)^*0$ and $e[0]$ will be $\emptyset$. (Can you see why?)
 
 
 [regexprestrictionalg](){.ref} computes the resriction $e[\sigma]$ given a regular expression $e$ and an alphabet symbol $\sigma$.
@@ -685,8 +685,8 @@ OUTPUT:  $\Phi_e(x)$
 
 procedure{FMatch}{$e$,$x$}
 lIf {$x=""$} return $\CALL{MatchEmpty}(e)$ lendif
-Let $e' \leftarrow \CALL{Restrict}{e,x_{n-2}}$
-return $FMatch(e',x_0 \cdots x_{n-1})$
+Let $e' \leftarrow \CALL{Restrict}{e,x_{n-1}}$
+return $FMatch(e',x_0 \cdots x_{n-2})$
 endprocedure
 ```
 
@@ -926,7 +926,7 @@ Let $e$ be a regular expression over some alphabet $\Sigma$. Then there is some 
 ![To prove the "pumping lemma" we look at a word $w$ that is much larger than the regular expression $e$ that matches it. In such a case, part of $w$ must be matched by some sub-expression of the form $(e')^*$, since this is the only operator that allows matching words longer than the expression. If we look at the "leftmost" such sub-expression and define $y^k$ to be the string that is matched by it, we obtain the partition needed for the pumping lemma.](../figure/pumpinglemma.png){#pumpinglemmafig   }
 
 > ### {.proofidea data-ref="pumping"}
-The idea behind the proof the following.  Let $n_0$ be twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a non-empty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string. See also [pumpinglemmafig](){.ref}.
+The idea behind the proof is the following.  Let $n_0$ be twice the number of symbols that are used in the expression $e$, then the only way that there is some $w$ with $|w|>n_0$ and $\Phi_{e}(w)=1$ is that $e$ contains the $*$ (i.e. star) operator and that there is a non-empty substring $y$ of $w$ that was matched by $(e')^*$ for some sub-expression $e'$ of $e$.  We can now repeat $y$ any number of times and still get a matching string. See also [pumpinglemmafig](){.ref}.
 
 ::: { .pause }
 The pumping lemma is a bit cumbersome to state, but one way to remember it is that it simply says the following: _"if a string matching a regular expression is long enough, one of its substrings must be matched using the $*$ operator"_.

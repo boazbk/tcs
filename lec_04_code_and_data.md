@@ -140,7 +140,7 @@ This means that the programs that compute $f$ and $f'$ respectively cannot be id
 
 [program-count](){.ref} has an important corollary. The number of functions that can be computed using small circuits/programs is much smaller than the total number of functions,
 and hence there exist functions that require very large (in fact _exponentially large_) circuits to compute.
-To see why this is the case, note that  afunction mapping $\{0,1\}^2$ to $\{0,1\}$ can be identified with the list of its four values on the inputs $00,01,10,11$.
+To see why this is the case, note that a function mapping $\{0,1\}^2$ to $\{0,1\}$ can be identified with the list of its four values on the inputs $00,01,10,11$.
 A function mapping $\{0,1\}^3$ to $\{0,1\}$ can be identified with the list of its eight values on the inputs $000,001,010,011,100,101,110,111$.
 More generally, every function $F:\{0,1\}^n \rightarrow \{0,1\}$ can be identified with the list of its  $2^n$  values on the inputs $\{0,1\}^n$.
 Hence the number of functions mapping $\{0,1\}^n$ to $\{0,1\}$ is equal to the number of possible $2^n$ length lists of values which is exactly $2^{2^n}$.
@@ -221,7 +221,7 @@ Since $f_{2^n} = f^* \not\in SIZE_n(0.1 \cdot 2^n / n)$ there must exist such an
 
 By our choice of $i$, $f_{i-1}$ is a member of $SIZE_n(s)$.
 To complete the proof, we need to show that $f_i \in SIZE_n(s + 10n)$.
-Let $x^*$ be the string such that $lex(x^*)=i$ $b\in \{0,1\}$ is the value of $f^*(x^*)$.
+Let $x^*$ be the string such that $lex(x^*)=i$ and let $b\in \{0,1\}$ be the value of $f^*(x^*)$.
 Then we can define $f_i$ also as follows
 $$
 f_i(x) = \begin{cases} b & x=x^* \\ f_i(x) & x \neq x^*
@@ -276,7 +276,7 @@ Formally, we define our representation as follows:
 Let $P$ be a NAND-CIRC program of $n$ inputs, $m$ outputs, and $s$ lines, and let $t$ be the number of distinct variables used by $P$.
 The _list of tuples representation of $P$_ is the triple $(n,m,L)$ where $L$ is a list of triples of the form $(i,j,k)$ for $i,j,k \in [t]$.
 
-We assign a number for variable of $P$ as follows:
+We assign a number for each variable of $P$ as follows:
 
 * For every $i\in [n]$, the variable `X[`$i$`]` is assigned the number $i$.
 
