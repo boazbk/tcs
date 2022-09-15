@@ -168,7 +168,7 @@ def F(x):
     res = []
     i = 0
     while BF(x,i,1):
-        res.apppend(BF(x,i,0))
+        res.append(BF(x,i,0))
         i += 1
     return res
 ```
