@@ -312,7 +312,7 @@ The equivalence between Turing machines and RAM machines allows us to choose the
 * When we want to show that a function _can be computed_ we can use RAM machines or NAND-RAM, because they are easier to program in and correspond more closely to high level programming languages we are used to. In fact,  we will often describe NAND-RAM programs in an informal manner, trusting that the reader can fill in the details and translate the high level description to the precise program. (This is just like the way people typically use informal or "pseudocode" descriptions of algorithms, trusting that their audience will know to translate these descriptions to code if needed.)
 
 Our usage of Turing machines / NAND-TM and RAM Machines / NAND-RAM is very similar to the way people use in practice high and low level programming languages.
-When one wants to produce a device that executes programs, it is convenient to do so for very simple and "low level" programming language. When one wants to describe an algorithm, it is convenient to use as high level a formalism as possible.
+When one wants to produce a device that executes programs, it is convenient to do so for a very simple and "low level" programming language. When one wants to describe an algorithm, it is convenient to use as high level a formalism as possible.
 
 ![By having the two equivalent languages NAND-TM and NAND-RAM, we can "have our cake and eat it too", using NAND-TM when we want to prove that programs _can't_ do something, and using NAND-RAM or other high level languages when we want to prove that programs _can_ do something.](../figure/have_your_cake_and_eat_it_too-img-intro.png){#cakefig .margin  }
 
@@ -388,7 +388,7 @@ Because of the equivalence of all these models, in many contexts, it will not ma
 ### Turing completeness and equivalence, a formal definition (optional) {#turingcompletesec }
 
 A _computational model_ is some way to define what it means for a _program_ (which is represented by a string) to compute a (partial) _function_.
-A _computational model_ $\mathcal{M}$ is _Turing complete_, if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
+A _computational model_ $\mathcal{M}$ is _Turing complete_ if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
 It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine that computes the same function).
 We can define this notion formally as follows.
 (This formal definition is not crucial for the remainder of this book so feel  to skip it as long as you understand the general concept of Turing equivalence; This notion is sometimes referred to in the literature as [Gödel numbering](https://goo.gl/rzuNPu) or [admissible numbering](https://goo.gl/xXJoUG).)
@@ -552,7 +552,7 @@ __Completing the proof of  [onedimcathm](){.ref}.__ We can now restate [onedimca
 ::: {.theorem title="One dimensional automata are Turing complete (formal statement)" #onedimcathmformal}
 For every Turing machine $M$, if we denote by $\overline{\Sigma}$ the alphabet of its configuration strings, then there is a one-dimensional cellular automaton $r$ over the alphabet $\overline{\Sigma}^*$  such that
 $$\left( NEXT_M(\alpha) \right)  = NEXT_r \left( \alpha \right)$$
-for every configuration $\alpha \in \overline{\Sigma}^*$ of $M$ (again using the convention that we consider $\alpha_i=\varnothing$ if $i$ is "out of bounds).
+for every configuration $\alpha \in \overline{\Sigma}^*$ of $M$ (again using the convention that we consider $\alpha_i=\varnothing$ if $i$ is "out of bounds").
 :::
 
 ::: {.proof data-ref="onedimcathmformal"}
@@ -653,7 +653,7 @@ Hence $((F g) 3) = 3^4 = 81$.
 
 
 ::: {.solvedexercise  #lambdaexptwoex}
-What number does the following expression equal to?
+What number does the following expression evaluate to?
 
 $$((\lambda x.(\lambda y.x)) \; 2)\; 9 \;. \label{lambdaexptwoeq}$$
 :::
