@@ -136,7 +136,7 @@ $$NtS(n) = \begin{cases}
             NtS(\floor{n/2}) parity(n) & n>1
 \end{cases} \label{ntseq}$$
 where $parity:\N \rightarrow \{0,1\}$  is the function defined as $parity(n)=0$ if $n$ is even and $parity(n)=1$ if $n$ is odd, and as usual, for strings $x,y \in \{0,1\}^*$, $xy$ denotes the concatenation of $x$ and $y$.
-The function $NtS$ is defined _recursively_: for every $n>0$ we define $rep(n)$ in terms of the representation of the smaller number $\floor{n/2}$.
+The function $NtS$ is defined _recursively_: for every $n>1$ we define $rep(n)$ in terms of the representation of the smaller number $\floor{n/2}$.
 It is also possible to define $NtS$ non-recursively, see [binaryrepex](){.ref}.
 
 Throughout most of this book, the particular choices of representation of numbers as binary strings would not matter much: we just need to know that such a representation exists.
@@ -653,7 +653,7 @@ Indeed, for $i=0,1,\ldots,m-1$ let us "mark" the element $t_j=E(s_i)$ in $T$.
 If $t_j$ was marked before, then we have found two objects in $S$ mapping to the same element $t_j$.
 Otherwise, since $T$ has $m$ elements,  when we get to $i=m-1$ we mark all the objects in $T$.
 Hence, in this case, $E(s_m)$ must map to an element that was already marked before. 
-(This observation is sometimes known as the "Pigeon Hole Principle": the principle that if you have a pigeon coop with $m$ holes and $k>m$ pigeons, then there must be two pigeons in the same hole.)
+(This observation is sometimes known as the "Pigeonhole Principle": the principle that if you have a pigeon coop with $m$ holes and $k>m$ pigeons, then there must be two pigeons in the same hole.)
 
 ### Prefix-free encoding { #prefixfreesec }
 
@@ -778,10 +778,9 @@ If $E:\mathcal{O} \rightarrow \{0,1\}^*$ is the (potentially not prefix-free) re
 To prove the lemma we need to show that __(1)__ $\overline{E}$ is one-to-one and __(2)__ $\overline{E}$ is prefix-free.
 In fact, prefix freeness is a stronger condition than one-to-one (if two strings are equal then in particular one of them is a prefix of the other) and hence it suffices to prove __(2)__, which we now do.
 
-Let $o \neq o'$ in $\mathcal{O}$ be two distinct objects. We will prove that $\overline{E}(o)$ is not a prefix of $\overline{E}(o')$.
-Define $x = E(o)$ and $x'=E(o')$.
-Since $E$ is one-to-one, $x \neq x'$.
-Under our assumption, $PF(x)$ is a prefix of $PF(x')$.
+Let $o \neq o'$ in $\mathcal{O}$ be two distinct objects. 
+We will prove that $\overline{E}(o)$ is not a prefix of $\overline{E}(o')$, or in other words $PF(x)$ is not a prefix of $PF(x')$ where $x = E(o)$ and $x'=E(o')$.
+Since $E$ is one-to-one, $x \neq x'$. We will split into three cases, depending on whether $|x|<|x'|$, $|x|=|x'|$, or $|x|>|x'|$.
 If $|x|<|x'|$ then the two bits in positions $2|x|,2|x|+1$ in $PF(x)$ have the value $01$ but the corresponding bits in $PF(x')$ will equal either $00$ or $11$ (depending on the $|x|$-th bit of $x'$) and hence $PF(x)$ cannot be a prefix of $PF(x')$.
 If $|x|=|x'|$ then, since $x \neq x'$, there must be a coordinate $i$ in which they differ, meaning that the strings $PF(x)$ and $PF(x')$  differ in the coordinates $2i,2i+1$, which again means that $PF(x)$ cannot be a prefix of $PF(x')$.
 If $|x|>|x'|$ then $|PF(x)|=2|x|+2>|PF(x')|=2|x'|+2$ and hence $PF(x)$ is longer than (and cannot be a prefix of)  $PF(x')$.
