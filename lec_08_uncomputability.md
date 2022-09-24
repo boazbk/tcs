@@ -418,8 +418,8 @@ This short proof appeared in print in a 1965 letter to the editor of Christopher
 >`  rec routine P` \
 >`  §L: if T[P] go to L` \
 >`  Return §`
->
->If `T[P] = True` the routine `P` will loop, and it will only terminate if `T[P] = False`. In each case `T[P]`` has exactly the wrong value, and this contradiction shows that the function T cannot exist.
+
+>If `T[P] = True` the routine `P` will loop, and it will only terminate if `T[P] = False`. In each case `T[P]` has exactly the wrong value, and this contradiction shows that the function T cannot exist.
 >
 >Yours faithfully, \
 >C. Strachey
@@ -716,7 +716,7 @@ If $F$ is semantic and non-trivial then it is uncomputable.
 
 ::: {.proofidea #proofidea-rice-thm data-ref="rice-thm"}
 The idea behind the proof is to show that every semantic non-trivial function $F$ is at least as hard to compute as $HALTONZERO$. This will conclude the proof since by [haltonzero-thm](){.ref}, $HALTONZERO$ is uncomputable.
-If a function $F$ is non-trivial then there are two machines $M_0$ and $M_1$ such that $F(M_0)=0$ and $F(M_1)=1$. So, the goal would be to take a machine $N$ and find a way to map it into a machine $M=R(N)$, such that __(i)__ if $N$ halts on zero then $M$ is functionally equivalent to $M_1$  and __(ii)__ if $N$ does _not_ halt on zero then $M$ is functionally equivalent $M_0$.
+If a function $F$ is non-trivial then there are two machines $M_0$ and $M_1$ such that $F(M_0)=0$ and $F(M_1)=1$. So, the goal would be to take a machine $N$ and find a way to map it into a machine $M=R(N)$, such that __(i)__ if $N$ halts on zero then $M$ is functionally equivalent to $M_1$  and __(ii)__ if $N$ does _not_ halt on zero then $M$ is functionally equivalent to $M_0$.
 
 Because $F$ is semantic, if we achieved this, then we would be guaranteed that  $HALTONZERO(N) = F(R(N))$, and hence would show that if $F$ was computable, then $HALTONZERO$ would be computable as well, contradicting [haltonzero-thm](){.ref}.
 :::
