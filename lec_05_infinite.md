@@ -317,7 +317,7 @@ Also, we restrict our attention to the case that the alphabet $\Sigma$ is equal 
 Prove that there is a DFA that computes the following function $F$:
 
 $$F(x) = \begin{cases} 
-         1 & 3 \text{ divides } |x| \text{ and } \forall_{i\in [|x|/3]} x_i x_{i+1} x_{i+2} = 010  \\
+         1 & 3 \text{ divides } |x| \text{ and } \forall_{i\in [|x|/3]} x_{3i} x_{3i+1} x_{3i+2} = 010  \\
          0 & \text{otherwise}
          \end{cases}$$
 :::
