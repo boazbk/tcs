@@ -935,7 +935,7 @@ Showing __(2)__ essentially amounts to simulating a Turing machine (or writing a
 We only sketch the proof. The "if" direction is simple. As mentioned above, evaluating λ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND-RAM as well, which we can then transform to a NAND-TM program.
 
 For the "only if" direction we need to simulate a Turing machine using a λ expression.
-We will do so by first showing that showing for every Turing machine $M$ a λ expression to compute the next-step function $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ that maps a configuration of $M$ to the next one (see [turingmachinesconfigsec](){.ref}).
+We will do so by first showing for every Turing machine $M$ a λ expression to compute the next-step function $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ that maps a configuration of $M$ to the next one (see [turingmachinesconfigsec](){.ref}).
 
 A configuration of $M$ is a string $\alpha \in \overline{\Sigma}^*$ for a finite set $\overline{\Sigma}$. We can encode every symbol $\sigma \in \overline{\Sigma}$ by a finite string $\{0,1\}^\ell$, and so we will encode a configuration $\alpha$ in the  λ calculus as a list $\langle \alpha_0, \alpha_1, \ldots, \alpha_{m-1}, \bot \rangle$ where $\alpha_i$ is an $\ell$-length string (i.e., an $\ell$-length  list of $0$'s and $1$'s) encoding a symbol in $\overline{\Sigma}$.
 
