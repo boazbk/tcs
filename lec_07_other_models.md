@@ -979,7 +979,7 @@ Define $FINAL(\alpha)$ to be the final configuration of $M$ when initialized at 
 The function $FINAL$ can be defined recursively as follows:
 
 $$
-FINAL(\alpha) = \begin{cases}\alpha & \text{$\alpha$ is halting configuration} \\ NEXT_M(\alpha) & \text{otherwise}\end{cases}\;.
+FINAL(\alpha) = \begin{cases}\alpha & \text{$\alpha$ is halting configuration} \\ FINAL(NEXT_M(\alpha)) & \text{otherwise}\end{cases}\;.
 $$
 
 Checking whether a configuration is halting (i.e., whether it is one in which the transition function would output $\mathsf{H}$alt) can be easily implemented in the $\lambda$ calculus, and hence we can use the $RECURSE$  to compute $FINAL$.
