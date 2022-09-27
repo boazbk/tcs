@@ -448,7 +448,7 @@ We will now formally define one-dimensional cellular automata and then prove the
 
 
 ::: {.definition title="One dimensional cellular automata" #cellautomatadef}
-Let $\Sigma$ be a finite set containing the symbol $\varnothing$. A _one dimensional cellular automation_ over alphabet $\Sigma$ is described by a _transition rule_ $r:\Sigma^3 \rightarrow \Sigma$, which satisfies $r(\varnothing,\varnothing,\varnothing) = \varnothing$.
+Let $\Sigma$ be a finite set containing the symbol $\varnothing$. A _one dimensional cellular automaton_ over alphabet $\Sigma$ is described by a _transition rule_ $r:\Sigma^3 \rightarrow \Sigma$, which satisfies $r(\varnothing,\varnothing,\varnothing) = \varnothing$.
 
 A  _configuration_ of the automaton $r$ is a function $A:\Z \rightarrow \Sigma$.
 If an automaton with rule $r$ is in configuration $A$, then its next configuration, denoted by $A' = NEXT_r(A)$, is the function $A'$ such that $A'(i) = r(A(i-1),A(i),A(i+1))$ for every $i\in \Z$.
