@@ -388,7 +388,7 @@ Because of the equivalence of all these models, in many contexts, it will not ma
 ### Turing completeness and equivalence, a formal definition (optional) {#turingcompletesec }
 
 A _computational model_ is some way to define what it means for a _program_ (which is represented by a string) to compute a (partial) _function_.
-A _computational model_ $\mathcal{M}$ is _Turing complete_ if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
+A _computational model_ $\mathcal{M}$ is _Turing complete_ if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $N$.
 It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine that computes the same function).
 We can define this notion formally as follows.
 (This formal definition is not crucial for the remainder of this book so feel  to skip it as long as you understand the general concept of Turing equivalence; This notion is sometimes referred to in the literature as [Gödel numbering](https://goo.gl/rzuNPu) or [admissible numbering](https://goo.gl/xXJoUG).)
