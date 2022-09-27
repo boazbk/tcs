@@ -103,6 +103,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Patrick Watts
 * Jonah Weissman
 * Ryan Williams
+* Christina Xiao
 * Licheng Xu
 * Richard Xu
 * Wanqian Yang
@@ -112,5 +113,4 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Grace Zhang
 * Alex Zhao
 * Jessica Zhu
-
 
