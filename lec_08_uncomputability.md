@@ -163,7 +163,7 @@ On input a transition table $\delta$ this program will simulate the correspondin
 The above does not prove the theorem as stated, since we need to show a _Turing machine_ that computes $EVAL$ rather than a Python program.
 With enough effort, we can translate this Python code line by line to a Turing machine.
 However, to prove the theorem we don't need to do this, but can use our "eat the cake and have it too" paradigm.
-That is, while we need to evaluate a Turing machine, in writing the code for the interpreter we are allowed to use a richer model such as NAND-RAM since it is equivalent in power to Turing machines per  [RAMTMequivalencethm](){.ref}).
+That is, while we need to evaluate a Turing machine, in writing the code for the interpreter we are allowed to use a richer model such as NAND-RAM since it is equivalent in power to Turing machines per  [RAMTMequivalencethm](){.ref}.
 
 
 Translating the above Python code to NAND-RAM is truly straightforward.

@@ -583,7 +583,7 @@ Eventually (when they have size $1$) then they must correspond to the non-recurs
 Correspondingly, the recursive calls made in [regexpmatchalg](){.ref} always correspond to a shorter expression or (in the case of an expression of the form  $(e')^*$) a shorter input string.
 Thus, we can prove the correctness of [regexpmatchalg](){.ref} on inputs of the form $(e,x)$ by induction over $\min \{ |e|, |x| \}$. 
 The base case is when either $x=""$ or $e$ is a single alphabet symbol, $""$ or $\emptyset$.
-In the case the expression is of the forrm $e=(e'|e'')$ or $e=(e')(e'')$, we make recursive calls with the shorter expressions $e',e''$.
+In the case the expression is of the form $e=(e'|e'')$ or $e=(e')(e'')$, we make recursive calls with the shorter expressions $e',e''$.
 In the case the expression is of the form $e=(e')^*$, we make recursive calls with either a shorter string $x$ and the same expression,
 or with the shorter expression $e'$ and a string $x'$ that is equal in length or shorter than $x$.
 
