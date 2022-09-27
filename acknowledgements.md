@@ -36,6 +36,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Alexander Golovnev
 * Sayan Goswami
 * Maxwell Grozovsky
+* Kenneth Gu
 * Michael Haak
 * Rebecca Hao
 * Lucia Hoerr
@@ -104,6 +105,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Jonah Weissman
 * Abraham Wieland
 * Ryan Williams
+* Christina Xiao
 * Licheng Xu
 * Richard Xu
 * Wanqian Yang
@@ -113,5 +115,4 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Grace Zhang
 * Alex Zhao
 * Jessica Zhu
-
 

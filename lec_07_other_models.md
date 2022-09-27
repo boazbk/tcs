@@ -388,7 +388,7 @@ Because of the equivalence of all these models, in many contexts, it will not ma
 ### Turing completeness and equivalence, a formal definition (optional) {#turingcompletesec }
 
 A _computational model_ is some way to define what it means for a _program_ (which is represented by a string) to compute a (partial) _function_.
-A _computational model_ $\mathcal{M}$ is _Turing complete_ if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
+A _computational model_ $\mathcal{M}$ is _Turing complete_ if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $N$.
 It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine that computes the same function).
 We can define this notion formally as follows.
 (This formal definition is not crucial for the remainder of this book so feel  to skip it as long as you understand the general concept of Turing equivalence; This notion is sometimes referred to in the literature as [Gödel numbering](https://goo.gl/rzuNPu) or [admissible numbering](https://goo.gl/xXJoUG).)
@@ -448,7 +448,7 @@ We will now formally define one-dimensional cellular automata and then prove the
 
 
 ::: {.definition title="One dimensional cellular automata" #cellautomatadef}
-Let $\Sigma$ be a finite set containing the symbol $\varnothing$. A _one dimensional cellular automation_ over alphabet $\Sigma$ is described by a _transition rule_ $r:\Sigma^3 \rightarrow \Sigma$, which satisfies $r(\varnothing,\varnothing,\varnothing) = \varnothing$.
+Let $\Sigma$ be a finite set containing the symbol $\varnothing$. A _one dimensional cellular automaton_ over alphabet $\Sigma$ is described by a _transition rule_ $r:\Sigma^3 \rightarrow \Sigma$, which satisfies $r(\varnothing,\varnothing,\varnothing) = \varnothing$.
 
 A  _configuration_ of the automaton $r$ is a function $A:\Z \rightarrow \Sigma$.
 If an automaton with rule $r$ is in configuration $A$, then its next configuration, denoted by $A' = NEXT_r(A)$, is the function $A'$ such that $A'(i) = r(A(i-1),A(i),A(i+1))$ for every $i\in \Z$.
@@ -935,7 +935,7 @@ Showing __(2)__ essentially amounts to simulating a Turing machine (or writing a
 We only sketch the proof. The "if" direction is simple. As mentioned above, evaluating λ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND-RAM as well, which we can then transform to a NAND-TM program.
 
 For the "only if" direction we need to simulate a Turing machine using a λ expression.
-We will do so by first showing that showing for every Turing machine $M$ a λ expression to compute the next-step function $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ that maps a configuration of $M$ to the next one (see [turingmachinesconfigsec](){.ref}).
+We will do so by first showing for every Turing machine $M$ a λ expression to compute the next-step function $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ that maps a configuration of $M$ to the next one (see [turingmachinesconfigsec](){.ref}).
 
 A configuration of $M$ is a string $\alpha \in \overline{\Sigma}^*$ for a finite set $\overline{\Sigma}$. We can encode every symbol $\sigma \in \overline{\Sigma}$ by a finite string $\{0,1\}^\ell$, and so we will encode a configuration $\alpha$ in the  λ calculus as a list $\langle \alpha_0, \alpha_1, \ldots, \alpha_{m-1}, \bot \rangle$ where $\alpha_i$ is an $\ell$-length string (i.e., an $\ell$-length  list of $0$'s and $1$'s) encoding a symbol in $\overline{\Sigma}$.
 
