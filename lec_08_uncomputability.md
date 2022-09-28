@@ -302,7 +302,7 @@ The proof will use the previously established result [uncomputable-func](){.ref}
 Recall that [uncomputable-func](){.ref} shows that the following function $F^*: \{0,1\}^* \rightarrow \{0,1\}$ is uncomputable:
 
 $$
-F^*(x) = \begin{cases}1 & x(x)=0 \\ 0 & \text{otherwise} \end{cases}
+F^*(x) = \begin{cases}1 & x(x)=0 \text{or} x(x)=\bot \\ 0 & \text{otherwise} \end{cases}
 $$
 where $x(x)$ denotes the output of the Turing machine described by the string $x$ on the input  $x$ (with the usual convention that  $x(x)=\bot$ if this computation does not halt).
 
@@ -321,7 +321,7 @@ OUTPUT: $F^*(x)$
 
 Let $z \leftarrow M_{HALT}(x,x)$. # Assume $z=HALT(x,x)$.
 If{$z=0$}
-return $0$
+return $1$
 endif
 Let $y \leftarrow U(x,x)$ # $U$ universal TM, i.e., $y=x(x)$
 If{$y=0$}
@@ -334,13 +334,12 @@ We claim that [halttof](){.ref} computes the function $F^*$.
 Indeed, suppose that $x(x)=0$ (and hence $F^*(x)=1$).
 In this case, $HALT(x,x)=1$ and hence, under our assumption that $M(x,x)=HALT(x,x)$, the value $z$ will equal $1$, and hence [halttof](){.ref}  will set $y=x(x)=0$, and output the correct value $1$.
 
-Suppose otherwise that $x(x) \neq 0$ (and hence $F^*(x)=0$).
-In this case there are two possibilities:
+Suppose otherwise that $x(x) \neq 0$. In this case there are two possibilities:
 
-* __Case 1:__ The machine described by $x$ does not halt on the input $x$. In this case, $HALT(x,x)=0$. Since we assume that $M$ computes $HALT$ it means  that on input $x,x$, the machine $M$ must halt and output the value $0$. This means that [halttof](){.ref} will set $z=0$ and output $0$.
+* __Case 1:__ The machine described by $x$ does not halt on the input $x$ (and hence $F^*(x)=1$). In this case, $HALT(x,x)=0$. Since we assume that $M$ computes $HALT$ it means that on input $x,x$, the machine $M$ must halt and output the value $0$. This means that [halttof](){.ref} will set $z=0$ and output $1$.
 
 
-* __Case 2:__ The machine described by $x$ halts on the input $x$ and outputs some $y' \neq 0$. In this case, since $HALT(x,x)=1$, under our assumptions,  [halttof](){.ref} will set $y=y' \neq 0$ and so output $0$.
+* __Case 2:__ The machine described by $x$ halts on the input $x$ and outputs some $y' \neq 0$ (and hence $F^*(x)=0$). In this case, since $HALT(x,x)=1$, under our assumptions,  [halttof](){.ref} will set $y=y' \neq 0$ and so output $0$.
 
 We see that in all cases, $M'(x)=F^*(x)$, which contradicts the fact that $F^*$ is uncomputable.
 Hence we reach a contradiction to our original assumption that $M$ computes $HALT$.
