@@ -759,7 +759,7 @@ In other words, we need to show that $HALTONZERO(N)=1-MONOTONE(M)$.
 Suppose that   $N$ does _not_ halt on zero.
 In this case the program $M$ constructed by Algorithm $B$ enters into an infinite loop in step __(a)__ and will never reach step __(b)__.
 Hence in this case  $N$ is functionally equivalent to $INF$. (The machine $N$ is not the same machine as $INF$: its description or _code_ is different. But it does have the same input/output behavior (in this case) of never halting on any input. Also, while the program $M$ will go into an infinite loop on every input, Algorithm $B$ never actually runs $M$: it only produces its code and feeds it to $A$. Hence Algorithm $B$ will _not_ enter into an infinite loop even in this case.)
-Thus in this case, $MONOTONE(N)=MONOTONE(INF)=1$.
+Thus in this case, $MONOTONE(M)=MONOTONE(INF)=1$.
 
 
 If $N$ _does_ halt on zero, then step __(a)__ in $M$ will eventually conclude and $M$'s output will be determined by step __(b)__, where it simply outputs the parity of its input.
