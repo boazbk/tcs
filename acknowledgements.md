@@ -109,6 +109,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Richard Xu
 * Wanqian Yang
 * Elizabeth Yeoh-Wang
+* Sun-Jung Yum
 * Josh Zelinsky
 * Fred Zhang
 * Grace Zhang
