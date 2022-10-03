@@ -979,7 +979,7 @@ Define $FINAL(\alpha)$ to be the final configuration of $M$ when initialized at 
 The function $FINAL$ can be defined recursively as follows:
 
 $$
-FINAL(\alpha) = \begin{cases}\alpha & \text{$\alpha$ is halting configuration} \\ NEXT_M(\alpha) & \text{otherwise}\end{cases}\;.
+FINAL(\alpha) = \begin{cases}\alpha & \text{$\alpha$ is halting configuration} \\ FINAL(NEXT_M(\alpha)) & \text{otherwise}\end{cases}\;.
 $$
 
 Checking whether a configuration is halting (i.e., whether it is one in which the transition function would output $\mathsf{H}$alt) can be easily implemented in the $\lambda$ calculus, and hence we can use the $RECURSE$  to compute $FINAL$.
@@ -1041,14 +1041,14 @@ In this representation, we can compute $PLUS(n,m)$ as $\lambda f.\lambda x.(n f)
 
 Now we come to a bigger hurdle, which is how to implement $MAP$, $FILTER$, $REDUCE$ and $RECURSE$ in the pure λ calculus.
 It turns out that we can build $MAP$ and $FILTER$ from $REDUCE$, and $REDUCE$ from $RECURSE$.
-For example $MAP(L,f)$ is the same as $REDUCE(L,g)$ where $g$ is the operation that on input $x$ and $y$, outputs $PAIR(f(x),NIL)$ if $y$ is NIL and otherwise outputs $PAIR(f(x),y)$.
+For example $MAP(L,f)$ is the same as $REDUCE(L,g,NIL)$ where $g$ is the operation that on input $x$ and $y$, outputs $PAIR(f(x),y)$.
 (I leave checking this as a (recommended!) exercise for you, the reader.)
 
-We can define $REDUCE(L,g)$ recursively, by setting $REDUCE(NIL,g)=NIL$ and stipulating that given a non-empty list $L$, which we can think of as a pair $(head,rest)$, $REDUCE(L,g) = g(head, REDUCE(rest,g)))$.
+We can define $REDUCE(L,f,z)$ recursively, by setting $REDUCE(NIL,f,z)=z$ and stipulating that given a non-empty list $L$, which we can think of as a pair $(head,rest)$, $REDUCE(L,f,z) = f(head, REDUCE(rest,f,z)))$.
 Thus, we might try to write a recursive λ expression for $REDUCE$ as follows
 
 $$
-REDUCE = \lambda L,g. IF(ISEMPTY(L),NIL,g HEAD(L) REDUCE(TAIL(L),g)) \label{reducereceq} \;.
+REDUCE = \lambda L,f,z. IF(ISEMPTY(L),z,f HEAD(L) REDUCE(TAIL(L),f,z)) \label{reducereceq} \;.
 $$
 
 The only fly in this ointment is that the λ calculus does not have the notion of recursion, and so this is an invalid definition.
@@ -1057,7 +1057,7 @@ We will replace the recursive call to "$REDUCE$" with a call to a function $me$ 
 Thus $REDUCE = RECURSE\;myREDUCE$ where
 
 $$
-myREDUCE = \lambda me,L,g. IF(ISEMPTY(L),NIL,g HEAD(L) me(TAIL(L),g)) \label{myreducereceq} \;.
+myREDUCE = \lambda me,L,f,z. IF(ISEMPTY(L),z,f HEAD(L) me(TAIL(L),f,z)) \label{myreducereceq} \;.
 $$
 
 
