@@ -35,7 +35,7 @@ The marquee result of this chapter is Gödel's Incompleteness Theorem, which sta
 But more than that we will see a deep connection between _uncomputability_ and _unprovability_.
 For example, the uncomputability of the Halting problem immediately gives rise to the existence of unprovable statements about Turing machines.
 To even state Gödel's Incompleteness Theorem we will need to formally define the notion of a "proof system".
-We give a very general definition, that encompasses all types of "axioms + inference rules" systems using in logic and math.
+We give a very general definition, that encompasses all types of "axioms + inference rules" systems used in logic and math.
 We will then build up the machinery to encode computation using arithmetic that will enable us to prove Gödel's Theorem.
 :::
 
@@ -351,7 +351,7 @@ Our proof of the uncomputability of $QIS$ (i.e. [QIS-thm](){.ref}) will, as usua
 1. We will first use a reduction from the Halting problem to show that deciding the truth of _quantified mixed statements_ is uncomputable. Quantified mixed statements involve both strings and integers.
 Since quantified mixed statements are a more general concept than quantified integer statements, it is _easier_ to prove the uncomputability of deciding their truth.
 
-2. We will then reduce the problem of quantified mixed statements to quantifier integer statements.
+2. We will then reduce the problem of quantified mixed statements to quantified integer statements.
 
 
 

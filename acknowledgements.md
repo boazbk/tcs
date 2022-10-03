@@ -36,6 +36,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Alexander Golovnev
 * Sayan Goswami
 * Maxwell Grozovsky
+* Jeffrey Gu
 * Kenneth Gu
 * Michael Haak
 * Rebecca Hao
