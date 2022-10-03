@@ -115,7 +115,7 @@ Let $PAL$ (for _palindromes_) be the function that on input $x\in \{0,1\}^*$, ou
 
 We now show a Turing machine $M$ that computes $PAL$. To specify $M$ we need to specify __(i)__ $M$'s tape alphabet $\Sigma$ which should contain at least the symbols $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
 
-In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=14$ states. Though the states are simply numbers between $0$ and $k-1$, we will give them the following labels for convenience:
+In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=13$ states. Though the states are simply numbers between $0$ and $k-1$, we will give them the following labels for convenience:
 
 ```table
 ---

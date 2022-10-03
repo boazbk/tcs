@@ -104,12 +104,14 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Salil Vadhan
 * Patrick Watts
 * Jonah Weissman
+* Abraham Wieland
 * Ryan Williams
 * Christina Xiao
 * Licheng Xu
 * Richard Xu
 * Wanqian Yang
 * Elizabeth Yeoh-Wang
+* Sun-Jung Yum
 * Josh Zelinsky
 * Fred Zhang
 * Grace Zhang

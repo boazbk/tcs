@@ -53,7 +53,7 @@ Don't worry if you find this confusing  - reductions _are_ initially confusing -
 :::
 
 
-![In this chapter we will show the existence of a _universal Turing machine_ and then use this to derive first the existence of _some_ uncomputable function. We then use this to derive the uncomputability of Turing's famous "halting problem" (i.e., the $HALT$ function), from which we a host of other uncomputability results follow. We also introduce _reductions_, which allow us to use the uncomputability of a function $F$ to derive the uncomputability of a new function $G$.](../figure/universalchapoverview.png){#universalchapoverviewfig}
+![In this chapter we will show the existence of a _universal Turing machine_ and then use this to derive first the existence of _some_ uncomputable function. We then use this to derive the uncomputability of Turing's famous "halting problem" (i.e., the $HALT$ function), from which a host of other uncomputability results follow. We also introduce _reductions_, which allow us to use the uncomputability of a function $F$ to derive the uncomputability of a new function $G$.](../figure/universalchapoverview.png){#universalchapoverviewfig}
 
 
 
@@ -104,14 +104,14 @@ One potential choice for such a representation is to use the equivalence between
 However, we will use a more direct encoding.
 
 ::: {.definition title="String representation of Turing Machine" #representTM}
-Let  $M$ be a Turing machine with $k$ states and a size $\ell$ alphabet $\Sigma = \{ \sigma_0,\ldots,\sigma_{\ell-1} \}$ (we use the convention $\sigma_0 = 0$,$\sigma_1 = 1$, $\sigma_2 = \varnothing$, $\sigma_3=\triangleright$).
+Let  $M$ be a Turing machine with $k$ states and a size $\ell$ alphabet $\Sigma = \{ \sigma_0,\ldots,\sigma_{\ell-1} \}$ (we use the convention $\sigma_0 = 0$, $\sigma_1 = 1$, $\sigma_2 = \varnothing$, $\sigma_3=\triangleright$).
 We represent $M$ as the triple $(k,\ell,T)$ where $T$ is the table of values for $\delta_M$:
 
 $$T = \left(\delta_M(0,\sigma_0),\delta_M(0,\sigma_1),\ldots,\delta_M(k-1,\sigma_{\ell-1})\right) \;,$$
 
 where each value $\delta_M(s,\sigma)$ is a triple $(s',\sigma',d)$ with $s'\in [k]$, $\sigma'\in \Sigma$ and $d$ a number $\{0,1,2,3 \}$ encoding one of $\{ \mathsf{L},\mathsf{R},\mathsf{S},\mathsf{H} \}$.
 Thus such a machine $M$ is encoded by a list of $2 + 3k\cdot\ell$ natural numbers.
-The _string representation_ of $M$ is obtained by concatenating prefix free representation
+The _string representation_ of $M$ is obtained by concatenating a prefix free representation
 of all these integers.
 If a string $\alpha \in \{0,1\}^*$ does not represent a list of integers in the form above, then we treat it as representing the trivial Turing machine with one state that immediately halts on every input.
 :::
@@ -163,7 +163,7 @@ On input a transition table $\delta$ this program will simulate the correspondin
 The above does not prove the theorem as stated, since we need to show a _Turing machine_ that computes $EVAL$ rather than a Python program.
 With enough effort, we can translate this Python code line by line to a Turing machine.
 However, to prove the theorem we don't need to do this, but can use our "eat the cake and have it too" paradigm.
-That is, while we need to evaluate a Turing machine, in writing the code for the interpreter we are allowed to use a richer model such as NAND-RAM since it is equivalent in power to Turing machines per  [RAMTMequivalencethm](){.ref}.
+That is, while we need to evaluate a Turing machine, in writing the code for the interpreter we are allowed to use a richer model such as NAND-RAM since it is equivalent in power to Turing machines per [RAMTMequivalencethm](){.ref}.
 
 
 Translating the above Python code to NAND-RAM is truly straightforward.
@@ -324,15 +324,15 @@ If{$z=0$}
 return $1$
 endif
 Let $y \leftarrow U(x,x)$ # $U$ universal TM, i.e., $y=x(x)$
-If{$y=0$}
-return $1$
+If{$y=1$}
+return $0$
 endif
-Return $0$
+Return $1$
 ```
 
 We claim that [halttof](){.ref} computes the function $F^*$.
-Indeed, suppose that $x(x)=0$ (and hence $F^*(x)=1$).
-In this case, $HALT(x,x)=1$ and hence, under our assumption that $M(x,x)=HALT(x,x)$, the value $z$ will equal $1$, and hence [halttof](){.ref}  will set $y=x(x)=0$, and output the correct value $1$.
+Indeed, suppose that $x(x)=1$ (and hence $F^*(x)=0$).
+In this case, $HALT(x,x)=1$ and hence, under our assumption that $M(x,x)=HALT(x,x)$, the value $z$ will equal $1$, and hence [halttof](){.ref} will set $y=x(x)=1$, and output the correct value $0$.
 
 Suppose otherwise that $x(x) \neq 0$. In this case there are two possibilities:
 
@@ -667,7 +667,7 @@ int Second(int n) {
     if (n<0) return 0;
     while (j<n) {
         i = i + 2;
-        j=  j + 1;
+        j = j + 1;
     }
     return i;
 }
@@ -758,7 +758,7 @@ In other words, we need to show that $HALTONZERO(N)=1-MONOTONE(M)$.
 Suppose that   $N$ does _not_ halt on zero.
 In this case the program $M$ constructed by Algorithm $B$ enters into an infinite loop in step __(a)__ and will never reach step __(b)__.
 Hence in this case  $N$ is functionally equivalent to $INF$. (The machine $N$ is not the same machine as $INF$: its description or _code_ is different. But it does have the same input/output behavior (in this case) of never halting on any input. Also, while the program $M$ will go into an infinite loop on every input, Algorithm $B$ never actually runs $M$: it only produces its code and feeds it to $A$. Hence Algorithm $B$ will _not_ enter into an infinite loop even in this case.)
-Thus in this case, $MONOTONE(N)=MONOTONE(INF)=1$.
+Thus in this case, $MONOTONE(M)=MONOTONE(INF)=1$.
 
 
 If $N$ _does_ halt on zero, then step __(a)__ in $M$ will eventually conclude and $M$'s output will be determined by step __(b)__, where it simply outputs the parity of its input.
