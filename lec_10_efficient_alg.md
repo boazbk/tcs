@@ -269,7 +269,7 @@ $f(px+(1-p)y) \leq pf(x) + (1-p)f(y)$.
 That is, $f$ applied to the $p$-weighted midpoint between $x$ and $y$ is smaller than the $p$-weighted average value of $f$.
 If $D$ itself is convex (which means that if $x,y$ are in $D$ then so is the line segment between them), then this means that if $x$ is a _local minimum_ of $f$ then it is also a _global minimum_.
 The reason is that if $f(y)<f(x)$ then every point $z=px+(1-p)y$ on the line segment between $x$ and $y$ will satisfy $f(z) \leq p f(x) + (1-p)f(y) < f(x)$ and hence in particular $x$ cannot be a local minimum.
-Intuitively, local minima of functions are much easier to find than global ones: after all, any "local search" algorithm that keeps finding a nearby point on which the value is lower, will eventually arrive at a local minima.
+Intuitively, local minima of functions are much easier to find than global ones: after all, any "local search" algorithm that keeps finding a nearby point on which the value is lower, will eventually arrive at a local minimum.
 One example of such a local search algorithm is [gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) which takes a sequence of small steps, each one in the direction that would reduce the value by the most amount based on the current derivative.
 
 Indeed, under certain technical conditions, we can often efficiently find the minimum of convex functions over a convex domain, and this is the reason why problems such as minimum cut and shortest path are easy to solve.
