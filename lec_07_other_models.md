@@ -388,7 +388,7 @@ Because of the equivalence of all these models, in many contexts, it will not ma
 ### Turing completeness and equivalence, a formal definition (optional) {#turingcompletesec }
 
 A _computational model_ is some way to define what it means for a _program_ (which is represented by a string) to compute a (partial) _function_.
-A _computational model_ $\mathcal{M}$ is _Turing complete_ if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $Q$.
+A _computational model_ $\mathcal{M}$ is _Turing complete_ if we can map every Turing machine (or equivalently NAND-TM program) $N$ into a program $P$ for $\mathcal{M}$ that computes the same function as $N$.
 It is _Turing equivalent_ if the other direction holds as well (i.e., we can map every program in $\mathcal{M}$ to a Turing machine that computes the same function).
 We can define this notion formally as follows.
 (This formal definition is not crucial for the remainder of this book so feel  to skip it as long as you understand the general concept of Turing equivalence; This notion is sometimes referred to in the literature as [Gödel numbering](https://goo.gl/rzuNPu) or [admissible numbering](https://goo.gl/xXJoUG).)
@@ -448,7 +448,7 @@ We will now formally define one-dimensional cellular automata and then prove the
 
 
 ::: {.definition title="One dimensional cellular automata" #cellautomatadef}
-Let $\Sigma$ be a finite set containing the symbol $\varnothing$. A _one dimensional cellular automation_ over alphabet $\Sigma$ is described by a _transition rule_ $r:\Sigma^3 \rightarrow \Sigma$, which satisfies $r(\varnothing,\varnothing,\varnothing) = \varnothing$.
+Let $\Sigma$ be a finite set containing the symbol $\varnothing$. A _one dimensional cellular automaton_ over alphabet $\Sigma$ is described by a _transition rule_ $r:\Sigma^3 \rightarrow \Sigma$, which satisfies $r(\varnothing,\varnothing,\varnothing) = \varnothing$.
 
 A  _configuration_ of the automaton $r$ is a function $A:\Z \rightarrow \Sigma$.
 If an automaton with rule $r$ is in configuration $A$, then its next configuration, denoted by $A' = NEXT_r(A)$, is the function $A'$ such that $A'(i) = r(A(i-1),A(i),A(i+1))$ for every $i\in \Z$.
@@ -935,7 +935,7 @@ Showing __(2)__ essentially amounts to simulating a Turing machine (or writing a
 We only sketch the proof. The "if" direction is simple. As mentioned above, evaluating λ expressions basically amounts to "search and replace". It is also a fairly straightforward programming exercise to implement all the above basic operations in an imperative language such as Python or C, and using the same ideas we can do so in NAND-RAM as well, which we can then transform to a NAND-TM program.
 
 For the "only if" direction we need to simulate a Turing machine using a λ expression.
-We will do so by first showing that showing for every Turing machine $M$ a λ expression to compute the next-step function $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ that maps a configuration of $M$ to the next one (see [turingmachinesconfigsec](){.ref}).
+We will do so by first showing for every Turing machine $M$ a λ expression to compute the next-step function $NEXT_M:\overline{\Sigma}^* \rightarrow \overline{\Sigma}^*$ that maps a configuration of $M$ to the next one (see [turingmachinesconfigsec](){.ref}).
 
 A configuration of $M$ is a string $\alpha \in \overline{\Sigma}^*$ for a finite set $\overline{\Sigma}$. We can encode every symbol $\sigma \in \overline{\Sigma}$ by a finite string $\{0,1\}^\ell$, and so we will encode a configuration $\alpha$ in the  λ calculus as a list $\langle \alpha_0, \alpha_1, \ldots, \alpha_{m-1}, \bot \rangle$ where $\alpha_i$ is an $\ell$-length string (i.e., an $\ell$-length  list of $0$'s and $1$'s) encoding a symbol in $\overline{\Sigma}$.
 
@@ -979,7 +979,7 @@ Define $FINAL(\alpha)$ to be the final configuration of $M$ when initialized at 
 The function $FINAL$ can be defined recursively as follows:
 
 $$
-FINAL(\alpha) = \begin{cases}\alpha & \text{$\alpha$ is halting configuration} \\ NEXT_M(\alpha) & \text{otherwise}\end{cases}\;.
+FINAL(\alpha) = \begin{cases}\alpha & \text{$\alpha$ is halting configuration} \\ FINAL(NEXT_M(\alpha)) & \text{otherwise}\end{cases}\;.
 $$
 
 Checking whether a configuration is halting (i.e., whether it is one in which the transition function would output $\mathsf{H}$alt) can be easily implemented in the $\lambda$ calculus, and hence we can use the $RECURSE$  to compute $FINAL$.
@@ -1041,14 +1041,14 @@ In this representation, we can compute $PLUS(n,m)$ as $\lambda f.\lambda x.(n f)
 
 Now we come to a bigger hurdle, which is how to implement $MAP$, $FILTER$, $REDUCE$ and $RECURSE$ in the pure λ calculus.
 It turns out that we can build $MAP$ and $FILTER$ from $REDUCE$, and $REDUCE$ from $RECURSE$.
-For example $MAP(L,f)$ is the same as $REDUCE(L,g)$ where $g$ is the operation that on input $x$ and $y$, outputs $PAIR(f(x),NIL)$ if $y$ is NIL and otherwise outputs $PAIR(f(x),y)$.
+For example $MAP(L,f)$ is the same as $REDUCE(L,g,NIL)$ where $g$ is the operation that on input $x$ and $y$, outputs $PAIR(f(x),y)$.
 (I leave checking this as a (recommended!) exercise for you, the reader.)
 
-We can define $REDUCE(L,g)$ recursively, by setting $REDUCE(NIL,g)=NIL$ and stipulating that given a non-empty list $L$, which we can think of as a pair $(head,rest)$, $REDUCE(L,g) = g(head, REDUCE(rest,g)))$.
+We can define $REDUCE(L,f,z)$ recursively, by setting $REDUCE(NIL,f,z)=z$ and stipulating that given a non-empty list $L$, which we can think of as a pair $(head,rest)$, $REDUCE(L,f,z) = f(head, REDUCE(rest,f,z)))$.
 Thus, we might try to write a recursive λ expression for $REDUCE$ as follows
 
 $$
-REDUCE = \lambda L,g. IF(ISEMPTY(L),NIL,g HEAD(L) REDUCE(TAIL(L),g)) \label{reducereceq} \;.
+REDUCE = \lambda L,f,z. IF(ISEMPTY(L),z,f HEAD(L) REDUCE(TAIL(L),f,z)) \label{reducereceq} \;.
 $$
 
 The only fly in this ointment is that the λ calculus does not have the notion of recursion, and so this is an invalid definition.
@@ -1057,7 +1057,7 @@ We will replace the recursive call to "$REDUCE$" with a call to a function $me$ 
 Thus $REDUCE = RECURSE\;myREDUCE$ where
 
 $$
-myREDUCE = \lambda me,L,g. IF(ISEMPTY(L),NIL,g HEAD(L) me(TAIL(L),g)) \label{myreducereceq} \;.
+myREDUCE = \lambda me,L,f,z. IF(ISEMPTY(L),z,f HEAD(L) me(TAIL(L),f,z)) \label{myreducereceq} \;.
 $$
 
 

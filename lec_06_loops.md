@@ -115,7 +115,7 @@ Let $PAL$ (for _palindromes_) be the function that on input $x\in \{0,1\}^*$, ou
 
 We now show a Turing machine $M$ that computes $PAL$. To specify $M$ we need to specify __(i)__ $M$'s tape alphabet $\Sigma$ which should contain at least the symbols $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
 
-In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=14$ states. Though the states are simply numbers between $0$ and $k-1$, we will give them the following labels for convenience:
+In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=13$ states. Though the states are simply numbers between $0$ and $k-1$, we will give them the following labels for convenience:
 
 ```table
 ---
@@ -144,7 +144,7 @@ State, Label
 
 We describe the operation of our Turing machine $M$ in words:
 
-* $M$ starts in state `START` and goes right, looking for the first symbol that is $0$ or $1$. If it finds $\varnothing$ before it hits such a symbol then we it moves to the `OUTPUT_1` state described below.
+* $M$ starts in state `START` and goes right, looking for the first symbol that is $0$ or $1$. If it finds $\varnothing$ before it hits such a symbol then it moves to the `OUTPUT_1` state described below.
 
 * Once $M$ finds such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing the $\times$ symbol, it enters either the `RIGHT_0` or `RIGHT_1` mode according to the value of $b$ and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
 
@@ -272,7 +272,7 @@ In fact, we don't even know if an output would be produced at all!
 For example, it is straightforward to come up with a Turing machine whose transition function never outputs $\mathsf{H}$ and hence never halts.
 
 
-If a machine  $M$ fails to stop and produce an output on some an input $x$, then it cannot compute any total function $F$, since clearly on input $x$, $M$  will fail to output $F(x)$. However, $M$ can still compute a _partial function_.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
+If a machine $M$ fails to stop and produce an output on some input $x$, then it cannot compute any total function $F$, since clearly on input $x$, $M$  will fail to output $F(x)$. However, $M$ can still compute a _partial function_.^[A _partial function_ $F$ from a set $A$ to a set $B$ is a function that is only defined on a _subset_ of $A$, (see [functionsec](){.ref}). We can also think of such a function as mapping $A$ to $B \cup \{ \bot \}$ where $\bot$ is a special "failure" symbol such that $F(a)=\bot$  indicates the function $F$ is not defined on $a$.]
 
 For example, consider the partial function $DIV$ that on input a pair $(a,b)$ of natural numbers, outputs $\ceil{a/b}$ if $b > 0$, and is undefined otherwise.
 We can define a Turing machine $M$ that computes $DIV$ on input $a,b$ by outputting the first $c=0,1,2,\ldots$ such that $cb \geq a$. If $a>0$ and $b=0$ then the machine $M$ will never halt, but this is OK, since $DIV$ is undefined on such inputs. If $a=0$ and $b=0$, the machine  $M$ will output $0$, which is also OK, since we don't care about what the program outputs on inputs on which $DIV$ is undefined. Formally, we define computability of partial functions as follows:
