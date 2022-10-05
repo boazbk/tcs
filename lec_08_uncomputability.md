@@ -521,6 +521,7 @@ $HALTONZERO$ is uncomputable.
 The proof of [haltonzero-thm](){.ref} is below, but before reading it you might want to pause for a couple of minutes and think how you would prove it yourself.
 In particular, try to think of what a reduction from $HALT$ to $HALTONZERO$ would look like.
 Doing so is an excellent way to get some initial comfort with the notion of proofs by reduction, which a technique we will be using time and again in this book.
+You can also see [haltonzeropythonfig](){.ref} and the following [Colab notebook](https://colab.research.google.com/drive/1PZQCNLO1YqQXOkBxfgtEjCeisxnhAEhH?usp=sharing) for a Python implementation of this reduction.
 
 ![To prove [haltonzero-thm](){.ref}, we show that $HALTONZERO$ is uncomputable by giving a _reduction_ from the task of computing $HALT$ to the task of computing $HALTONZERO$. This shows that if there was a hypothetical algorithm $A$ computing $HALTONZERO$, then there would be an algorithm $B$ computing $HALT$, contradicting [halt-thm](){.ref}. Since neither $A$ nor $B$ actually exists, this is an example of an implication of the form "if pigs could whistle then horses could fly".](../figure/haltonzerored.png){#haltonzerofig  .figure  }
 
@@ -578,7 +579,7 @@ In particular if we instantiate this claim with the input $z=0$ to $N_{M,x}$, we
 Thus if the hypothetical algorithm $A$ satisfies $A(M)=HALTONZERO(M)$ for every $M$ then the algorithm $B$ we construct satisfies $B(M,x)=HALT(M,x)$ for every $M,x$, contradicting the uncomputability of $HALT$.
 :::
 
-
+![A Python implementation of the reduction showing that $HALTONZERO$ is uncomputable if $HALT$ is. See this [Colab notebook](https://colab.research.google.com/drive/1PZQCNLO1YqQXOkBxfgtEjCeisxnhAEhH?usp=sharing) for a full implementation of the reduction.](../figure/haltonzeropython.png){#haltonzeropythonfig}
 
 > ### {.remark title="The hardwiring technique" #hardwiringrem}
 In the proof of [haltonzero-thm](){.ref} we used the technique of  "hardwiring" an input  $x$ to a program/machine $P$. That is, we take a program that computes the function $x \mapsto f(x)$ and "fix" or "hardwire" some of the inputs to some constant value.  For example, if you have a program that takes as input a pair of numbers $x,y$ and outputs their product (i.e., computes the function $f(x,y) =x\times y$), then you can "hardwire" the second input to be $17$  and obtain a program that takes as input a number $x$ and outputs $x\times 17$ (i.e., computes the function $g(x) = x\times 17$). 
