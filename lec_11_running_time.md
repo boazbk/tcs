@@ -51,7 +51,7 @@ We will define the main _time complexity classes_ we use in this book, and also 
 To put this in more "mathy" language, in this chapter we define what it means for a function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ to be _computable in time $T(n)$ steps_, where $T$ is some function mapping the length $n$ of the input to the number of computation steps allowed.
 Using this definition we will do the following (see also [runtimeoverviewfig](){.ref}):
 
-* We define the class $\mathbf{P}$ of Boolean functions that can be computed in polynomial time and the class $\mathbf{EXP}$ of functions that can be computed in exponential time. Note that $\mathbf{P} \subseteq \mathbf{EXP}$ if we can compute a function in polynomial time, we can certainly compute it in exponential time. 
+* We define the class $\mathbf{P}$ of Boolean functions that can be computed in polynomial time and the class $\mathbf{EXP}$ of functions that can be computed in exponential time. Note that $\mathbf{P} \subseteq \mathbf{EXP}$. If we can compute a function in polynomial time, we can certainly compute it in exponential time. 
 
 * We show that the times to compute a function using a Turing machine and using a RAM machine (or NAND-RAM program) are _polynomially related_. In particular this means that the classes $\mathbf{P}$ and $\mathbf{EXP}$ are identical regardless of whether they are defined using Turing machines or RAM machines / NAND-RAM programs.
 
@@ -65,7 +65,7 @@ Using this definition we will do the following (see also [runtimeoverviewfig](){
 
 ## Formally defining running time
 
-Our models of computation such Turing machines, NAND-TM and NAND-RAM programs and others all operate by executing a sequence of instructions on an input one step at a time.
+Our models of computation (Turing machines, NAND-TM and NAND-RAM programs and others) all operate by executing a sequence of instructions on an input one step at a time.
 We can define the _running time_ of an algorithm $M$ in one of these models by measuring the number of steps $M$ takes on input $x$ as a _function of the length $|x|$ of the input_.
 We start by defining running time with respect to Turing machines:
 
@@ -87,7 +87,6 @@ The concept of TM-time as defined here is sometimes known as "single-tape Turing
 :::
 
 The relaxation of considering only "sufficiently large" $n$'s is not very important but it is convenient since it allows us to avoid dealing explicitly with un-interesting "edge cases".
-We will mostly anyway be interested in determining running time only up to constant and even polynomial factors. 
 
 While the notion of being computable within a certain running time can be defined for every function, the class $TIME_{\mathsf{TM}}(T(n))$ is a class of _Boolean functions_ that have a single bit of output.
 This choice is not very important, but is made for simplicity and convenience later on.
@@ -103,9 +102,9 @@ Prove that $TIME_{\mathsf{TM}}(10\cdot n^3) \subseteq TIME_{\mathsf{TM}}(2^n)$.
 
 ::: {.solution data-ref="timeboundexample"}
 The proof is illustrated in [examplefimeboundsfig](){.ref}.
-Suppose that $F\in TIME_{\mathsf{TM}}(10\cdot n^3)$ and hence there some number $N_0$ and a machine $M$ such that for every $n> N_0$,  and $x\in \{0,1\}^*$, $M(x)$ outputs $F(x)$ within at most $10\cdot n^3$ steps.
+Suppose that $F\in TIME_{\mathsf{TM}}(10\cdot n^3)$ and hence there exist some number $N_0$ and a machine $M$ such that for every $n> N_0$,  and $x\in \{0,1\}^*$, $M(x)$ outputs $F(x)$ within at most $10\cdot n^3$ steps.
 Since $10\cdot n^3 = o(2^n)$, there is some number $N_1$ such that for every $n>N_1$, $10\cdot n^3 < 2^n$.
-Hence for every $n > \max\{ N_0, N_1 \}$, $M(x)$ will output $F(x)$ within at most $2^n$ steps, just demonstrating that $F \in TIME_{\mathsf{TM}}(2^n)$.
+Hence for every $n > \max\{ N_0, N_1 \}$, $M(x)$ will output $F(x)$ within at most $2^n$ steps, demonstrating that $F \in TIME_{\mathsf{TM}}(2^n)$.
 :::
 
 
@@ -152,8 +151,8 @@ To show these two sets are equal we need to show that $\mathbf{P} \subseteq \cup
 We start with the former inclusion.
 Suppose that $F \in \mathbf{P}$. Then there is some polynomial $p:\N \rightarrow \R$ and a Turing machine $M$ such that $M$ computes $F$ and $M$ halts on every input $x$ within at most $p(|x|)$ steps.
 We can write the  polynomial $p:\N \rightarrow \R$ in  the form $p(n) = \sum_{i=0}^d a_i n^i$ where $a_0,\ldots,a_d \in \R$, and we assume that $a_d$ is non-zero (or otherwise we just let $d$ correspond to the largest number such that $a_d$
-is non-zero). The _degree_ if $p$ the number $d$.
-Since $n^d = o(n^{d+1})$, no matter what is the coefficient $a_d$, for large enough $n$, $p(n) < n^{d+1}$ which means that the Turing machine $M$ will halt on inputs of length $n$ within fewer than $n^{d+1}$ steps, and hence
+is non-zero). The _degree_ of $p$ is the number $d$.
+Since $n^d = o(n^{d+1})$, no matter what the coefficient $a_d$ is, for large enough $n$, $p(n) < n^{d+1}$ which means that the Turing machine $M$ will halt on inputs of length $n$ within fewer than $n^{d+1}$ steps, and hence
 $F \in TIME_{\mathsf{TM}}(n^{d+1}) \subseteq \cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(n^c)$.
 
 For the second inclusion, suppose that $F \in \cup_{c\in \{1,2,3,\ldots \}} TIME_{\mathsf{TM}}(n^c)$.
@@ -392,7 +391,7 @@ Specifically, if you understand how you would go about writing an interpreter fo
 ::: {.proof data-ref="univ-nandpp"}
 To present a universal NAND-RAM program in full we would need to describe a precise representation scheme, as well as the full NAND-RAM instructions for the program.
 While this can be done, it is more important to focus on the main ideas, and so we just sketch the proof here.
-A specification of NAND-RAM is given in the [appendix](http://tiny.cc/introtcsappendix), and for the purposes of this simulation, we can simply use the representation of the code NAND-RAM as an ASCII string.
+A specification of NAND-RAM is given in the [appendix](http://tiny.cc/introtcsappendix), and for the purposes of this simulation, we can simply use the representation of the NAND-RAM code as an ASCII string.
 
 The program $U$ gets as input a NAND-RAM program $P$ and an input $x$ and simulates $P$ one step at a time.
 To do so, $U$ does the following:
@@ -478,7 +477,7 @@ Therefore, the proof of [time-hierarchy-thm](){.ref} follows the ideas of the un
 ::: {.proof data-ref="time-hierarchy-thm"}
 Our proof is inspired by the proof of the uncomputability of the halting problem.
 Specifically, for every function $T$ as in the theorem's statement, we define the _Bounded Halting_ function $HALT_T$ as follows.
-The input to $HALT_T$ is a pair $(P,x)$ such that $|P| \leq \log \log |x|$ encodes some NAND-RAM program.
+The input to $HALT_T$ is a pair $(P,x)$ such that $|P| \leq \log \log |x|$ and $P$ encodes some NAND-RAM program.
 We define
 
 $$
