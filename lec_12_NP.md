@@ -220,7 +220,7 @@ However it straightforwardly follows the proof idea.
 ``` { .algorithm title="$3SAT$ to $01EQ$ reduction" #zerooneeqreduction }
 INPUT: 3CNF formula $\varphi$ with $n$ variables $x_0,\ldots,x_{n-1}$ and $m$ clauses.
 
-OUTPUT: Set $E$ of linear equations over $0/1$ such that $3SAT(\varphi)=1$ -iff $01EQ(E)=1$.
+OUTPUT: Set $E$ of linear equations over $0/1$ such that $3SAT(\varphi)=1$ iff $01EQ(E)=1$.
 
 Let $E$'s variables be $x_0,\ldots,x_{n-1}$, $x'_0,\ldots,x'_{n-1}$, $y_0,\ldots,y_{m-1}$, $z_0,\ldots,z_{m-1}$.
 For{$i \in [n]$}
@@ -317,7 +317,7 @@ Since for every $a\in \R$, $a^2 - a = 0$ if and only if $a \in \{0,1\}$, the two
 INPUT: Set $E$ of linear equations over $n$ variables $x_0,\ldots,x_{n-1}$.
 
 OUTPUT: Set $E'$ of quadratic eqations ovar $m$ variables $w_0,\ldots,w_{m-1}$ such that there is an $0/1$ assignment $x\in \{0,1\}^n$
-satisfying the equations of $E$ -iff there is an assignment $w \in \R^m$ satisfying the equations of $E'$.
+satisfying the equations of $E$ iff there is an assignment $w \in \R^m$ satisfying the equations of $E'$.
 That is, $01EQ(E) = QUADEQ(E')$.
 
 Let $m \leftarrow n$.
@@ -372,7 +372,7 @@ We will see these "gadgets" used time and again in the construction of polynomia
 ``` { .algorithm title="$3SAT$ to $IS$ reduction" #threesattoisetreductionalg }
 INPUT: $3SAT$  formula $\varphi$ with $n$ variables and $m$ clauses.
 
-OUTPUT: Graph $G=(V,E)$ and number $k$, such that $G$ has an independent set of size $k$ -iff $\varphi$ has a satisfying assignment.
+OUTPUT: Graph $G=(V,E)$ and number $k$, such that $G$ has an independent set of size $k$ iff $\varphi$ has a satisfying assignment.
 That is, $3SAT(\varphi) = ISET(G,k)$, 
 
 Initialize $V \leftarrow \emptyset, E \leftarrow \emptyset$
@@ -421,7 +421,7 @@ We let $S$ be a set of $m$ vertices that is obtained by choosing for every claus
 
 We claim that $S$ is an independent set. Indeed, suppose otherwise that there was a pair of vertices $(C,y)$ and $(C',y')$ in $S$ that have an edge between them. 
 Since we picked one vertex out of each triangle corresponding to a clause, it must be that $C \neq C'$.
-Hence the only way that there is an edge between $(C,y)$ and $(C,y')$ is if $y$ and $y'$ are conflicting literals (i.e. $y=x_i$ and $y'=\overline{x}_i$ for some $i$).
+Hence the only way that there is an edge between $(C,y)$ and $(C',y')$ is if $y$ and $y'$ are conflicting literals (i.e. $y=x_i$ and $y'=\overline{x}_i$ for some $i$).
 But then they can't both evaluate to _true_ under the assignment $x^*$, which contradicts the way we constructed the set $S$.
 This completes the proof of the completeness condition.
 
@@ -503,7 +503,7 @@ In the two examples above, the reduction was almost "trivial": the reduction fro
 The following exercise requires a somewhat more interesting reduction.
 
 ::: {.solvedexercise title="Dominating set" #dominatingsetex}
-A _dominating set_ in a graph $G=(V,E)$ is a subset $S \subseteq V$ of vertices such that for every $u \in V \setminus S$ is a neighbor in $G$ of some $s \in S$ (see [dominatingvertexcover](){.ref}).
+A _dominating set_ in a graph $G=(V,E)$ is a subset $S \subseteq V$ of vertices such that every $u \in V \setminus S$ is a neighbor in $G$ of some $s \in S$ (see [dominatingvertexcover](){.ref}).
 The _dominating set problem_ is the task, given a graph $G=(V,E)$ and number $k$, of determining whether there exists a dominating set $S \subseteq V$ with $|S| \leq k$.
 Formally, this is the function $DS:\{0,1\}^* \rightarrow \{0,1\}$ such that $DS(G,k)=1$ iff there is a dominating set in $G$ of at most $k$ vertices.
 
@@ -531,8 +531,7 @@ __Description of the algorithm.__ Given an instance $(G,k)$ for the vertex cover
 ``` { .algorithm title="$VC$ to $DS$ reduction" #independentsettodsredalg }
 INPUT: Graph $G=(V,E)$ and number $k$.
 
-OUTPUT: Graph $H=(V',E')$ and number $k'$, such that $G$ has a vertex cover of size $k$ -iff $H$ has a dominating set of size $k'$
-That is, $DS(H,k') = ISET(G,k)$, 
+OUTPUT: Graph $H=(V',E')$ and number $k'$, such that $G$ has a vertex cover of size $k$ iff $H$ has a dominating set of size $k'$, that is, $DS(H,k') = VC(G,k)$.
 
 Initialize $V' \leftarrow V, E' \leftarrow E$
 For {every edge $\{u,v\} \in E$}
@@ -549,7 +548,7 @@ Counting the number of isolated vertices in an $n$ vertex graph $G$ can be done 
 if it is represented in the adjacency list representation.
 Regardless the algorithm runs in polynomial time.
 
-To complete the proof we need to prove that for every $G,k$, if $H,k'$ is the output of [independentsettodsredalg](){.ref} on input $(G,k)$, then\
+To complete the proof we need to prove that for every $G,k$, if $H,k'$ is the output of [independentsettodsredalg](){.ref} on input $(G,k)$, then
 $DS(H,k') = VC(G,k)$.
 We split the proof into two parts. The _completeness_ part is that if $VC(G,k)=1$ then $DS(H,k')=1$.
 The _soundness_ part is that if $DS(H,k')=1$ then $VC(G,k)=1$.
@@ -571,7 +570,7 @@ We conclude that $S \cup I$ is a dominating set of size at most $k'=k +\ell$ in 
 
 __Soundness.__ Suppose that $DS(H,k')=1$. Then there is a dominating set $D$ of size at most $k' = k +\ell$ in $H$.
 For every edge $\{ u,v \}$ in the graph $G$, if $D$ contains the vertex $w_{u,v}$ then we remove this vertex and add $u$ in its place.
-The only two neighbors of $w_{u,v}$ are $u$ and $v$, and since $u$ is a neighbor of both $w_{u,v}$ and of $v$, replacing  $w_{u,v}$  with $v$ maintains the property that it is
+The only two neighbors of $w_{u,v}$ are $u$ and $v$, and since $u$ is a neighbor of both $w_{u,v}$ and of $v$, replacing  $w_{u,v}$  with $u$ maintains the property that it is
 a dominating set.
 Moreover, this change cannot increase the size of $D$.
 Thus following this modification, we can assume that $D$ is a dominating set of at most $k+\ell$ vertices that does not contain any vertices of the 
