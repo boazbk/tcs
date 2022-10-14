@@ -290,7 +290,7 @@ We will not provide the full details but will present the main ideas used in sho
    a. Copying `Bar` to some temporary array `Temp`
    b. Having an array `Index`  which is initially all zeros except $1$ at the first location.
    c. Repeating the following until `Temp` encodes the number $0$: _(Number of repetitions is at most $T(n)$.)_
-      - Decrease the number encoded temp by $1$. _(Take number of steps polynomial in $\ell = \ceil{\log T(n)}$.)_
+      - Decrease the number encoded by `Temp` by $1$. _(Take number of steps polynomial in $\ell = \ceil{\log T(n)}$.)_
       - Decrease `i` until it is equal to $0$. _(Take $O(T(n)$ steps.)_
       - Scan `Index` until we reach the point in which it equals $1$ and then change this $1$ to $0$ and go one step further and write $1$ in this location. _(Takes $O(T(n))$ steps.)_
    d. When we are done we know that if we  scan `Index` until we reach the point in which `Index[i]`$=1$ then `i` contains the value that was encoded by `Bar` _(Takes $O(T(n)$ steps.)_
