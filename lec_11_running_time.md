@@ -40,7 +40,7 @@ As mentioned in Edmond's quote in [chapefficient](){.ref}, the difference betwee
 
 ::: {.nonmath}
 In this chapter we formally define what it means for a function to be computable in a certain number of steps.
-As discussed in [chapefficient](){.ref}, running time is not a number, rather what we care about is the _scaling behevaiour_ 
+As discussed in [chapefficient](){.ref}, running time is not a number, rather what we care about is the _scaling behaviour_ 
 of the number of steps as the input size grows.
 We can use either Turing machines or RAM machines to give such a formal definition - it turns out that this doesn't make a difference at the resolution we care about.
 We make several important definitions and prove some important theorems in this chapter.
