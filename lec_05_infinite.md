@@ -356,7 +356,7 @@ See also [DFAzerooneexecfig](){.ref}, which depicts the execution of this DFA on
 
 ![A DFA that outputs $1$ only on inputs $x\in \{0,1\}^*$ that are a concatenation of zero or more copies of $010$.
 The state $0$ is both the starting state and the only accepting state.
-The table denotes the transition function of $T$, which maps the current state and symbol read to the new state.](../figure/DFA010a.png){#dfazeroonefig  .margin }
+The table denotes the transition function of $T$, which maps the current state and symbol read to the new symbol.](../figure/DFA010a.png){#dfazeroonefig  .margin }
 
 
 ### Anatomy of an automaton (finite vs. unbounded)
