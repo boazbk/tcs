@@ -417,9 +417,9 @@ $$
 $$
 
 
-If we can encode the statement $\varphi_M$ as a mixed-integer statement then, since $\varphi_M$ is true if and only if $HALTONZERO(M)=1$, this would reduce the task
-of computing $HALTONZERO$ to computing $MIS$, and hence imply (using [haltonzero-thm](){.ref} ) that $MIS$ is uncomputable, completing the proof.
-Indeed, $\varphi_M$ can be encoded as a mixed-integer statement for the following reasons:
+If we can encode the statement $\varphi_M$ as a quantified mixed statement then, since $\varphi_M$ is true if and only if $HALTONZERO(M)=1$, this would reduce the task
+of computing $HALTONZERO$ to computing $QMS$, and hence imply (using [haltonzero-thm](){.ref} ) that $QMS$ is uncomputable, completing the proof.
+Indeed, $\varphi_M$ can be encoded as a quantified mixed statement for the following reasons:
 
 1. Let $\alpha,\beta \in \{0,1\}^*$ be two strings that encode configurations of $M$.  We can define a quantified mixed predicate $NEXT(\alpha,\beta)$ that is true if and only if $\beta = NEXT_M(\alpha)$ (i.e., $\beta$ encodes the configuration obtained by proceeding from $\alpha$ in one computational step). Indeed $NEXT(\alpha,\beta)$ is true if __for every__  $i \in \{0,\ldots,|\beta|\}$ which is a multiple of $\ell$, $\beta_{i,\ldots,i+\ell-1} = MAP_M(\alpha_{i-\ell,\cdots,i+2\ell-1})$ where $MAP_M:\{0,1\}^{3\ell} \rightarrow \{0,1\}^\ell$ is the finite function above (identifying elements of $\Sigma$ with their encoding in $\{0,1\}^\ell$). Since $MAP_M$ is a finite function, we can express it using the logical operations $AND$,$OR$, $NOT$ (for example by computing $MAP_M$ with $NAND$'s).
 
@@ -449,7 +449,7 @@ We can also use other well known uncomputable problems such as tiling or the [po
 
 We now show how to prove [QIS-thm](){.ref} using [QMS-thm](){.ref}.
 The idea is again a proof by reduction.
-We will show a transformation of every quantifier mixed statement $\varphi$ into a quantified _integer_ statement $\xi$ that does not use string-valued variables such that $\varphi$ is true if and only if $\xi$ is true.
+We will show a transformation of every quantified mixed statement $\varphi$ into a quantified _integer_ statement $\xi$ that does not use string-valued variables such that $\varphi$ is true if and only if $\xi$ is true.
 
 To remove string-valued variables from a statement, we encode every string by a pair integer. 
 We will show that we can encode a string $x\in \{0,1\}^*$ by a pair of numbers $(X,n)\in \N$ s.t.
@@ -487,8 +487,8 @@ We fix $C$ to be a sufficiently large constant ($C=2^{2^{34}}$ [will do](https:/
 It is known that there exists such a prime number for every $i\in\N$.
 Given this, the definition of $PSEQ(p,i)$ is simple:
 $$
-(p > (i+C)\times (i+C)\times (i+C)  ) \wedge (p < (i+C+1)\times(i+C+1)\times (i+C+1) )\wedge
-\left(\forall_{p'} \neg PRIME(p') \vee (p' \leq i) \vee (p' \geq p) \right) \;,
+(p > (i+C)\times(i+C)\times(i+C)) \wedge (p < (i+C+1)\times(i+C+1)\times(i+C+1) \wedge PRIME(p) \wedge
+\left(\forall_{p'} \neg PRIME(p') \vee (p' \leq (i+C)\times(i+C)\times(i+C)) \vee (p' \geq p) \right) \;,
 $$
 We leave it to the reader to verify that $PSEQ(p,i)$ is true iff $p=p_i$.
 :::
