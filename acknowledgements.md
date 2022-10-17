@@ -102,6 +102,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Eric Thomas
 * Sarah Turnill
 * Salil Vadhan
+* Jeffrey Wang
 * Patrick Watts
 * Jonah Weissman
 * Abraham Wieland
