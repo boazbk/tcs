@@ -356,7 +356,7 @@ See also [DFAzerooneexecfig](){.ref}, which depicts the execution of this DFA on
 
 ![A DFA that outputs $1$ only on inputs $x\in \{0,1\}^*$ that are a concatenation of zero or more copies of $010$.
 The state $0$ is both the starting state and the only accepting state.
-The table denotes the transition function of $T$, which maps the current state and symbol read to the new symbol.](../figure/DFA010a.png){#dfazeroonefig  .margin }
+The table denotes the transition function of $T$, which maps the current state and symbol read to the new state.](../figure/DFA010a.png){#dfazeroonefig  .margin }
 
 
 ### Anatomy of an automaton (finite vs. unbounded)
@@ -651,7 +651,7 @@ The idea is that for every regular expression $e$ and symbol $\sigma$ in its alp
 For example, if $e$ is the regular expression $(01)^*(01)$ (i.e., one or more occurrences of $01$) then $e[1]$ is equal to  $(01)^*0$ and $e[0]$ will be $\emptyset$. (Can you see why?)
 
 
-[regexprestrictionalg](){.ref} computes the resriction $e[\sigma]$ given a regular expression $e$ and an alphabet symbol $\sigma$.
+[regexprestrictionalg](){.ref} computes the restriction $e[\sigma]$ given a regular expression $e$ and an alphabet symbol $\sigma$.
 It always terminates, since the recursive calls it makes are always on expressions smaller than the input expression.
 Its correctness can be proven by induction on the length of the regular expression $e$, with the base cases being when $e$ is $""$, $\emptyset$,
 or a single alphabet symbol $\tau$.

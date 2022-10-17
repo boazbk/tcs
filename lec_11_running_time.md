@@ -40,7 +40,7 @@ As mentioned in Edmond's quote in [chapefficient](){.ref}, the difference betwee
 
 ::: {.nonmath}
 In this chapter we formally define what it means for a function to be computable in a certain number of steps.
-As discussed in [chapefficient](){.ref}, running time is not a number, rather what we care about is the _scaling behevaiour_ 
+As discussed in [chapefficient](){.ref}, running time is not a number, rather what we care about is the _scaling behaviour_ 
 of the number of steps as the input size grows.
 We can use either Turing machines or RAM machines to give such a formal definition - it turns out that this doesn't make a difference at the resolution we care about.
 We make several important definitions and prove some important theorems in this chapter.
@@ -283,17 +283,17 @@ We will not provide the full details but will present the main ideas used in sho
 
 2. We can encode a NAND-RAM array of length $\leq T(n)$ containing numbers in $\{0,\ldots, T(n)-1 \}$ as an Boolean (i.e., NAND-TM) array of  $T(n)\ell =O(T(n)\log T(n))$ bits, which we can also think of as a _two dimensional array_ as we did in the proof of [RAMTMequivalencethm](){.ref}. We encode a NAND-RAM scalar containing a number in $\{0,\ldots, T(n)-1 \}$ simply by a shorter NAND-TM array of $\ell$ bits. 
 
-3. We can simulate the two dimensional arrays  using one-dimensional arrays of length $T(n)\ell = O(T(n) \log T(n)$.  All the arithmetic operations on integers use the grade-school algorithms, that take time that is polynomial in the number $\ell$ of bits of the integers, which is  $poly(\log T(n))$ in our case.  Hence we can simulate $T(n)$ steps of NAND-RAM with $O(T(n)poly(\log T(n))$ steps of a model that uses random access memory but only _Boolean-valued_ one-dimensional arrays.
+3. We can simulate the two dimensional arrays  using one-dimensional arrays of length $T(n)\ell = O(T(n) \log T(n))$.  All the arithmetic operations on integers use the grade-school algorithms, that take time that is polynomial in the number $\ell$ of bits of the integers, which is  $poly(\log T(n))$ in our case.  Hence we can simulate $T(n)$ steps of NAND-RAM with $O(T(n)poly(\log T(n))$ steps of a model that uses random access memory but only _Boolean-valued_ one-dimensional arrays.
 
 4. The most expensive step is to translate from random access memory to the sequential memory model of NAND-TM/Turing machines. As we did in the proof of [RAMTMequivalencethm](){.ref} (see [nandtmgorydetailssec](){.ref}), we can simulate accessing an array `Foo` at some location encoded in an array `Bar` by:
 
    a. Copying `Bar` to some temporary array `Temp`
    b. Having an array `Index`  which is initially all zeros except $1$ at the first location.
    c. Repeating the following until `Temp` encodes the number $0$: _(Number of repetitions is at most $T(n)$.)_
-      - Decrease the number encoded by `Temp` by $1$. _(Take number of steps polynomial in $\ell = \ceil{\log T(n)}$.)_
-      - Decrease `i` until it is equal to $0$. _(Take $O(T(n)$ steps.)_
+      - Decrease the number encoded temp by $1$. _(Takes number of steps polynomial in $\ell = \ceil{\log T(n)}$.)_
+      - Decrease `i` until it is equal to $0$. _(Takes $O(T(n))$ steps.)_
       - Scan `Index` until we reach the point in which it equals $1$ and then change this $1$ to $0$ and go one step further and write $1$ in this location. _(Takes $O(T(n))$ steps.)_
-   d. When we are done we know that if we  scan `Index` until we reach the point in which `Index[i]`$=1$ then `i` contains the value that was encoded by `Bar` _(Takes $O(T(n)$ steps.)_
+   d. When we are done we know that if we  scan `Index` until we reach the point in which `Index[i]`$=1$ then `i` contains the value that was encoded by `Bar` _(Takes $O(T(n))$ steps.)_
 
   The total cost for each such operation is $O(T(n)^2 + T(n)poly(\log T(n))) = O(T(n)^2)$ steps.
 
@@ -401,7 +401,7 @@ To do so, $U$ does the following:
 2. $U$ initially scans the code of $P$ to find the number $t$ of unique variable names that $P$ uses. It will translate each variable name into a number between $0$ and $t-1$ and use an array `Program` to store $P$'s code where  for every line $\ell$, `Program[`$\ell$`]` will store the $\ell$-th line of $P$ where the variable names have been translated to numbers. (More concretely, we will use a constant number of arrays to separately encode the operation used in this line, and the variable names and indices of the operands.)
 
 
-3. $U$ maintains a single array `Vars` that contains all the values of $P$'s variables. We divide `Vars` into blocks of length $t$. If $s$ is a number corresponding to an array variable `Foo` of $P$, then we store `Foo[0]` in `Vars[`$s$`]`, we store `Foo[1]` in `Var_values[`$t+s$`]`, `Foo[2]` in `Vars[`$2t + s$`]` and so on and so forth (see [universalrammachinefig](){.ref}). Generally,if the $s$-th variable of $P$ is a scalar variable, then its value will be stored in location `Vars[`$s$`]`.
+3. $U$ maintains a single array `Vars` that contains all the values of $P$'s variables. We divide `Vars` into blocks of length $t$. If $s$ is a number corresponding to an array variable `Foo` of $P$, then we store `Foo[0]` in `Vars[`$s$`]`, we store `Foo[1]` in `Var_values[`$t+s$`]`, `Foo[2]` in `Vars[`$2t + s$`]` and so on and so forth (see [universalrammachinefig](){.ref}). Generally, if the $s$-th variable of $P$ is a scalar variable, then its value will be stored in location `Vars[`$s$`]`.
 If it is an array variable then the value of its $i$-th element will be stored in location `Vars[`$t\cdot i + s$`]`.
 
 4. To simulate a single step of $P$, the program $U$ recovers from `Program` the line corresponding to `program_counter`  and executes it. Since NAND-RAM has a constant number of arithmetic operations, we can implement the logic of which operation to execute using a sequence of a constant number of  if-then-else's.  Retrieving from `Vars` the values of the operands of each instruction can be done using a constant number of arithmetic operations. 
@@ -898,7 +898,7 @@ This means that non-uniform complexity is more useful to establish _hardness_ of
 
 * The time hierarchy theorem shows that there are _some_ problems that can be solved in exponential, but not in polynomial time. However, we do not know if that is the case for the natural examples that we described in this lecture.
 
-* By "unrolling the loop" we can show that every function computable in time $T(n)$ can be computed by a sequence of NAND-CIRC programs (one for every input length) each of size at most $poly(T(n))$
+* By "unrolling the loop" we can show that every function computable in time $T(n)$ can be computed by a sequence of NAND-CIRC programs (one for every input length) each of size at most $poly(T(n))$.
 :::
 
 
