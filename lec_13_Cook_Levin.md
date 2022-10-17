@@ -100,7 +100,7 @@ The definition of $\mathbf{NP}$ means that for every  $F\in \mathbf{NP}$ and str
 That is, we can think of the function $V$ in [NP-def](){.ref} as a _verifier_ algorithm, similar to what we've seen in [godelproofdef](){.ref}.
 The verifier checks whether a given string $w\in \{0,1\}^*$ is a valid proof for the statement "$F(x)=1$".
 Essentially all proof systems considered in mathematics involve line-by-line checks that can be carried out in polynomial time.
-Thus the heart of $\mathbf{NP}$ is asking for statements that have _short_ (i.e., polynomial in the size of the statements) proof.
+Thus the heart of $\mathbf{NP}$ is asking for statements that have _short_ (i.e., polynomial in the size of the statements) proofs.
 Indeed, as we will see in [#chappvsnp](){.ref},  Kurt Gödel phrased the question of whether $\mathbf{NP}=\mathbf{P}$ as asking whether "the mental work of a mathematician [in proving theorems]  could be completely replaced by a machine".
 
 ::: {.remark title="$\mathbf{NP}$ not (necessarily) closed under complement" #NPassymetric}
