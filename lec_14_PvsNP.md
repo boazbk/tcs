@@ -42,7 +42,7 @@ So, as the saying goes, we'll keep an open mind, but not so open that our brains
 
 and
 
- * She does not ``beat around the bush'' or take "half measures". 
+ * She does not "beat around the bush" or take "half measures". 
  
  
  What we mean by this is that we will consider two extreme scenarios:
@@ -59,9 +59,9 @@ So far, most of our evidence points to the latter possibility of 3SAT being expo
 In this chapter we will explore some of the consequences of the "$3SAT$ easy" scenario.
 
 ::: {.nonmath}
-This chapter shows some of the truly breathtaking concsequences that would be derived from an efficient algorithm for $\mathbf{NP}$-complete problems.
-We will see that an such algorithm would imply efficient algorithms for tasks including solving search problems, eliminating quantifiers, fitting data with complex models, sampling and counting, and more.
-While the evidence strongly suggest that such an algorithm does not exist, the tools developed in these results have nonetheless found many other applications.
+This chapter shows some of the truly breathtaking consequences that would be derived from an efficient algorithm for $\mathbf{NP}$-complete problems.
+We will see that such an algorithm would imply efficient algorithms for tasks including solving search problems, eliminating quantifiers, fitting data with complex models, sampling and counting, and more.
+While the evidence strongly suggests that such an algorithm does not exist, the tools developed in these results have nonetheless found many other applications.
 :::
 
 
@@ -76,7 +76,7 @@ Similarly, it's not enough to find out if a graph has a long path: we want to ac
 It turns out that if we can solve these decision problems, we can solve the corresponding search problems as well:
 
 > ### {.theorem title="Search vs Decision" #search-dec-thm}
-Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time algorithm $V$ and $a,b \in \N$,there is a polynomial-time algorithm $FIND_V$  such that for every  $x\in \{0,1\}^n$, if there exists $y\in \{0,1\}^{an^b}$ satisfying $V(xy)=1$, then $FIND_V(x)$ finds some string $y'$ satisfying this condition.
+Suppose that $\mathbf{P}=\mathbf{NP}$. Then for every polynomial-time algorithm $V$ and $a,b \in \N$, there is a polynomial-time algorithm $FIND_V$  such that for every  $x\in \{0,1\}^n$, if there exists $y\in \{0,1\}^{an^b}$ satisfying $V(xy)=1$, then $FIND_V(x)$ finds some string $y'$ satisfying this condition.
 
 > ### { .pause }
 To understand what the statement of [search-dec-thm](){.ref} means, let us look at the special case of the $MAXCUT$ problem.
@@ -133,7 +133,7 @@ Return $z_0,\ldots,z_{an^b-1}$
 ```
 
 
-To analyze [searchtodecisionalg](){.ref}, note that it makes $2an^{b}$ invocations to $STARTSWITH_V$ and hence if the latter is polynomial-time, then so is  [searchtodecisionalg](){.ref}
+To analyze [searchtodecisionalg](){.ref}, note that it makes $2an^{b}$ invocations to $STARTSWITH_V$ and hence if the latter is polynomial-time, then so is  [searchtodecisionalg](){.ref}.
 Now suppose that $x$ is such that there exists _some_ $y$ satisfying $V(xy)=1$.
 We claim that at every step $\ell=0,\ldots,an^b-1$, we maintain the invariant that there exists $y\in \{0,1\}^{an^b}$ whose first $\ell$ bits are $z$ s.t. $V(xy)=1$.
 Note that this claim implies the theorem, since in particular it means that for $\ell = an^b-1$, $z$ satisfies $V(xz)=1$.
@@ -217,8 +217,8 @@ For every string $x$ that describes a set of constraints and objective, we will 
 :::
 
 
-::: {.remark title="Need for binary search." #binarysearchrm}
-In many examples, such as the case of finding longest path, we don't need to use the binary search step in [optimizationnp](){.ref}, and can simply enumerate over all possible values for $k$ until we find the correct one.
+::: {.remark title="Need for binary search" #binarysearchrm}
+In many examples, such as the case of finding the longest path, we don't need to use the binary search step in [optimizationnp](){.ref}, and can simply enumerate over all possible values for $k$ until we find the correct one.
 One example where we do need to use this binary search step   is in the case of the problem of finding a maximum length path in a _weighted_ graph.
 This is the problem where  $G$ is a weighted graph, and every edge of $G$ is given a weight which is a number between $0$ and $2^k$.
 [optimizationnp](){.ref} shows that we can find the maximum-weight simple path in $G$ (i.e., simple path maximizing the sum of the weights of its edges) in time polynomial in the number of vertices and in $k$.
