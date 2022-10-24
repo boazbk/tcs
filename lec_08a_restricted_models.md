@@ -225,7 +225,7 @@ Let $e$ be a regular expression over $\{0,1\}$, then there is a CFG $(V,R,s)$ ov
 We prove the theorem by induction on the length of $e$.
 If $e$ is an expression of one bit length, then $e=0$ or $e=1$, in which case we leave it to the reader to verify that there is a (trivial) CFG that computes it.
 Otherwise, we fall into one of the following case: __case 1:__ $e = e'e''$, __case 2:__ $e = e'|e''$ or __case 3:__ $e=(e')^*$ where in all cases $e',e''$ are shorter regular expressions.
-By the induction hypothesis have grammars $(V',R',s')$ and $(V'',R'',s'')$ that compute $\Phi_{e'}$ and $\Phi_{e''}$ respectively. By renaming of variables, we can also assume without loss of generality that $V'$ and $V''$ are disjoint.
+By the induction hypothesis, we can define grammars $(V',R',s')$ and $(V'',R'',s'')$ that compute $\Phi_{e'}$ and $\Phi_{e''}$ respectively. By renaming variables, we can also assume without loss of generality that $V'$ and $V''$ are disjoint.
 
 In case 1, we can define the new grammar as follows: we add a new starting variable $s \not\in V \cup V'$ and the rule $s \mapsto s's''$.
 In case 2, we can define the new grammar as follows: we add a new starting variable $s \not\in V \cup V'$ and the rules $s \mapsto s'$ and $s \mapsto s''$.

@@ -22,6 +22,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Anlan Du
 * Dennis Du
 * Juan Esteller
+* Junxuan Liao
 * David Evans
 * Michael Fine
 * Simon Fischer
@@ -102,6 +103,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Eric Thomas
 * Sarah Turnill
 * Salil Vadhan
+* Jeffrey Wang
 * Patrick Watts
 * Jonah Weissman
 * Abraham Wieland
@@ -117,4 +119,5 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Grace Zhang
 * Alex Zhao
 * Jessica Zhu
+* Luke Bailey
 

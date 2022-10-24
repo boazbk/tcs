@@ -577,5 +577,7 @@ Aaronson's 120 page survey [@aaronson2016p] is a beautiful and extensive exposit
 Johnson [@johnson2012brief] gives a survey of the historical development of the theory of $\mathbf{NP}$ completeness. The following [web page](https://goo.gl/bFHsd9) keeps a catalog of  failed attempts at settling $\mathbf{P}$ vs $\mathbf{NP}$. At the time of this writing, it lists about 110 papers claiming to resolve the question, of which about 60 claim to prove that $\mathbf{P}=\mathbf{NP}$ and about 50 claim to prove that $\mathbf{P} \neq \mathbf{NP}$.
 
 
+Ladner's Theorem was proved by [Richard Ladner](https://www.cs.washington.edu/people/faculty/ladner/research) in 1975. Ladner, who was born to deaf parents, later switched his research focus into computing for assistive technologies, where he have made many contributions. In 2014, he wrote a [personal essay](http://www.sigaccess.org/wp-content/uploads/formidable/sigaccess_newsletter_1102.pdf) on his path from theoretical CS to accessibility research.
+
 Eugene Lawler's quote on the "mystical power of twoness"  was taken from the wonderful book "The Nature of Computation" by Moore and Mertens. See also [this memorial essay on Lawler](https://pure.tue.nl/ws/files/1506049/511307.pdf) by Lenstra.
 
