@@ -13,7 +13,7 @@ chapternum: "19"
 
 
 
-> _"in 1946 .. (I asked myself) what are the chances that a Canfield solitaire laid out with 52 cards will come out successfully? After spending a lot of time trying to estimate them by pure combinatorial calculations, I wondered whether a more practical method ... might not be to lay it our say one hundred times and simple observe and count"_, Stanislaw Ulam, 1983
+> _"in 1946 .. (I asked myself) what are the chances that a Canfield solitaire laid out with 52 cards will come out successfully? After spending a lot of time trying to estimate them by pure combinatorial calculations, I wondered whether a more practical method ... might not be to lay it out say one hundred times and simply observe and count"_, Stanislaw Ulam, 1983
 
 >_"The salient features of our method are that it is probabilistic ... and with a controllable miniscule probability of error."_, Michael Rabin, 1977
 
@@ -32,7 +32,7 @@ The name stuck, and randomized algorithms are known as Monte Carlo algorithms to
 
 In this chapter, we will see some examples of randomized algorithms that use randomness to compute a quantity in a faster or simpler way than was known otherwise.
 We will describe the algorithms in an informal / "pseudo-code" way, rather than as Turing macines or NAND-TM/NAND-RAM programs. 
-In [chapmodelrand](){.ref} we will discuss how to augment the computational models we say before to incorporate the ability to "toss coins".
+In [chapmodelrand](){.ref} we will discuss how to augment the computational models we saw  before to incorporate the ability to "toss coins".
 
 ::: {.nonmath}
 This chapter gives some examples of randomized algorithms to get a sense of why probability can be useful for computation.
@@ -208,15 +208,15 @@ That is, we are not assuming anything about the _input graph_: the probability i
 While a probabilistic algorithm might not seem as nice as a deterministic algorithm that is _guaranteed_ to give an output, to get a sense of what a failure probability of $2^{-1000}$ means, note that:
 
 
-* The chance of winning the Massachusetts Mega Million lottery is one over $(75)^5\cdot 15$ which is roughly $2^{-35}$. So $2^{-1000}$ corresponds to winning the lottery about $300$ times in a row, at which point you might not care so much about your algorithm failing.
+* The chance of winning the Massachusetts Mega Millions lottery is one over $(75)^5\cdot 15$, which is roughly $2^{-35}$. So $2^{-1000}$ corresponds to winning the lottery about $300$ times in a row, at which point you might not care so much about your algorithm failing.
 
-* The chance for a U.S. resident to be struck by lightning is about $1/700000$, which corresponds to about $2^{-45}$ chance that you'll be struck by lightning the very second that you're reading this sentence (after which again you might not care so much about the algorithm's performance).
+* The chance for a U.S. resident to be struck by lightning is about $1/700000$, which corresponds to about a $2^{-45}$ chance that you'll be struck by lightning the very second that you're reading this sentence (after which again you might not care so much about the algorithm's performance).
 
 * Since the earth is about 5 billion years old, we can estimate the chance that an asteroid of the magnitude that caused the dinosaurs' extinction will hit us this very second to be about $2^{-60}$.
 It is quite likely that even a deterministic algorithm will fail if this happens.
 
 So, in practical terms, a probabilistic algorithm is just as good as a deterministic one.
-But it is still a theoretically fascinating question whether randomized algorithms actually yield more power, or whether is it the case that for any computational problem that can be solved by probabilistic algorithm, there is a deterministic algorithm with nearly the same performance.^[This question does have some significance to practice, since hardware that generates high quality randomness at speed is non-trivial to construct.]
+But it is still a theoretically fascinating question whether randomized algorithms actually yield more power, or whether is it the case that for any computational problem that can be solved by a probabilistic algorithm, there is a deterministic algorithm with nearly the same performance.^[This question does have some significance to practice, since hardware that generates high quality randomness at speed is non-trivial to construct.]
 For example, we will see in [maxcutex](){.ref} that there is in fact a deterministic algorithm that can cut at least $m/2$ edges in an $m$-edge graph.
 We will discuss this question in generality   in  [chapmodelrand](){.ref}.
 For now, let us see a couple of examples where randomization leads to algorithms that are better in some sense than the known deterministic algorithms.
@@ -265,7 +265,7 @@ The heart of the proof is the following claim:
 
 __Claim I:__ For every $x,x^*$ as above, in every local improvement step, the value $\Delta(x,x^*)$  is decreased by one with probability at least $1/3$.
 
-__Proof of Claim I:__ Since $x^*$ is a _satisfying_ assignment, if $C$ is a clause that   $x$ does _not_ satisfy, then at least one of the variables involve in $C$ must get different values in $x$ and $x^*$.
+__Proof of Claim I:__ Since $x^*$ is a _satisfying_ assignment, if $C$ is a clause that   $x$ does _not_ satisfy, then at least one of the variables involved in $C$ must get different values in $x$ and $x^*$.
 Thus when we change $x$ by one of the three literals in the clause, we have probability at least $1/3$ of decreasing the distance.
 
 The second claim is that our starting point is not that bad:
@@ -316,7 +316,7 @@ $$
 Then $G$ has a perfect matching if and only if $P$ is not identically zero.
 That is, $G$ has a perfect matching if and only if there exists some assignment $x=(x_{i,j})_{i,j\in [n]} \in \R^{n^2}$ such that $P(x) \neq 0$.^[The [sign](https://goo.gl/ELnXhq) of a permutation $\pi:[n] \rightarrow [n]$, denoted by $sign(\pi)$, can be defined in several equivalent ways, one of which is that it equals $-1$ if the number of pairs $x<y$ s.t. $\pi(x)>\pi(y)$ is odd and equals $+1$ otherwise. The importance of the term $sign(\pi)$ is that it makes $P$ equal to the _determinant_ of the matrix $(x_{i,j})$ and hence efficiently computable.]
 
-::: ### {.proof data-ref="matchpolylem"}
+::: {.proof data-ref="matchpolylem"}
 If $G$ has a perfect matching $M^*$, then let $\pi^*$ be the permutation corresponding to $M$ and let $x^* \in \mathbb{R}^{n^2}$ defined as follows: $x_{i,j}=1$ if $j=\pi^*(i)$ and $x^*_{i,j}=0$ otherwise. (That is, $x^*_{i,j}=1$ iff $\pi^*(i)=j$.) We claim that $P(x^*) = sign(\pi^*)$ which in particular means that $P$ is not identically zero. To see why this is true, write $P(x^*) = \sum_{\pi \in S_n} sign(\pi) P_\pi(x^*)$ where $P_\pi(x^*)=\prod_{i=0}^{n-1} A_{i,\pi(i)} x^*_{i,\pi(i)}$.  But for all $\pi \neq \pi^*$ there will be some $i$ such that $\pi(i) \neq \pi^*(j)$ and so $x^*_{i,\pi(i)}=0$, which means that $\Pi_{\pi}(x^*)=0$. On the other hand, since $\pi^*$ is a matching in $G$, $A_{i,\pi^*(i)}=1$ for all $i$, and hence   $P_{\pi^*}(x^*) = \prod_{i=0}^{n-1} A_{i,\pi^*(i)} x^*_{i,\pi^*(i)}=1$, and so $P(x^*) = sign(\pi^*)$. 
 
 On the other hand, suppose that $P$ is not identically zero.
