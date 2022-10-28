@@ -375,7 +375,7 @@ __Claim:__ For every $x\in \{0,1\}^n$, if $S = \{ i | x_i = 1 \}$ then $x$ satis
 __Proof:__  Key to the proof is the following simple property of gradeschool addition: when adding at most $n$ numbers in the $B$-ary basis, if all the numbers have all their digits either $0$ or $1$, and $B>n$, then for every $t$, the $t$-th digit of the sum is the sum of the $t$-th digits of the numbers.
 This is a simple consequence of the fact that there is no "carry" in the addition.
 Since in our case the numbers $y_0,\ldots,y_n$ satisfy this property in the $B$-ary basis, and $B>n$, we get that for every $S \subseteq [n]$ and every digit $t$, the $t$-th digit of the sum $\sum_{i\in S}y_i$ is simply the sum of the $t$-th digit, which would correspond to the sum over $x_i$ for all $x_i$'s that participate
-in the $t$-th equaion. This sum would equal the $t$-th digit of $T$ if and only if that equation is satisfied.
+in the $t$-th equation. This sum would equal the $t$-th digit of $T$ if and only if that equation is satisfied.
 
 The claim shows that $01EQ(E) = SSUM(y_0,\ldots,y_{n-1},T)$ which is what we needed to prove.
 :::
@@ -387,7 +387,7 @@ The claim shows that $01EQ(E) = SSUM(y_0,\ldots,y_{n-1},T)$ which is what we nee
 INPUT: Set $E = \{ e_t \}_{t\in [m]}$ of $m$ linear equations over $n$ variables $x_0,\ldots,x_{n-1}$.
 
 OUTPUT: Numbers $y_0,\ldots,y_{n-1},T \in \mathbb{Z}$ such that there is an $0/1$ assignment $x\in \{0,1\}^n$
-satisfying the equations of $E$ iff there is $S \subseteq [n]$ such that $\sum_{i\in S}y_i = T$.  That is, $01EQ(E) = SSUM(x_0,\ldots,x_{n-1},T)$.
+satisfying the equations of $E$ iff there is $S \subseteq [n]$ such that $\sum_{i\in S}y_i = T$.
 
 For{every equation $e_t\in E$}
   Let $A \subseteq [n]$ and $b\in \mathbb{Z}$ be such that $e_t$ has the form $\sum_{i\in A} x_i = b$
