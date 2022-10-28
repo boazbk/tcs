@@ -390,7 +390,7 @@ OUTPUT: Numbers $y_0,\ldots,y_{n-1},T \in \mathbb{Z}$ such that there is an $0/1
 
 For{every equation $e_t\in E$}
   Let $A \subseteq [n]$ and $b\in \mathbb{Z}$ be such that $e_t$ has the form $\sum_{i\in A} x_i = b$
-  Let $v_i^t \leftarrow 1$ if $i\in A$ and $v_i^t \leftarrow  0$ otherwise.
+  Let $v_i^t \leftarrow 1$ -if $i\in A$ and $v_i^t \leftarrow  0$ otherwise.
   Let $b_t  \leftarrow  b$. 
 endfor
 Set $B \leftarrow 2n$
