@@ -153,11 +153,11 @@ $$
 BF(x,i,b) = \begin{cases}
             F(x)_i & i<|F(x)|, b=0 \\
             1      & i<|F(x)|, b=1 \\
-            0      & i \geq |x|
+            0      & i \geq |F(x)|
             \end{cases}
 $$
 
-to be the function that on input $x \in \{0,1\}^*, i \in \N, b\in \{0,1\}$ outputs the $i^{th}$ bit of $F(x)$ if $b=0$ and $i<|x|$. 
+to be the function that on input $x \in \{0,1\}^*, i \in \N, b\in \{0,1\}$ outputs the $i^{th}$ bit of $F(x)$ if $b=0$ and $i<|F(x)|$.
 If $b=1$, then $BF(x,i,b)$ outputs $1$ iff  $i<|F(x)|$ and hence this allows to compute  the length of $F(x)$.
 
 Computing $BF$ from $F$ is straightforward.

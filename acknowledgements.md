@@ -73,6 +73,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Glenn Moss
 * Haley Mulligan
 * Hamish Nicholson
+* Hanry Xu
 * Owen Niles
 * Sandip Nirmel
 * Sebastian Oberhoff
