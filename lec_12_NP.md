@@ -334,8 +334,74 @@ return $E'$
 
 
 
+## The subset sum problem
+
+As another consequence of the reduction of $3SAT$ to $01EQ$, we can also show that $3SAT$ (through $01EQ$) reduces to the _subset sum_ problem (also known as the _knapsack_ problem). 
+In the _subset sum_ problem, we are given a list of integers $x_0,\ldots,x_{n-1} \in \mathbb{Z}$ and an integer $T\in\mathbb{Z}$.
+We need to determine whether or not there exists some set of the integers that sums up to $T$. 
+That is, for $x_0,\ldots,x_{n-1},T \in \mathbb{Z}$, $SSUM(x_0,\ldots,x_{n-1},T)=1$ if and only if there exists $S\subseteq [n]$ such that $\sum_{i\in S} x_i = T$.
+Note that the input length for the subset sum problem is the length of string needed to encode all the numbers, which will be approximately $\lceil \log T \rceil + \sum_{i=0}^n \lceil \log x_i \rceil$,
+since encoding an integer $x$ using the binary representation requires $\lceil \log x \rceil$ bits.
+
+> ### {.theorem title="Hardness of subset sum" #subsetsum-thm}
+$$3SAT \leq_p SSUM$$
+
+> ### {.proofidea data-ref="subsetsum-thm"}
+We reduce from $01EQ$. The intuition is the following. Consider an instance $E$ of $01EQ$ with $n$ variables $x_0,\ldots,x_{n-1}$ and $m$ equations $e_0,\ldots,e_{m-1}$. 
+Recall that each equation $e_\ell$ in $E$ has the form $x_i + x_j +  x_k = b$ (potentially with more or less than three variables summed up on the left-hand side of the equation). 
+For every variable $x_i$, we can define a vector $v^i \in \{0,1\}^m$ where $v^i_t=1$ if the variable $x_i$  appears in the equation $e_t$ and $v^i_t=0$ otherwise.
+Then there is a solution to the set of equations if and only if there is some set $S\subseteq [n]$ (corresponding to the $i$'s such that $x_i=1$) such that $\sum_{i\in S} v^i = \vec{b}$ where $\vec{b} \in \mathbb{Z}^m$ is the vector of right hand sides
+of the equations (i.e., $\vec{b}_t$ is the value $b_t$ on the righthand side of the $t$-th equation). Now if we could interpret the vectors $v^0,\ldots,v^{n-1}$ and $\vec{b}$ as _numbers_  then we could think of this as a subset sum instance.
+The key insight is that we can in fact think of vectors as numbers by thinking of the $j$-th coordinate of the vector $v$ as the $j$-th digit. 
+Since the vectors are in $\{0,1\}^m$, the natural choice is to use the binary basis, but this turns out to cause issues with "carries" when we add them up. Hence we use a larger basis $B$, see proof below.
+
+::: {.proof data-ref="subsetsum-thm"}
+For a given set of $01EQ$ on $n$ variables, we note that the right hand side can never be larger than $n$ (since the sum of at most $n$ variables in $\{0,1\}$ is at most $n$). 
+More concretely, if the instance has such an equation then we can know for sure that the answer is $0$ (and in the context of a reduction map it into some trivial instance of subset sum that doesn't have a solution such as $x_0=x_1=1$ and $T=3$).
+
+Our reduction is described in [zeroonetossumnalg ](){.ref}. 
+On input an instance $E = \{ e_t \}_{t=1}^m$ of $01EQ$ over $n$ variables $x_0,\ldots,x_{n-1}$, we output an $SSUM$ instance $y_0,\ldots,y_{n-1},T$ computed as follows:
+
+* $y_i = \sum_{t=0}^{m-1} B^t v^t_i$ where $v^t_i$ equals $1$ if the variable $x_i$ appears in the equation $e_t$ and equals $0$ otherwise. The number $B$ is set to be $2n$ (any numb er larger than $n$ would work.)
+
+* $T = \sum_{t=0}^{m-1} B^t b_t$ where $b_t$ is the integer on the right-hand side of the equation $e_t$.
+
+In other words, $y_0,\ldots,y_{n-1}$ and $T$ are the integers such that, written in the $B$-ary basis, the $t$-th digit of $y_i$ is $1$ iff $x_i$ appears in $x_t$, and the $t$-th digit of $T$ is the right-hand side of $e_t$.
+
+The following claim will imply the correctness of the reduction:
+
+__Claim:__ For every $x\in \{0,1\}^n$, if $S = \{ i | x_i = 1 \}$ then $x$ satisfies the equations of $E$ if and only if $\sum_{i\in S} y_i = T$.
+
+__Proof:__  Key to the proof is the following simple property of gradeschool addition: when adding at most $n$ numbers in the $B$-ary basis, if all the numbers have all their digits either $0$ or $1$, and $B>n$, then for every $t$, the $t$-th digit of the sum is the sum of the $t$-th digits of the numbers.
+This is a simple consequence of the fact that there is no "carry" in the addition.
+Since in our case the numbers $y_0,\ldots,y_n$ satisfy this property in the $B$-ary basis, and $B>n$, we get that for every $S \subseteq [n]$ and every digit $t$, the $t$-th digit of the sum $\sum_{i\in S}y_i$ is simply the sum of the $t$-th digit, which would correspond to the sum over $x_i$ for all $x_i$'s that participate
+in the $t$-th equaion. This sum would equal the $t$-th digit of $T$ if and only if that equation is satisfied.
+
+The claim shows that $01EQ(E) = SSUM(y_0,\ldots,y_{n-1},T)$ which is what we needed to prove.
+:::
 
 
+
+
+``` { .algorithm title="$01EQ$ to $SSUM$ reduction" #zeroonetossumnalg }
+INPUT: Set $E = \{ e_t \}_{t\in [m]}$ of $m$ linear equations over $n$ variables $x_0,\ldots,x_{n-1}$.
+
+OUTPUT: Numbers $y_0,\ldots,y_{n-1},T \in \mathbb{Z}$ such that there is an $0/1$ assignment $x\in \{0,1\}^n$
+satisfying the equations of $E$ iff there is $S \subseteq [n]$ such that $\sum_{i\in S}y_i = T$. 
+That is, $01EQ(E) = SSUM(x_0,\ldots,x_{n-1},T)$.
+
+For{every equation $e_t\in E$}
+  Let $A \subseteq [n]$ and $b\in \mathbb{Z}$ be such that $e_t$ has the form $\sum_{i\in A} x_i = b$
+  Let $v_i^t \leftarrow 1$ if $i\in A$ and $v_i^t \leftarrow  0$ otherwise.
+  Let $b_t  \leftarrow  b$. 
+endfor
+Set $B \leftarrow 2n$
+For{$i\in [n]$}
+   Let $y_i \leftarrow \sum_{t=1}^m B^t v_i^t$. 
+endfor
+Let $T \leftarrow  \sum_{t=1}^T B^t b_t$
+return $y_0,\ldots,y_{n-1},T$
+```
 
 
 
