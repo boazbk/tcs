@@ -33,15 +33,15 @@ Fortunately, we will not need many of the advanced notions of probability theory
 This chapter contains an overview of the basics of probability theory, as needed for understanding randomized computation.
 The main topics covered are the notions of:
 
-1. A _sample space_ which for us will almost always consist of the set of all possible outcomes of the experiment of tossing a finite number of independent coins.
+1. A _sample space_, which for us will almost always consist of the set of all possible outcomes of the experiment of tossing a finite number of independent coins.
 
-2. An _event_ which is simply a subset of the sample space, with the probability of the event happening being the fraction of outcomes that are in this subset.
+2. An _event_, which is simply a subset of the sample space, with the probability of the event happening being the fraction of outcomes that are in this subset.
 
-3. A _random variable_ which is a way to assign some number or statistic to an outcome of the sample space.
+3. A _random variable_, which is a way to assign some number or statistic to an outcome of the sample space.
 
-4. The notion _conditioning_ which correspond to how the value of a random variable (or the probability of an event) changes if we restrict attention to outcomes for which the value of another variable is known (or for which some other event has happened).  Random variables and events that have no impact on one another are called _independent_.
+4. The notion of _conditioning_, which corresponds to how the value of a random variable (or the probability of an event) changes if we restrict attention to outcomes for which the value of another variable is known (or for which some other event has happened).  Random variables and events that have no impact on one another are called _independent_.
 
-5. _Expectation_ which is the average of a random variable, and _concentration bounds_ which quantify the probability that a random variable can "stray too far" from its expected value.
+5. _Expectation_, which is the average of a random variable, and _concentration bounds_ which quantify the probability that a random variable can "stray too far" from its expected value.
 
 These concepts are at once both basic and subtle.
 While we will not need many "fancy" topics covered in statistics courses, including special distributions (e.g., gemoetric, Poisson,  exponential, Gaussian, etc.), nor topics such as hypothesis testing or regression,
@@ -362,7 +362,7 @@ If $X_0,\ldots,X_{n-1}$ are mutually independent, and $Y_0,\ldots,Y_{n-1}$ are d
 
 > ### { .pause }
 We leave proving [expprod](){.ref} and [indeplem](){.ref} as [expprodex](){.ref} and [indeplemex](){.ref}.
-It is good idea for you stop now and do these exercises to make sure you are comfortable with the notion of independence, as we will use it heavily later on in this course.
+It is a good idea for you stop now and do these exercises to make sure you are comfortable with the notion of independence, as we will use it heavily later on in this course.
 
 
 
@@ -469,7 +469,7 @@ That is, we have an _exponential decay_ of the probability of deviation.
 
 
 
-![In the _normal distribution_ or the Bell curve, the probability of deviating $k$ standard deviations from the expectation shrinks _exponentially_ in $k^2$, and specifically with probability at least $1-2e^{-k^2/2}$,  a random variable $X$ of expectation $\mu$ and standard deviation $\sigma$ satisfies $\mu -k\sigma \leq X \leq \mu+k\sigma$. This figure gives more precise bounds for $k=1,2,3,4,5,6$. (Image credit:Imran Baghirov)](../figure/sixsigma.jpg){#empiricalbellfig   .margin  }
+![In the _normal distribution_ or the bell curve, the probability of deviating $k$ standard deviations from the expectation shrinks _exponentially_ in $k^2$, and specifically with probability at least $1-2e^{-k^2/2}$,  a random variable $X$ of expectation $\mu$ and standard deviation $\sigma$ satisfies $\mu -k\sigma \leq X \leq \mu+k\sigma$. This figure gives more precise bounds for $k=1,2,3,4,5,6$. (Image credit:Imran Baghirov)](../figure/sixsigma.jpg){#empiricalbellfig   .margin  }
 
 
 The following extremely useful theorem shows that such exponential decay occurs every time we have a sum of independent and bounded variables. This theorem is known under many names in different communities, though it is mostly called the [Chernoff bound](https://en.wikipedia.org/wiki/Chernoff_bound) in the computer science literature:
@@ -532,7 +532,7 @@ The idea is to combine the Chernoff bound with the union bound. Let $k = \log |\
 We can then use the union bound over all the $2^k$ members of $\mathcal{C}$ to show that this will be the case _for every_ $h$. 
 
 ::: {.proof data-ref="ERMTHM"}
-Set $k = \log |\mathcal{C}|$ and so $n>k \log(1/\delta)/\epsilon^2$. We start by making the following claim
+Set $k = \log |\mathcal{C}|$ and so $n>k \log(1/\delta)/\epsilon^2$. We start by making the following claim.
 
 __CLAIM:__ For every $h\in \mathcal{C}$, the probability over $S$ that $|L(h)-\hat{L}_S(h)| \geq \epsilon$ is smaller than $\delta/2^k$.
 

@@ -46,8 +46,8 @@ If we now carve out an additional slit in the metal barrier then more balls woul
 
 So far this is pure common sense, and it is indeed (to my knowledge) an accurate description of what happens when we shoot baseballs at a plastic wall.
 However, this is not the same when we shoot _photons_.
-Amazingly, if we shoot with a "photon gun" (i.e., a laser) at a wall equipped with photon detectors through some barrier, then (as shown in [doubleslitfig](){.ref}) in some positions of the wall we will see  _fewer_ hits when the two slits are open than one only ones of them is!.^[A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).]
-In particular there are positions in the wall that are hit when the first slit is open, hit when the  second gun is open, but are _not hit at all when both slits are open!_.
+Amazingly, if we shoot with a "photon gun" (i.e., a laser) at a wall equipped with photon detectors through some barrier, then (as shown in [doubleslitfig](){.ref}) in some positions of the wall we will see  _fewer_ hits when the two slits are open than when only one of them is.^[A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).]
+In particular there are positions in the wall that are hit when the first slit is open, hit when the  second gun is open, but are _not hit at all when both slits are open!_
 
 
 
@@ -83,7 +83,7 @@ Later we can look at the wall and find out whether or not this event happened, b
 * The other viewpoint is that when a ball is shot, "nature" computes the probabilities $p_L$ and $p_R$ as before, but does _not_ yet "toss the coin" and determines what happened.
 Only when  we actually look at the wall, nature tosses a coin and with probability $p_L+p_R$ ensures we see a dent. That is, nature uses "lazy evaluation", and only determines the result of a probabilistic experiment when we decide to _measure_ it.
 
-While the first scenario seems much more natural, the end result in both is the same (the wall is hit with probability $p_L+p_R$) and so the question of  whether we should model nature as following the first scenario or second one  seems like asking about the proverbial tree that falls in the forest with no one hearing about it.
+While the first scenario seems much more natural, the end result in both is the same (the wall is hit with probability $p_L+p_R$) and so the question of  whether we should model nature as following the first scenario or second one  seems like asking about the proverbial tree that falls in the forest with no one hearing it.
 
 However, when we want to describe the double slit experiment with photons rather than baseballs, it is the second scenario that lends itself better to a quantum generalization.
 Quantum mechanics associates a number $\alpha$ known as an _amplitude_ with each probabilistic experiment.
@@ -96,7 +96,7 @@ Specifically, consider an event that can either occur or not (e.g. "detector num
 In classical probability, we model this by a probability distribution over the two outcomes: a pair of non-negative numbers $p$ and $q$ such that $p+q=1$, where $p$ corresponds to  the probability that the event occurs and $q$ corresponds to the probability that the event does not occur.
 In quantum mechanics, we model this also by  pair of numbers, which we call _amplitudes_. This is  a pair of (potentially negative or even complex) numbers $\alpha$ and $\beta$ such that $|\alpha|^2 + |\beta|^2 =1$.
 The probability that the event occurs is $|\alpha|^2$ and the probability that it does not occur is $|\beta|^2$.
-In isolation, these negative or complex numbers don't matter much, since we anyway square them to obtain probabilities.
+In isolation, these negative or complex numbers don't matter much, since we square them anyway to obtain probabilities.
 But the interaction of positive and negative amplitudes can result in surprising _cancellations_ where somehow combining two scenarios where an event happens with positive probability results in a scenario where it  never does.
 
 ::: { .pause }
@@ -145,7 +145,7 @@ Nonetheless, since the results of these experiments are so obviously wrong to an
 
 So, what is this Bell's Inequality?
 Suppose that Alice and Bob try to convince you they have telepathic ability, and they aim to prove it via the following experiment.
-Alice and Bob will be in separate closed rooms.^[If you are extremely paranoid about Alice and Bob communicating with one another, you can coordinate with your assistant to perform the experiment exactly at the same time, and make sure that the rooms are sufficiently far apart (e.g., are on two different continents, or maybe even one is on the moon and another is on earth) so that Alice and Bob couldn't communicate to each other in time the results of their respective coins even if they do so at the speed of light.]
+Alice and Bob will be in separate closed rooms.^[If you are extremely paranoid about Alice and Bob communicating with one another, you can coordinate with your assistant to perform the experiment exactly at the same time, and make sure that the rooms are sufficiently far apart (e.g., are on two different continents, or maybe even one is on the moon and another is on earth) so that Alice and Bob couldn't communicate to each other in time even if they do so at the speed of light.]
 You will interrogate Alice and your associate will interrogate Bob.
 You choose a random bit $x\in\{0,1\}$ and your associate chooses a random $y\in\{0,1\}$.
 We let $a$ be Alice's response and $b$ be Bob's response.
@@ -249,9 +249,9 @@ In particular, as far as we know, quantum computers will _not_ help us solve $\m
 
 
 However, there is one cryptography-sized exception:
-In 1994 Peter Shor showed that quantum computers can solve the integer factoring and discrete logarithm in polynomial time.
+In 1994 Peter Shor showed that quantum computers can solve the integer factoring and discrete logarithm problems in polynomial time.
 This result has captured the imagination of a great many people, and completely energized research into quantum computing.
-This is both because the hardness of these particular problems provides the foundations for securing such a huge part of our communications (and these days, our economy), as well as it was a powerful demonstration that quantum computers could turn out to be useful for problems that a-priori seemd to have nothing to do with quantum physics.
+This is both because the hardness of these particular problems provides the foundations for securing such a huge part of our communications (and these days, our economy), and because it was a powerful demonstration that quantum computers could turn out to be useful for problems that a-priori seemd to have nothing to do with quantum physics.
 
 As we'll discuss later, at the moment there are several intensive efforts to construct large scale quantum computers.
 It seems safe to say that, as far as we know, in the next five years or so there will not be a quantum computer large enough to factor, say, a $1024$ bit number.
@@ -259,9 +259,9 @@ On the other hand, it does seem quite likely that in the very near future there 
 When and if  a quantum computer is  built that is strong enough to  break reasonable parameters of Diffie Hellman, RSA and elliptic curve cryptography is anybody's guess.
 It could also be a "self destroying prophecy" whereby the existence of a small-scale quantum computer would cause everyone to shift away to lattice-based crypto which in turn will diminish the motivation to invest the huge resources needed to build a large scale quantum computer.[^legacy]
 
-[^legacy]: Of course, given that [we're still hearing](http://blog.cryptographyengineering.com/2016/03/attack-of-week-drown.html) of attacks exploiting "export grade" cryptography that was supposed to disappear in 1990's, I imagine that we'll still have products running 1024 bit RSA when everyone has a quantum laptop.
+[^legacy]: Of course, given that [we're still hearing](http://blog.cryptographyengineering.com/2016/03/attack-of-week-drown.html) of attacks exploiting "export grade" cryptography that was supposed to disappear in the 1990's, I imagine that we'll still have products running 1024 bit RSA when everyone has a quantum laptop.
 
-[^overhead]: This "95 percent" is a figure of speech, but not completely so. At the time of this writing, cryptocurrency mining  electricity consumption is estimated to use up at least [70Twh or 0.3 percent of the world's production](https://digiconomist.net/bitcoin-energy-consumption), which is about [2 to 5 percent](http://www.mdpi.com/2078-1547/6/1/117/html) of the total energy usage for the computing industry. All the current cryptocurrencies will be broken by quantum computers. Also, for many web servers the TLS protocol (which is based on the current non-lattice based systems would be completely broken by quantum computing) is responsible [for about 1 percent of the CPU usage](https://goo.gl/mHpYpm).
+[^overhead]: This "95 percent" is a figure of speech, but not completely so. At the time of this writing, cryptocurrency mining  electricity consumption is estimated to use up at least [70Twh or 0.3 percent of the world's production](https://digiconomist.net/bitcoin-energy-consumption), which is about [2 to 5 percent](http://www.mdpi.com/2078-1547/6/1/117/html) of the total energy usage for the computing industry. All the current cryptocurrencies will be broken by quantum computers. Also, for many web servers the TLS protocol (which is based on the current non-lattice based systems and would be completely broken by quantum computing) is responsible [for about 1 percent of the CPU usage](https://goo.gl/mHpYpm).
 
 
 ::: {.remark title="Quantum computing and $\mathbf{NP}$" #quantumnp}
@@ -369,8 +369,8 @@ Recall that to win the game Bob and Alice want their outputs to be more likely t
 We will split the analysis in one case for each of the four possible values of $x$ and $y$.
 
 __Case 1: $x=0$ and $y=0$.__ If $x=y=0$ then the state does not change.
-* Because the state $\psi$ is proportional to    $|00\rangle + |11\rangle$, the measurements of Bob and Alice will always agree (if Alice measures $0$ then the state collapses to $|00 \rangle$ and so Bob measures $0$ as well, and similarly for $1$).
-Hence in the case $x=y=1$, Alice and Bob always  win.
+Because the state $\psi$ is proportional to    $|00\rangle + |11\rangle$, the measurements of Bob and Alice will always agree (if Alice measures $0$ then the state collapses to $|00 \rangle$ and so Bob measures $0$ as well, and similarly for $1$).
+Hence in the case $x=y=0$, Alice and Bob always  win.
 
 __Case 2: $x=0$ and $y=1$.__ If $x=0$ and $y=1$ then after Alice measures her bit, if she gets $0$ then the system collapses to the state $|00 \rangle$, in which case after Bob performs his rotation, his qubit is in the state  $\cos (\pi/8)|0\rangle+\sin(\pi/8)|1\rangle$.
 Thus, when Bob measures his qubit, he will get $0$ (and hence agree with Alice) with probability  $\cos^2 (\pi/8)  \geq 0.85$.
@@ -407,7 +407,7 @@ Taking all the four cases together,  the overall probability of winning the game
 
 
 > # {.remark title="Quantum vs probabilistic strategies" #quantumprob}
-It is instructive to understand what is it about quantum mechanics that enabled this gain in Bell's Inequality. For this, consider the following analogous probabilistic strategy for Alice and Bob. They agree that each one of them output $0$ if he or she get $0$ as input and outputs $1$ with probability $p$ if they get $1$ as input. In this case one can see that their success probability would be $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}(1-p)+\tfrac{1}{4}[2p(1-p)]=0.75 -0.5p^2 \leq 0.75$. The quantum strategy we described above can be thought of as a variant of the probabilistic strategy for parameter $p$ set to  $\sin^2 (\pi/8)=0.15$. But in the case $x=y=1$, instead of disagreeing only with probability $2p(1-p)=1/4$, because we can use these negative probabilities in the quantum world and rotate the state in opposite directions, and hence  the probability of disagreement ends up being $\sin^2 (\pi/4)=0.5$.
+It is instructive to understand what about quantum mechanics enabled this gain in Bell's Inequality. Consider the following analogous probabilistic strategy for Alice and Bob. They agree that each one of them will output $0$ if they get $0$ as input and output $1$ with probability $p$ if they get $1$ as input. In this case one can see that their success probability would be $\tfrac{1}{4}\cdot 1 + \tfrac{1}{2}(1-p)+\tfrac{1}{4}[2p(1-p)]=0.75 -0.5p^2 \leq 0.75$. The quantum strategy we described above can be thought of as a variant of the probabilistic strategy for parameter $p$ set to  $\sin^2 (\pi/8)=0.15$. But in the case $x=y=1$, instead of disagreeing only with probability $2p(1-p)=1/4$, we can use the negative probabilities in the quantum world and rotate the state in opposite directions. Therefore, the probability of disagreement ends up being $\sin^2 (\pi/4)=0.5$.
 
 ## Quantum computation
 
@@ -453,10 +453,10 @@ If we have an $n$ qubit system, then for $i,j,k \in [n]$, we will denote by $U_{
 That is, for every $v = \sum_{x\in \{0,1\}^n} v_x |x \rangle$,
 $U_{NAND}^{i,j,k}v = \sum_{x\in \{0,1\}^n}v_x |x_0 \cdots x_{k-1}(x_k \oplus NAND(x_i,x_j))x_{k+1} \cdots x_{n-1} \rangle$.
 
-As mentioned above, we will also use the _Hadamard_ or $HAD$ operation,
+As mentioned above, we will also use the _Hadamard_ or $HAD$ operation.
 A _quantum circuit_ is obtained by applying a sequence of $U_{NAND}$ and $HAD$ gates, which correspond to the matrix
 $$H = \tfrac{1}{\sqrt{2}} \begin{pmatrix} +1 & +1\\ +1 & -1 \end{pmatrix} \;. $$
-Another way to write define $H$ is that for $b \in \{0,1\}$,  $H |b\rangle = \tfrac{1}{\sqrt{2}}|0\rangle + \tfrac{1}{\sqrt{2}} (-1)^b |1\rangle$.
+Another way to define $H$ is that for $b \in \{0,1\}$,  $H |b\rangle = \tfrac{1}{\sqrt{2}}|0\rangle + \tfrac{1}{\sqrt{2}} (-1)^b |1\rangle$.
 We define $HAD^i$ to be the $2^n \times 2^n$ unitary matrix that applies $HAD$ to the $i$-th qubit and leaves the others intact.
 Using the ket notation, we can write this as
 $$
@@ -510,7 +510,7 @@ Indeed popular descriptions of quantum computing (too) often say something along
 
 Depending on how you interpret it, this description is either false or would apply equally well to _probabilistic computation_, even though we've already seen that every randomized algorithm can be simulated by a similar-sized circuit, and in fact we conjecture that $\mathbf{BPP}=\mathbf{P}$.
 
-Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while can be shown that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics  this is known as "Feynman path integrals").
+Moreover, this "obvious" approach for simulating a quantum computation will take not just exponential time but _exponential space_ as well, while it can be shown that using a simple recursive formula one can calculate the final quantum state using _polynomial space_ (in physics  this is known as "Feynman path integrals").
 So, the exponentially long vector description by itself does not imply that quantum computers are exponentially powerful.
 Indeed, we cannot _prove_ that they are (i.e., as far as we know, every QNAND-CIRC program could be simulated by a NAND-CIRC program with polynomial overhead), but we do have some problems (integer factoring most prominently) for which they do provide exponential speedup over the currently best _known_ classical (deterministic or probabilistic) algorithms.
 :::
@@ -594,7 +594,7 @@ There have been several proposals to build quantum computers:
 
 * At Harvard, Lukin's group is using [cold atoms](https://lukin.physics.harvard.edu/arrays-cold-atoms)  to implement quantum computers.
 
-* [Trapped ion quantum computers](https://en.wikipedia.org/wiki/Trapped_ion_quantum_computer) Use the states of an ion to simulate a qubit. People have made some [recent advances](http://iontrap.umd.edu/wp-content/uploads/2016/02/1602.02840v1.pdf) on these computers too. For example, an ion-trap computer was used to [implement Shor's algorithm to factor 15](http://arxiv.org/abs/1507.08852). (It turns out that $15=3\times 5$ :) )
+* [Trapped ion quantum computers](https://en.wikipedia.org/wiki/Trapped_ion_quantum_computer) use the states of an ion to simulate a qubit. People have made some [recent advances](http://iontrap.umd.edu/wp-content/uploads/2016/02/1602.02840v1.pdf) on these computers too. For example, an ion-trap computer was used to [implement Shor's algorithm to factor 15](http://arxiv.org/abs/1507.08852). (It turns out that $15=3\times 5$ :) )
 
 * [Topological quantum computers](https://en.wikipedia.org/wiki/Topological_quantum_computer) use a different technology, which is more stable by design but arguably harder to manipulate to create quantum computers.
 
@@ -763,7 +763,7 @@ Specifically, for every such group $\mathbb{G}$, if $f$ is a function mapping $\
 $$f = \sum_{g \in \mathbb{G}} \hat{f}(g)\chi_g \;\;, \label{fourierexpansion}$$
 
 where  the $\chi_g$'s are functions mapping $\mathbb{G}$ to $\mathbb{C}$ that are analogs of the "wave functions" for the group $\mathbb{G}$ and for every $g\in \mathbb{G}$, $\hat{f}(g)$ is a complex number known as the _Fourier coefficient of $f$ corresponding to $g$_.^[The equation [fourierexpansion](){.eqref} means that if we think of $f$ as a $|\mathbb{G}|$ dimensional vector over the complex numbers, then we can write this vector as a sum (with certain coefficients) of the vectors $\{ \chi_g \}_{g\in \mathbb{G}}$. ]
-The representation [{fourierexpansion}](){.eqref} is known as the _Fourier expansion_ or _Fourier transform_ of $f$, the numbers $( \hat{f}(g) )_{g\in\mathbb{G}}$ are known as the _Fourier coefficients_ of $f$ and the functions $( \chi_g )_{g\in\mathbb{G}}$
+The representation [fourierexpansion](){.eqref} is known as the _Fourier expansion_ or _Fourier transform_ of $f$, the numbers $( \hat{f}(g) )_{g\in\mathbb{G}}$ are known as the _Fourier coefficients_ of $f$ and the functions $( \chi_g )_{g\in\mathbb{G}}$
 are known as the _Fourier characters_.
 The central property of the Fourier characters  is that they are _homomorphisms_ of the group into the complex numbers, in the sense that for every $x,x' \in \mathbb{G}$, $\chi_g(x \star x')=\chi_g(x)\chi_g(x')$, where $\star$ is the group operation.
 One corollary of this property is that if $\chi_g(h)=1$ then $\chi_g$ is _$h$ periodic_ in the sense that $\chi_g(x \star h)=\chi_g(x)$ for every $x$.
@@ -894,10 +894,10 @@ The idea is that we can embed $Z_L$ in the group $\Z_{A\cdot L}$ for any integer
 
 
 > # { .recap }
-* The state of an $n$-qubit quantum system can be modeled as a $2^n$ dimensional vector
+* The state of an $n$-qubit quantum system can be modeled as a $2^n$ dimensional vector.
 * An operation on the state corresponds to applying a unitary matrix to this vector.
 * Quantum circuits are obtained by composing basic operations such as $HAD$ and $U_{NAND}$.
-* We can use quantum circuits to define the classes $\mathbf{BQP_{/poly}}$ and $\mathbf{BQP}$ which are the quantum analogs of $\mathbf{P_{/poly}}$ and $\mathbf{BPP}$ respectively.
+* We can use quantum circuits to define the classes $\mathbf{BQP_{/poly}}$ and $\mathbf{BQP}$, which are the quantum analogs of $\mathbf{P_{/poly}}$ and $\mathbf{BPP}$ respectively.
 * There are some problems for which the best known quantum algorithm is _exponentially faster_ than the best known, but quantum computing is not a panacea. In particular, as far as we know, quantum computers could still require exponential time to solve $\mathbf{NP}$-complete problems such as $SAT$.
 
 

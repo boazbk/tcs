@@ -99,7 +99,7 @@ Since all these models are equivalent up to polynomial factors, you can use your
 ::: {.solvedexercise title="Choosing from a set" #choosingfromsetex}
 Modern programming languages often involve not just the ability to toss a random coin in $\{0,1\}$ but also to choose an element at random from a set $S$.
 Show that you can emulate this primitive  using coin tossing.
-Specifically, show that there is randomized algorithm $A$ that on input a set $S$ of $m$ strings of length $n$, runs in time $poly(n,m)$ and outputs either an element $x\in S$ or "fail" such that
+Specifically, show that there is a randomized algorithm $A$ that, on input a set $S$ of $m$ strings of length $n$, runs in time $poly(n,m)$ and outputs either an element $x\in S$ or "fail" such that
 
 1. Let $p$ be the probability that $A$ outputs "fail", then $p < 2^{-n}$  (a number small enough that it can be ignored).
 
@@ -178,7 +178,7 @@ Once again, it is clear that if $P'$ runs in polynomial time then so will $P$, a
 
 
 ::: {.remark title="Definitions of $\mathbf{BPP}$ and $\mathbf{NP}$" #BPPandNP}
-The characterization of $\mathbf{BPP}$ [randextrainput](){.ref} is reminiscent of the characterization of $\mathbf{NP}$  in [NP-def](){.ref}, with the randomness in the case of $\mathbf{BPP}$ playing the role of the solution in the case of $\mathbf{NP}$. However, there are important differences between the two:
+The characterization of $\mathbf{BPP}$ in [randextrainput](){.ref} is reminiscent of the characterization of $\mathbf{NP}$  in [NP-def](){.ref}, with the randomness in the case of $\mathbf{BPP}$ playing the role of the solution in the case of $\mathbf{NP}$. However, there are important differences between the two:
 
 * The definition of $\mathbf{NP}$ is "one sided": $F(x)=1$ if _there exists_ a solution $w$ such that $G(xw)=1$ and $F(x)=0$ if _for every_ string $w$ of the appropriate length, $G(xw)=0$. In contrast, the characterization of $\mathbf{BPP}$ is symmetric with respect to the cases $F(x)=0$ and $F(x)=1$.
 
@@ -227,7 +227,7 @@ For the plurality value to be _incorrect_, it must hold that $\sum_{i=0}^{t-1} X
 :::
 
 
-![If $F\in\mathbf{BPP}$ then there is randomized polynomial-time algorithm $P$ with the following property: In the case $F(x)=0$ two thirds of the "population" of random choices satisfy $P(x;r)=0$ and in the case $F(x)=1$ two thirds of the population satisfy $P(x;r)=1$.  We can think of amplification as a form of "polling" of the choices of randomness. By the Chernoff   bound, if we poll a sample of $O(\tfrac{\log(1/\delta)}{\epsilon^2})$ random choices $r$, then with probability at least $1-\delta$,  the fraction of $r$'s in the sample satisfying $P(x;r)=1$ will give us an estimate of the fraction of the population within an $\epsilon$ margin of error. This is the same calculation used by pollsters to determine the needed sample size in their polls.](../figure/BPPamplification.png){#amplificationfig   .margin  }
+![If $F\in\mathbf{BPP}$ then there is a randomized polynomial-time algorithm $P$ with the following property: In the case $F(x)=0$ two thirds of the "population" of random choices satisfy $P(x;r)=0$ and in the case $F(x)=1$ two thirds of the population satisfy $P(x;r)=1$.  We can think of amplification as a form of "polling" of the choices of randomness. By the Chernoff   bound, if we poll a sample of $O(\tfrac{\log(1/\delta)}{\epsilon^2})$ random choices $r$, then with probability at least $1-\delta$,  the fraction of $r$'s in the sample satisfying $P(x;r)=1$ will give us an estimate of the fraction of the population within an $\epsilon$ margin of error. This is the same calculation used by pollsters to determine the needed sample size in their polls.](../figure/BPPamplification.png){#amplificationfig   .margin  }
 
 
 
@@ -427,7 +427,7 @@ Note that it takes several parameters:
 
 * $T$ is the limit on the number of gates of the circuit $C$  that the generator needs to "fool". The larger $T$ is, the stronger the generator.
 
-* $\epsilon$ is how close is the output of the pseudorandom generator to the true uniform distribution over $\{0,1\}^m$. The smaller $\epsilon$ is, the stronger the generator.
+* $\epsilon$ is how close the output of the pseudorandom generator is to the true uniform distribution over $\{0,1\}^m$. The smaller $\epsilon$ is, the stronger the generator.
 
 * $\ell$ is the input length and $m$ is the output length. If $\ell \geq m$ then it is trivial to come up with such a generator: on input $s\in \{0,1\}^\ell$, we can output $s_0,\ldots,s_{m-1}$. In this case $\Pr_{s\sim \{0,1\}^\ell}[ P(G(s))=1]$ will simply equal $\Pr_{r\sim \{0,1\}^m}[ P(r)=1]$, no matter how many lines $P$ has. So, the smaller $\ell$ is and the larger $m$ is, the stronger the generator, and to get anything non-trivial, we need $m>\ell$.
 
@@ -465,7 +465,7 @@ Specifically, there exists a constant  $\delta >0$ such that for every $\ell$ an
 :::
 
 ::: { .pause }
-The "optimal PRG conjecture" is worth while reading more than once. What it posits is that we can obtain $(T,\epsilon)$ pseudorandom generator $G$ such that every output bit of $G$ can be computed in time polynomial in the length $\ell$ of the input, where $T$ is exponentially large in $\ell$ and $\epsilon$ is exponentially small in $\ell$. (Note that we could not hope for the entire output to be computable in $\ell$, as just writing the output down will take too long.)
+The "optimal PRG conjecture" is worth while reading more than once. What it posits is that we can obtain a $(T,\epsilon)$ pseudorandom generator $G$ such that every output bit of $G$ can be computed in time polynomial in the length $\ell$ of the input, where $T$ is exponentially large in $\ell$ and $\epsilon$ is exponentially small in $\ell$. (Note that we could not hope for the entire output to be computable in $\ell$, as just writing the output down will take too long.)
 
 To understand why we call such a pseudorandom generator "optimal," it is a great exercise to convince yourself that, for example, there does not exist a $(2^{1.1\ell},2^{-1.1\ell})$ pseudorandom generator (in fact, the number $\delta$ in the conjecture must be smaller than $1$).
 To see that we can't have $T \gg 2^{\ell}$, note that if we allow a NAND-CIRC program with much more than $2^\ell$ lines then this NAND-CIRC program could "hardwire" inside it all the outputs of $G$ on all its $2^\ell$ inputs, and use that to distinguish between a string of the form $G(s)$ and a uniformly chosen string in $\{0,1\}^m$.
@@ -543,7 +543,7 @@ The idea behind this construction is that using amplification we can obtain a ra
 We can express the condition that there exists $s_0,\ldots,s_{k-1}$ such that $\cup_{i\in [k]} (S \oplus s_i) = \{0,1\}^m$ as a statement with a constant number of quantifiers. (Specifically, this condition holds if for _every_ $y\in \{0,1\}^m$, there _exists_ $s \in S$ and $i\in \{0,\ldots,k-1\}$ such that $y=s\oplus s_i$.)
 :::
 
-![If $F\in \mathbf{BPP}$ then through amplification we can ensure that there is an algorithm $A$ to compute $F$ on $n$-length inputs and using $m$ coins such that $\Pr_{r\sim \{0,1\}^m}[ A(xr)\neq F(x)] \ll 1/poly(m)$. Hence if $F(x)=1$ then almost all of the $2^m$ choices for $r$ will cause $A(xr)$ to output $1$, while if $F(x)=0$ then $A(xr)=0$ for almost all $r$'s. To prove the Sipser–Gács Theorem we consider several "shifts" of the set $S \subseteq \{0,1\}^m$ of the coins $r$ such that $A(xr)=1$. If $F(x)=1$ then we can find a set of $k$ shifts $s_0,\ldots,s_{k-1}$ for which $\cup_{i\in [k]} (S \oplus s_i) = \{0,1\}^m$. If $F(x)=0$ then for every such set $|\cup_{i\in [k]} S_i| \leq k |S| \ll 2^m$. We can phrase the question of whether there is such a set of shift using a constant number of quantifiers, and so can solve it in polynomial time if $\mathbf{P}=\mathbf{NP}$.](../figure/strongamplification.png){#strongampbppfig .margin  }
+![If $F\in \mathbf{BPP}$ then through amplification we can ensure that there is an algorithm $A$ to compute $F$ on $n$-length inputs and using $m$ coins such that $\Pr_{r\sim \{0,1\}^m}[ A(xr)\neq F(x)] \ll 1/poly(m)$. Hence if $F(x)=1$ then almost all of the $2^m$ choices for $r$ will cause $A(xr)$ to output $1$, while if $F(x)=0$ then $A(xr)=0$ for almost all $r$'s. To prove the Sipser–Gács Theorem we consider several "shifts" of the set $S \subseteq \{0,1\}^m$ of the coins $r$ such that $A(xr)=1$. If $F(x)=1$ then we can find a set of $k$ shifts $s_0,\ldots,s_{k-1}$ for which $\cup_{i\in [k]} (S \oplus s_i) = \{0,1\}^m$. If $F(x)=0$ then for every such set $|\cup_{i\in [k]} S_i| \leq k |S| \ll 2^m$. We can phrase the question of whether there is such a set of shifts using a constant number of quantifiers, and so can solve it in polynomial time if $\mathbf{P}=\mathbf{NP}$.](../figure/strongamplification.png){#strongampbppfig .margin  }
 
 
 
@@ -620,11 +620,11 @@ This concludes the proof of __CLAIM I__ and hence of [BPPvsNP](){.ref}.
 
 ## Non-constructive existence of pseudorandom generators (advanced, optional)
 
-We now show that, if we don't insist on _constructivity_ of pseudorandom generators, then we can show that there exists pseudorandom generators with output that _exponentially larger_   in the input length.
+We now show that, if we don't insist on _constructivity_ of pseudorandom generators, then we can show that there exist pseudorandom generators with output that is _exponentially larger_   in the input length.
 
 
 > ### {.lemma title="Existence of inefficient pseudorandom generators" #prgexist}
-There is some absolute constant $C$ such that for every $\epsilon,T$, if $\ell > C (\log T + \log (1/\epsilon))$ and $m \leq T$,  then there is an $(T,\epsilon)$ pseudorandom generator $G: \{0,1\}^\ell \rightarrow \{0,1\}^m$.
+There is some absolute constant $C$ such that for every $\epsilon,T$, if $\ell > C (\log T + \log (1/\epsilon))$ and $m \leq T$, then there is a $(T,\epsilon)$ pseudorandom generator $G: \{0,1\}^\ell \rightarrow \{0,1\}^m$.
 
 
 > ### {.proofidea data-ref="prgexist"}

@@ -36,12 +36,12 @@ Yet, something changed in the last few decades, which is the "revolution" allude
 New cryptosystems have been found that have not been broken despite being subjected to immense
 efforts involving both human ingenuity and computational power on a scale that
 completely dwarves the "code breakers" of Poe's time. Even more amazingly,
-these cryptosystem are not only seemingly unbreakable, but they also achieve
+these cryptosystems are not only seemingly unbreakable, but they also achieve
 this under much harsher conditions. Not only do today's attackers have more
-computational power but they also have more data to work with. In Poe's age, an
+computational power, but they also have more data to work with. In Poe's age, an
 attacker would be lucky if they got access to more than a few encryptions of known messages.
-These days attackers might have massive amounts of data-
-terabytes or more - at their disposal. In fact, with *public key* encryption,
+These days attackers might have massive amounts of data---terabytes 
+or more---at their disposal. In fact, with *public key* encryption,
 an attacker can generate as many ciphertexts as they wish.
 
 The key to this success has been a clearer understanding of both how to _define_ security for cryptographic tools and how to relate this security to _concrete computational problems_.
@@ -62,7 +62,7 @@ We will also give a small taste of some of the "paradoxical" cryptographic const
 
 A great many cryptosystems have been devised and broken throughout the ages.
 Let us recount just some of these stories.
-In 1587, Mary the queen of Scots, and the heir to the throne of England, wanted to arrange the assassination of her cousin, queen Elisabeth I of
+In 1587, Mary, Queen of Scots, and the heir to the throne of England, wanted to arrange the assassination of her cousin, Queen Elizabeth I of
 England, so that she could ascend to the throne and finally escape the house arrest under which she had been for the last 18 years.
 As part of this complicated plot, she sent a coded letter to Sir Anthony Babington.
 
@@ -70,25 +70,25 @@ As part of this complicated plot, she sent a coded letter to Sir Anthony Babingt
 
 
 Mary used what's known as a _substitution cipher_ where each letter is transformed into a different obscure symbol (see [maryscottletterfig](){.ref}).
-At a first look, such a letter might seem rather inscrutable- a meaningless sequence of strange symbols.
+At a first look, such a letter might seem rather inscrutable---a meaningless sequence of strange symbols.
 However, after some thought, one might recognize that these symbols _repeat_ several
 times and moreover that different symbols repeat with different frequencies.
 Now it doesn't take a large leap of faith to assume that perhaps each symbol corresponds to a different letter
 and the more frequent symbols correspond to letters that occur in the alphabet with higher frequency.
 From this observation, there is a short gap to completely breaking the cipher,
-which was in fact done by queen Elisabeth's spies who used the decoded letters to learn of all the co-conspirators and to convict queen Mary of treason, a crime for which she was executed.
+which was in fact done by Queen Elizabeth's spies, who used the decoded letters to learn of all the co-conspirators and to convict Queen Mary of treason, a crime for which she was executed.
 Trusting in superficial security measures (such as using "inscrutable" symbols) is a trap that users of cryptography have been falling into again and again over the years.
-(As in many things, this is the subject of a great XKCD cartoon, see [XKCDnavajofig](){.ref}.)
+(As with many things, this is the subject of a great XKCD cartoon, see [XKCDnavajofig](){.ref}.)
 
 
 ![XKCD's take on the added security of using uncommon symbols](../figure/code_talkers.png){#XKCDnavajofig .margin  }
 
 
 
-The [Vigenère cipher](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher) is named after Blaise de Vigenère who described it in a book in 1586 (though it was invented earlier by Bellaso).
-The idea is to use a collection of substitution cyphers - if there are $n$ different ciphers then the first letter of the plaintext is encoded with the first cipher, the second with the second cipher,
+The [Vigenère cipher](https://en.wikipedia.org/wiki/Vigen%C3%A8re_cipher) is named after Blaise de Vigenère, who described it in a book in 1586 (though it was invented earlier by Bellaso).
+The idea is to use a collection of substitution cyphers: if there are $n$ different ciphers then the first letter of the plaintext is encoded with the first cipher, the second with the second cipher,
 the $n^{th}$ with the $n^{th}$ cipher, and then the $n+1^{st}$ letter is again encoded with the first cipher.
-The key is usually a word or a phrase of $n$ letters, and the $i^{th}$ substitution cipher is obtained by shifting each letter $k_i$ positions in the alphabet.
+The key $k$ is usually a word or a phrase of $n$ letters. The $i^{th}$ substitution cipher will shift each letter by the same shift needed to get from A to $k_i$. If $k_i$ is C, for example, the $i^{th}$ substitution cipher will shift every letter by two places.
 This "flattens" the frequencies and makes it much harder to do frequency analysis, which is why this cipher was considered "unbreakable" for 300+ years and got the nickname
 "le chiffre indéchiffrable" ("the unbreakable cipher").
 Nevertheless, Charles Babbage cracked the Vigenère cipher in 1854 (though he did not publish it).
@@ -103,16 +103,16 @@ Confederate generals used Vigenère regularly during the civil war, and their me
 
 
 The _Enigma_ cipher was a mechanical cipher (looking like a typewriter, see [enigmafig](){.ref}) where each letter typed would get mapped into a different letter depending on the (rather complicated) key and current state
-of the machine which had several rotors that rotated at different paces. An identically wired machine at the other end could be used to decrypt.
+of the machine,d which had several rotors that rotated at different paces. An identically wired machine at the other end could be used to decrypt.
 Just as many ciphers in history, this has also been believed by the Germans to be "impossible to break" and even quite late in the war they refused to believe it was broken despite
 mounting evidence to that effect. (In fact, some German generals refused to believe it was broken even _after_ the war.)
-Breaking Enigma was an heroic effort which was initiated by the Poles and then completed by the British at Bletchley Park, with Alan Turing (of the Turing machines) playing a key role.
+Breaking Enigma was an heroic effort which was initiated by the Poles and then completed by the British at Bletchley Park, with Alan Turing (of the Turing machine) playing a key role.
 As part of this effort the Brits built arguably the world's first large scale mechanical computation devices (though they looked more similar to washing machines than to iPhones).
 They were also helped along the way by some quirks and errors of the German operators.
 For example, the fact that their messages ended with "Heil Hitler" turned out to be quite useful.
 
 
-![In the _Enigma_ mechanical cipher the secret key would be the settings of the rotors and internal wires. As the operator types up their message, the encrypted version appeared in the display area above, and the internal state of the cipher was updated (and so typing the same letter twice would generally result in two different letters output). Decrypting follows the same process: if the sender and receiver are using the same key then typing the ciphertext would result in the plaintext appearing in the display.](../figure/enigma.jpg){#enigmafig .margin  }
+![In the _Enigma_ mechanical cipher the secret key would be the settings of the rotors and internal wires. As the operator typed up their message, the encrypted version appeared in the display area above, and the internal state of the cipher was updated (and so typing the same letter twice would generally result in two different letters output). Decrypting follows the same process: if the sender and receiver are using the same key then typing the ciphertext would result in the plaintext appearing in the display.](../figure/enigma.jpg){#enigmafig .margin  }
 
 Here is one entertaining anecdote: the Enigma machine would never map a letter to itself.
 In March 1941, Mavis Batey, a cryptanalyst at Bletchley Park received a very long message that she tried to decrypt.
@@ -124,8 +124,8 @@ This observation helped her decode the next message, which helped inform of a pl
 Mavis also helped break another Enigma machine.
 Using the information she provided, the Brits were able to feed the Germans with the false information that the main allied invasion would take place in Pas de Calais rather than on Normandy.
 
-In the words of General Eisenhower, the intelligence from Bletchley park was of "priceless value".
-It made a huge difference for the Allied war effort,  thereby shortening World War II and saving millions of lives.
+In the words of General Eisenhower, the intelligence from Bletchley Park was of "priceless value".
+It made a huge difference for the Allied war effort, thereby shortening World War II and saving millions of lives.
 See also [this interview with Sir Harry Hinsley](http://www.cix.co.uk/~klockstone/hinsley.htm).
 
 
@@ -135,8 +135,8 @@ See also [this interview with Sir Harry Hinsley](http://www.cix.co.uk/~klockston
 
 ## Defining encryption
 
-Many of the troubles that cryptosystem designers faced over history (and still face!) can be attributed to not properly defining or understanding what are the goals they want to achieve in the first place.
-Let us focus on the setting of _private key encryption_. (This is also known as "symmetric encryption"; for thousands of years, "private key encryption" was synonymous with encryption and only in the 1970's was the concept of _public key encryption_ invented, see [publickeyencdef](){.ref}.)
+Many of the troubles that cryptosystem designers faced over history (and still face!) can be attributed to not properly defining or understanding the goals they want to achieve in the first place.
+Let us focus on the setting of _private key encryption_. (This is also known as "symmetric encryption"; for thousands of years, "private key encryption" was synonymous with encryption and only in the 1970s was the concept of _public key encryption_ invented, see [publickeyencdef](){.ref}.)
 A _sender_ (traditionally called "Alice") wants to send a message (known also as a _plaintext_) $x\in \{0,1\}^*$ to a _receiver_ (traditionally called "Bob").
 They would like their message to be kept secret from an _adversary_ who listens in or "eavesdrops" on the communication channel (and is traditionally called "Eve").
 
@@ -227,12 +227,12 @@ discovered) all the randomness generated by this procedure used only the process
 if some entities recorded that communication they could break it also retroactively). See [XKCD's take](http://www.xkcd.com/424/) on that incident.
 
 In 2012 two separate teams of researchers scanned a large number of RSA keys on the web and found out that about 4 percent of them are easy to break.
-The main issue were devices such as routers, internet-connected printers and such. These devices sometimes run variants of Linux-  a desktop operating system- but without a hard drive, mouse or keyboard, they don't have access to many of the entropy sources that desktop have. Coupled with some good old fashioned ignorance of cryptography and software bugs, this led to many keys that are downright trivial
+The main issue were devices such as routers, internet-connected printers and such. These devices sometimes run variants of Linux---a desktop operating system---but without a hard drive, mouse or keyboard, they don't have access to many of the entropy sources that desktops have. Coupled with some good old fashioned ignorance of cryptography and software bugs, this led to many keys that are downright trivial
 to break, see [this blog post](https://freedom-to-tinker.com/blog/nadiah/new-research-theres-no-need-panic-over-factorable-keys-just-mind-your-ps-and-qs/)  and [this web page](https://factorable.net/)  for more details.
 
 Since randomness is so crucial to security, breaking the procedure to generate randomness can lead to a complete break of the system that uses this randomness.
-Indeed, the Snowden documents, combined with observations of Shumow and Ferguson, [strongly suggest](https://en.wikipedia.org/wiki/Dual_EC_DRBG) that the NSA has deliberately inserted a _trapdoor_ in one of the pseudorandom generators published by the National Institute of Standards and Technologies (NIST).
-Fortunately, this generator wasn't widely adapted but apparently the NSA did pay 10 million dollars to RSA security so the latter would make this generator their default option in their products.
+Indeed, the Snowden documents, combined with observations of Shumow and Ferguson, [strongly suggest](https://en.wikipedia.org/wiki/Dual_EC_DRBG) that the NSA has deliberately inserted a _trapdoor_ in one of the pseudorandom generators published by the National Institute of Standards and Technology (NIST).
+Fortunately, this generator wasn't widely adapted, but apparently the NSA did pay 10 million dollars to RSA Security so the latter would make this generator the default option in their products.
 :::
 
 ## Perfect secrecy
@@ -303,8 +303,8 @@ This example can be vastly generalized to show that perfect secrecy is indeed "p
 
 _Perfect secrecy_ is an extremely strong condition, and implies that an eavesdropper does not learn _any_ information from observing the ciphertext.
 You might think that an encryption scheme satisfying such a strong condition will be impossible, or at least extremely complicated, to achieve.
-However it turns out we can in fact obtain perfectly secret encryption scheme fairly easily.
-Such a scheme for two-bit messages is illustrated in [onetimepadtwofig](){.ref}
+However it turns out we can in fact obtain a perfectly secret encryption scheme fairly easily.
+Such a scheme for two-bit messages is illustrated in [onetimepadtwofig](){.ref}.
 
 
 ![A perfectly secret encryption scheme for two-bit keys and messages. The blue vertices represent plaintexts and the red vertices represent ciphertexts, each edge mapping a plaintext $x$ to a ciphertext $y=E_k(x)$ is labeled with the corresponding key $k$. Since there are four possible keys, the degree of the graph is four and it is in fact a complete bipartite graph. The encryption scheme is valid in the sense that for every $k\in \{0,1\}^2$, the map $x \mapsto E_k(x)$ is one-to-one, which in other words means that the set of edges labeled with $k$ is a _matching_.](../figure/onetimepadtwobits.png){#onetimepadtwofig .margin  }
@@ -583,7 +583,7 @@ The details of how to show this are below.
 We focus on showing only the "furthermore" part since it is the more interesting and the other part follows by essentially the same proof.
 
 Suppose that $(E,D)$ is such an encryption, let $n$ be large enough, and let $x_0  = 0^{L(n)}$.
-For every $x\in \{0,1\}^{L(n)}$ we define $S_x$ to be the set of all valid encryption of $x$.
+For every $x\in \{0,1\}^{L(n)}$ we define $S_x$ to be the set of all valid encryptions of $x$.
 That is $S_x = \{ y \;|\; \exists_{k\in \{0,1\}^n} y=E_k(x) \}$.
 As in the proof of [longkeysthm](){.ref}, since there are $2^n$ keys $k$, $|S_x| \leq 2^n$ for every $x\in \{0,1\}^{L(n)}$.
 
@@ -628,7 +628,7 @@ The paper was rejected with the comment that "Experience shows that it is extrem
 Merkle showed that one can design a protocol where Alice and Bob can use $T$ invocations of a hash function to exchange a key, but an adversary (in the random oracle model, though he of course didn't use this name) would need roughly $T^2$ invocations to break it. He conjectured that it may be possible to obtain such protocols where breaking is _exponentially harder_ than using them, but could not think of any concrete way to doing so.
 
 We only found out much later that in the late 1960's, a few years before Merkle, James Ellis of the British Intelligence agency GCHQ was [having similar thoughts](http://cryptome.org/jya/ellisdoc.htm).
-His curiosity was spurred by an old World-War II manuscript from Bell labs that suggested the following way that two people could communicate securely over a phone line.
+His curiosity was spurred by an old World-War II manuscript from Bell Labs that suggested the following way that two people could communicate securely over a phone line.
 Alice would inject noise to the line, Bob would relay his messages, and then Alice would subtract the noise to get the signal.
 The idea is that an adversary over the line sees only the sum of Alice's and Bob's signals, and doesn't know what came from what. This got James Ellis thinking whether it would be possible to achieve something like that digitally.
 As Ellis later recollected, in 1970 he realized that in principle this should be possible, since he could think of an hypothetical black box $B$ that on input a "handle" $\alpha$ and plaintext  $x$ would give a "ciphertext" $y$ and that there would be a secret key $\beta$ corresponding to $\alpha$, such that feeding $\beta$ and $y$ to the box would recover $x$.
@@ -726,9 +726,9 @@ The Diffie-Hellman protocol for Bob to send a message to Alice is as follows:
 * __Alice:__ Given $g',z$, Alice recovers $x$ by outputting $rep(g'^a \mod p) \oplus z$.
 
 The correctness of the protocol follows from the simple fact that $(g^a)^b = (g^b)^a$ for every $g,a,b$ and this still holds if we work modulo $p$. Its security relies on the computational assumption that computing this map is hard, even in a certain "average case" sense (this computational assumption is known as the [Decisional Diffie Hellman assumption](https://en.wikipedia.org/wiki/Decisional_Diffie%E2%80%93Hellman_assumption)).
-The Diffie-Hellman key exchange protocol can be thought of as a public key encryption where the Alice's first message is the public key, and Bob's message is the encryption.
+The Diffie-Hellman key exchange protocol can be thought of as a public key encryption where Alice's first message is the public key, and Bob's message is the encryption.
 
-One can think of the Diffie-Hellman protocol as being based on a "trapdoor pseudorandom generator" whereas the triple $g^a,g^{b},g^{ab}$ looks "random" to someone that doesn't know $a$, but someone that does know $a$ can see that raising the second element to the $a$-th power yields the third element.
+One can think of the Diffie-Hellman protocol as being based on a "trapdoor pseudorandom generator" where the triple $g^a,g^{b},g^{ab}$ looks "random" to someone that doesn't know $a$, but someone that does know $a$ can see that raising the second element to the $a$-th power yields the third element.
 The Diffie-Hellman protocol can be described abstractly in the context of any [finite Abelian group](https://en.wikipedia.org/wiki/Abelian_group) for which we can efficiently compute the group operation.
 It has been implemented on other groups than numbers modulo $p$, and in particular [Elliptic Curve Cryptography (ECC)](https://en.wikipedia.org/wiki/Elliptic-curve_cryptography) is obtained by basing the Diffie Hellman on elliptic curve groups which gives some practical advantages.
 Another common group theoretic basis for key-exchange/public key encryption protocol is the RSA function.
@@ -746,7 +746,7 @@ Similarly, even for encryption, we often need to ensure security against _active
 An encryption scheme is only as secure as the secret key, and mechanisms to make sure the key is generated properly, and is protected against refresh or even compromise (i.e., [forward secrecy](https://en.wikipedia.org/wiki/Forward_secrecy)) have been studied as well.
 Hopefully this chapter provides you with some appreciation for cryptography as an intellectual field, but does not imbue you with a false self confidence in implementing it.
 
-_Cryptographic hash functions_ is another widely used tool with a variety of uses, including extracting randomness from high entropy sources, achieving hard-to-forge short "digests" of files, protecting passwords, and much more.
+_Cryptographic hash functions_ are another widely used tool with a variety of uses, including extracting randomness from high entropy sources, achieving hard-to-forge short "digests" of files, protecting passwords, and much more.
 
 ## Magic
 
@@ -756,7 +756,7 @@ We do not give any details, but hopefully this will spark your curiosity to find
 
 ### Zero knowledge proofs
 
-On October 31, 1903, the mathematician Frank Nelson Cole, gave an hourlong lecture to a meeting of the American Mathematical Society where he did not speak a single word.
+On October 31, 1903, the mathematician Frank Nelson Cole gave an hourlong lecture to a meeting of the American Mathematical Society where he did not speak a single word.
 Rather, he calculated on the board the value $2^{67}-1$ which is equal to $147,573,952,589,676,412,927$, and then showed that this number is equal to $193,707,721 \times 761,838,257,287$.
 Cole's proof showed that $2^{67}-1$ is not a prime, but it also revealed additional information, namely its actual factors.
 This is often the case with proofs: they teach us more than just the validity of the statements.
@@ -792,7 +792,7 @@ The crucial point is that there is _no commonly trusted party or authority_ and 
 One example is an _electronic voting protocol_ where only the total vote count is revealed, with the privacy of the individual voters protected, but without having to trust any authority to either count the votes correctly or to keep information confidential.
 Another example is implementing a [second price (aka Vickrey) auction](https://en.wikipedia.org/wiki/Vickrey_auction) where $n-1$ parties submit bids to an item owned by the $n$-th party, and the item goes to the highest bidder but at the price of the _second highest bid_.
 Using secure multiparty computation we can implement second price auction in a way that will ensure the secrecy of the numerical values of all bids (including even the top one) except the second highest one, and the secrecy of the identity of all bidders (including even the second highest bidder) except the top one.
-We emphasize that such a protocol requires no trust even in the auctioneer itself, that will also not learn any additional information.
+We emphasize that such a protocol requires no trust even in the auctioneer itself, who will also not learn any additional information.
 Secure multiparty computation can be used even for computing _randomized_ processes, with one example being playing Poker over the net without having to trust any server for correct shuffling of cards or not revealing the information.
 
 
