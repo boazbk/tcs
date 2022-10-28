@@ -377,7 +377,7 @@ There exists a NAND-RAM program $U$ satisfying the following:
 
 1. _($U$ is a universal NAND-RAM program.)_ For every NAND-RAM program $P$ and input $x$,  $U(P,x)=P(x)$ where by $U(P,x)$ we denote the output of $U$ on a string encoding the pair $(P,x)$.
 
-2. _($U$ is efficient.)_ There are some constants $a,b$ such that for every NAND-RAM program $P$, if $P$ halts on input $x$ after most $T$ steps, then $U(P,x)$ halts after at most $C\cdot T$ steps where $C \leq a |P|^b$. 
+2. _($U$ is efficient.)_ There are some constants $a,b$ such that for every NAND-RAM program $P$, if $P$ halts on input $x$ after at most $T$ steps, then $U(P,x)$ halts after at most $C\cdot T$ steps where $C \leq a |P|^b$. 
 :::
 
 
