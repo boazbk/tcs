@@ -387,7 +387,7 @@ The claim shows that $01EQ(E) = SSUM(y_0,\ldots,y_{n-1},T)$ which is what we nee
 INPUT: Set $E = \{ e_t \}_{t\in [m]}$ of $m$ linear equations over $n$ variables $x_0,\ldots,x_{n-1}$.
 
 OUTPUT: Numbers $y_0,\ldots,y_{n-1},T \in \mathbb{Z}$ such that there is an $0/1$ assignment $x\in \{0,1\}^n$
-satisfying the equations of $E$ iff there is $S \subseteq [n]$ such that $\sum_{i\in S}y_i = T$.
+satisfying the equations of $E$ -iff there is $S \subseteq [n]$ such that $\sum_{i\in S}y_i = T$.
 
 For{every equation $e_t\in E$}
   Let $A \subseteq [n]$ and $b\in \mathbb{Z}$ be such that $e_t$ has the form $\sum_{i\in A} x_i = b$
