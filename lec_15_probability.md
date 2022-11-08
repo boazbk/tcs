@@ -377,7 +377,7 @@ $$
 $$
 
 But we don't really "expect" the result of this experiment to be for you to gain 90 dollars.
-Rather, 99.9\% of the time you will pay me 10 dollars, and you will hit the jackpot 0.01\% of the times.
+Rather, 99.9\% of the time you will pay me 10 dollars, and you will hit the jackpot 0.1\% of the times.
 
 However, if we repeat this experiment again and again (with fresh and hence _independent_ coins), then in the long run we do expect your average earning to be close to 90 dollars, which is the reason why casinos can make money in a predictable way even though every individual bet is random.
 For example, if we toss $n$ independent and unbiased coins, then as $n$ grows, the number of coins that come up ones will be more and more _concentrated_ around $n/2$ according to the famous "bell curve" (see [bellfig](){.ref}).
