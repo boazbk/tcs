@@ -517,7 +517,7 @@ Finding a polynomial-time algorithm for any one of them will imply a polynomial-
 
 
 
-![We believe that $\mathbf{P} \neq \mathbf{NP}$ and all $\mathbf{NP}$ complete problems lie outside of $\mathbf{P}$, but we cannot rule out the possiblity that  $\mathbf{P}=\mathbf{NP}$. However, we can rule out the possiblity that _some_ $\mathbf{NP}$-complete problems are in $\mathbf{P}$ and other do not, since we know that if even one $\mathbf{NP}$-complete problem is in $\mathbf{P}$ then $\mathbf{P}=\mathbf{NP}$. The relation between $\mathbf{P_{/poly}}$ and $\mathbf{NP}$ is not known though it can be shown that if one $\mathbf{NP}$-complete problem is in $\mathbf{P_{/poly}}$ then $\mathbf{NP} \subseteq \mathbf{P_{/poly}}$.](../figure/inclusion_npc.png){#npcinclusionfig }
+![We believe that $\mathbf{P} \neq \mathbf{NP}$ and all $\mathbf{NP}$ complete problems lie outside of $\mathbf{P}$, but we cannot rule out the possiblity that  $\mathbf{P}=\mathbf{NP}$. However, we can rule out the possiblity that _some_ $\mathbf{NP}$-complete problems are in $\mathbf{P}$ and others are not, since we know that if even one $\mathbf{NP}$-complete problem is in $\mathbf{P}$ then $\mathbf{P}=\mathbf{NP}$. The relation between $\mathbf{P_{/poly}}$ and $\mathbf{NP}$ is not known though it can be shown that if one $\mathbf{NP}$-complete problem is in $\mathbf{P_{/poly}}$ then $\mathbf{NP} \subseteq \mathbf{P_{/poly}}$.](../figure/inclusion_npc.png){#npcinclusionfig }
 
 > ### { .recap }
 * Many of the problems for which we don't know polynomial-time algorithms are $\mathbf{NP}$-complete, which means that finding a polynomial-time algorithm for one of them would imply a polynomial-time algorithm for _all_ of them.
