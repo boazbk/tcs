@@ -487,7 +487,7 @@ We note that in the case that 3SAT is hard, it may well be that there is no _sho
 
 ## Is $\mathbf{P}=\mathbf{NP}$ "in practice"?
 
-The fact that a problem is $\mathbf{NP}$-hard means that we believe there is no efficient algorithm that solve it in the _worst case_.
+The fact that a problem is $\mathbf{NP}$-hard means that we believe there is no efficient algorithm that solves it in the _worst case_.
 It does not, however, mean that every single instance of the problem is hard.
 For example, if all the clauses in a 3SAT instance $\varphi$ contain the same variable $x_i$ (possibly in negated form), then by guessing a value to $x_i$ we can reduce $\varphi$ to a 2SAT instance which can then be efficiently solved.
 Generalizations of this simple idea are used in "SAT solvers", which are algorithms that have solved certain specific interesting SAT formulas with thousands of variables, despite the fact that we believe SAT to be exponentially hard in the worst case.
