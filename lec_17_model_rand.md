@@ -158,7 +158,7 @@ The idea behind the proof is that, as illustrated in [randomalgsviewsfig](){.ref
 ::: {.proof data-ref="randextrainput"}
 We start by showing the "only if" direction.
 Let $F\in \mathbf{BPP}$ and let $P$ be an RNAND-TM program that computes $F$ as per [BPPdef](){.ref}, and let $a,b\in \N$ be such that on every input of length $n$, the program $P$ halts within at most $an^b$ steps.
-We will construct a polynomial-time algorithm that  $P'$  such that for every $x\in \{0,1\}^n$, if we set $m=an^b$, then
+We will construct a polynomial-time algorithm $P'$  such that for every $x\in \{0,1\}^n$, if we set $m=an^b$, then
 $$
 \Pr_{r \sim \{0,1\}^{m}}[ P'(xr) = 1] = \Pr[ P(x) = 1 ] \;,
 $$
@@ -419,7 +419,7 @@ $$
 \left| \Pr_{s\sim \{0,1\}^\ell}[C(G(s))=1] - \Pr_{r \sim \{0,1\}^m}[C(r)=1] \right| < \epsilon \label{eq:prg}
 $$
 
-![A pseudorandom generator $G$ maps a short string $s\in \{0,1\}^\ell$ into a long string $r\in \{0,1\}^m$ such that an small program/circuit $P$ cannot distinguish between the case that it is provided a random input $r \sim \{0,1\}^m$ and the case that it is provided a "pseudorandom" input of the form $r=G(s)$ where $s \sim \{0,1\}^\ell$. The short string $s$ is sometimes called the _seed_ of the pseudorandom generator, as it is a small object that can be thought as yielding a large "tree of randomness".](../figure/prg_experiment.png){#pseudorandomgeneratorfig  .margin  }
+![A pseudorandom generator $G$ maps a short string $s\in \{0,1\}^\ell$ into a long string $r\in \{0,1\}^m$ such that a small program/circuit $P$ cannot distinguish between the case that it is provided a random input $r \sim \{0,1\}^m$ and the case that it is provided a "pseudorandom" input of the form $r=G(s)$ where $s \sim \{0,1\}^\ell$. The short string $s$ is sometimes called the _seed_ of the pseudorandom generator, as it is a small object that can be thought as yielding a large "tree of randomness".](../figure/prg_experiment.png){#pseudorandomgeneratorfig  .margin  }
 
 ::: { .pause }
 This is a definition that's worth reading more than once, and spending some time to digest it.

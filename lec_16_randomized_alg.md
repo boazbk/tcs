@@ -126,10 +126,10 @@ But if $p<1/(2m)$ then $pm<0.5$ and so the right-hand side is smaller than $m/2$
 
 [cutprob](){.ref} shows that our algorithm succeeds at least _some_ of the time, but we'd like to succeed almost _all_ of the time. The approach to do that is to simply _repeat_ our algorithm many times, with fresh randomness each time, and output the best cut we get in one of these repetitions.
 It turns out that with extremely high probability we will get a cut of size at least $m/2$.
-For example, if we repeat this experiment $2000m$ times, then (using the inequality $(1-1/k)^k \leq 1/e \leq 1/2$) we can show that the probability that we will never cut at least $m/2$ edges is at most
+For example, if we repeat this experiment $2000m$ times, then (using the inequality $(1-1/k)^k \leq 1/e \leq 1/2$) we can show that the probability that we will never cut at least $m/2$ edges, where $k=2m$, is at most
 
 $$
-(1-1/(2m))^{2000 m} \leq 2^{-1000} \;.
+(1-1/(2m))^{2000 m} = (1-1/k)^{1000 k} = ((1-1/k)^{k})^{1000} \leq 2^{-1000} \;.
 $$
 
 More generally, the same calculations can be used to show the following lemma:
