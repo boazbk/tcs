@@ -542,7 +542,7 @@ We show why this statement follows from the time hierarchy theorem, but it can b
 We need to show that there exists $F \in \mathbf{EXP} \setminus \mathbf{P}$.
 Let $T(n) = n^{\log n}$ and $T'(n) = n^{\log n / 2}$.
 Both are nice functions.
-Since $T(n)/T'(n) = \omega(\log n)$, by [time-hierarchy-thm](){.ref} there exists some $F$ in $TIME(T(n))/TIME(T(n))$.
+Since $T(n)/T'(n) = \omega(\log n)$, by [time-hierarchy-thm](){.ref} there exists some $F$ in $TIME(T(n))/TIME(T'(n))$.
 Since for sufficiently large $n$, $2^n > n^{\log n}$,  $F \in TIME(2^n) \subseteq \mathbf{EXP}$.
 On the other hand, $F \not\in \mathbf{P}$. Indeed, suppose otherwise that there was a constant $c>0$ and a  Turing machine computing $F$ on $n$-length input in at most $n^c$ steps for all sufficiently large $n$. Then since for $n$ large enough $n^c < n^{\log n/2}$, it would have followed that $F \in TIME(n^{\log n /2})$ contradicting our choice of $F$.
 :::
