@@ -316,7 +316,7 @@ Since for every $a\in \R$, $a^2 - a = 0$ if and only if $a \in \{0,1\}$, the two
 ``` { .algorithm title="$01EQ$ to $QUADEQ$ reduction" #zeroonetoquadreductionalg }
 INPUT: Set $E$ of linear equations over $n$ variables $x_0,\ldots,x_{n-1}$.
 
-OUTPUT: Set $E'$ of quadratic eqations ovar $m$ variables $w_0,\ldots,w_{m-1}$ such that there is an $0/1$ assignment $x\in \{0,1\}^n$
+OUTPUT: Set $E'$ of quadratic equations over $m$ variables $w_0,\ldots,w_{m-1}$ such that there is an $0/1$ assignment $x\in \{0,1\}^n$
 satisfying the equations of $E$ iff there is an assignment $w \in \R^m$ satisfying the equations of $E'$.
 That is, $01EQ(E) = QUADEQ(E')$.
 
