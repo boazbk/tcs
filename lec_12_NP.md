@@ -620,8 +620,8 @@ The _soundness_ part is that if $DS(H,k')=1$ then $VC(G,k)=1$.
 __Completeness.__ Suppose that $VC(G,k)=1$. Then there is a vertex cover $S \subseteq V$ of at most $k$ vertices.
 Let $I$ be the set of isolated vertices  in $G$ and $\ell$ be their number.
 Then $|S \cup I| \leq k +\ell$.
-We claim that $S \cup I$ is a dominating set in $H'$.
-Indeed for every vertex $v$ of $H'$ there are three cases:
+We claim that $S \cup I$ is a dominating set in $H$.
+Indeed for every vertex $v$ of $H$ there are three cases:
 
 * __Case 1:__ $v$ is an isolated vertex of $G$. In this case $v$ is in $S \cup I$.
 
