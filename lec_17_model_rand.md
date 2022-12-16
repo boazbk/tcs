@@ -166,11 +166,11 @@ where the probability in the right-hand side is taken over the `RAND()` operatio
 In particular this means that if we define $G(xr) = P'(xr)$ then the function $G$ satisfies the conditions of [eqBPPauxiliary](){.eqref}.
 
 The algorithm $P'$ will be very simple: it simulates the program $P$, maintaining a counter $i$ initialized to $0$. Every time that $P$ makes a `RAND()` operation, the program $P'$ will supply the result from $r_i$ and increment $i$ by one. 
-We will never "run out" of bits, since the running time of $P$ is at most $an^b$ and hence it can make at most this number of `RNAND()` calls.
+We will never "run out" of bits, since the running time of $P$ is at most $an^b$ and hence it can make at most this number of `RAND()` calls.
 The output of $P'(xr)$ for a random $r\sim \{0,1\}^m$ will be distributed identically to the output of $P(x)$.
 
 For the other direction, given a function $G\in \mathbf{P}$ satisfying the condition [eqBPPauxiliary](){.eqref} and a NAND-TM $P'$ that computes $G$ in polynomial time, we can construct an RNAND-TM program $P$ that computes $F$ in polynomial time.
-On input $x\in \{0,1\}^n$, the program $P$ will simply use the `RNAND()` instruction $an^b$ times to fill an array `R[`$0$`]` , $\ldots$, `R[`$an^b-1$`]` and then execute the original program $P'$ on input $xr$ where $r_i$ is the $i$-th element of the array `R`.
+On input $x\in \{0,1\}^n$, the program $P$ will simply use the `RAND()` instruction $an^b$ times to fill an array `R[`$0$`]` , $\ldots$, `R[`$an^b-1$`]` and then execute the original program $P'$ on input $xr$ where $r_i$ is the $i$-th element of the array `R`.
 Once again, it is clear that if $P'$ runs in polynomial time then so will $P$, and for every input $x$ and $r\in \{0,1\}^{an^b}$, the output of $P$ on input $x$ and where the coin tosses outcome is $r$ is equal to $P'(xr)$.
 :::
 
