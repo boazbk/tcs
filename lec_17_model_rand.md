@@ -346,7 +346,7 @@ $$
 for every $x\in \{0,1\}^n$.
 
 
-Now let us use the standard "unravelling the loop" the technique and transform $P'$ into a NAND-CIRC program $Q$ of polynomial in $n$ size, such that $Q(xr)=P'(x;r)$ for every $x\in \{0,1\}^n$ and $r \in \{0,1\}^m$.
+Now let us use the standard "unravelling the loop" technique and transform $P'$ into a NAND-CIRC program $Q$ of polynomial in $n$ size, such that $Q(xr)=P'(x;r)$ for every $x\in \{0,1\}^n$ and $r \in \{0,1\}^m$.
 Then by "hardwiring" the values $r^*_0,\ldots,r^*_{m-1}$ in place of the last $m$ inputs of $Q$, we obtain a new NAND-CIRC program $Q_{r^*}$ that satisfies by [hardwirecorrecteq](){.eqref} that $Q_{r^*}(x)=F(x)$ for every $x\in \{0,1\}^n$.
 This demonstrates that $F_{\upharpoonright n}$ has a polynomial-sized NAND-CIRC program, hence completing the proof of [rnandthm](){.ref}.
 :::
