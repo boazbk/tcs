@@ -4,6 +4,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 
 * Scott Aaronson
 * Michele Amoretti
+* Luke Bailey
 * Aadi Bajpai
 * Marguerite Basta
 * Anindya Basu
@@ -44,6 +45,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Lucia Hoerr
 * Joosep Hook
 * Austin Houck
+* Catherine Huang
 * Thomas HUET
 * Emily Jia
 * Serdar Kaçka
@@ -60,6 +62,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Emma Ling
 * Alex Lombardi
 * Lisa Lu
+* Zijian(Carl) Ma
 * Kai Ma
 * Aditya Mahadevan
 * Kunal Marwaha
@@ -120,6 +123,5 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Grace Zhang
 * Alex Zhao
 * Jessica Zhu
-* Luke Bailey
-* Catherine Huang
+
 

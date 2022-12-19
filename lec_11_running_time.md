@@ -469,7 +469,7 @@ One can show that $F \in TIME(n^{O(\log n)}) \subseteq \mathbf{EXP}$ using the u
 
 > ### {.proofidea data-ref="time-hierarchy-thm"}
 In the proof of [halt-thm](){.ref} (the uncomputability of the Halting problem), we have shown that the function $HALT$ cannot be computed in any finite time. An examination of the proof shows that it gives something stronger.
-Namely, the proof shows that if we fix our computational budget to be $T$ steps, then not only we can't distinguish between programs that halt and those that do not, but cannot even distinguish between programs that halt within at most $T'$ steps and those that take more than that (where $T'$ is some number depending on $T$).
+Namely, the proof shows that if we fix our computational budget to be $T$ steps, then not only can we not distinguish between programs that halt and those that do not, but we cannot even distinguish between programs that halt within at most $T'$ steps and those that take more than that (where $T'$ is some number depending on $T$).
 Therefore, the proof of [time-hierarchy-thm](){.ref} follows the ideas of the uncomputability of the halting problem, but again with a more careful accounting of the running time.
 
 
@@ -542,7 +542,7 @@ We show why this statement follows from the time hierarchy theorem, but it can b
 We need to show that there exists $F \in \mathbf{EXP} \setminus \mathbf{P}$.
 Let $T(n) = n^{\log n}$ and $T'(n) = n^{\log n / 2}$.
 Both are nice functions.
-Since $T(n)/T'(n) = \omega(\log n)$, by [time-hierarchy-thm](){.ref} there exists some $F$ in $TIME(T'(n)) \subsetneq TIME(T(n))$.
+Since $T(n)/T'(n) = \omega(\log n)$, by [time-hierarchy-thm](){.ref} there exists some $F$ in $TIME(T(n))/TIME(T'(n))$.
 Since for sufficiently large $n$, $2^n > n^{\log n}$,  $F \in TIME(2^n) \subseteq \mathbf{EXP}$.
 On the other hand, $F \not\in \mathbf{P}$. Indeed, suppose otherwise that there was a constant $c>0$ and a  Turing machine computing $F$ on $n$-length input in at most $n^c$ steps for all sufficiently large $n$. Then since for $n$ large enough $n^c < n^{\log n/2}$, it would have followed that $F \in TIME(n^{\log n /2})$ contradicting our choice of $F$.
 :::

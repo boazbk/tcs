@@ -292,7 +292,7 @@ Hence using [RAMTMequivalencethm](){.ref}, we can simulate any program in such a
 In the other direction, it is a fairly easy programming exercise to write an interpreter for NAND-TM in any of the above programming languages.
 Hence we can also simulate NAND-TM programs (and so by [TM-equiv-thm](){.ref}, Turing machines) using these programming languages.
 This property of being equivalent in power to Turing machines / NAND-TM is called _Turing Equivalent_ (or sometimes _Turing Complete_).
-Thus all programming languages we are familiar with are Turing equivalent.^[Some programming language have fixed (even if extremely large) bounds on the amount of memory they can access, which formally prevent them from being applicable to computing infinite functions and hence simulating Turing machines. We ignore such issues in this discussion and assume access to some storage device without a fixed upper bound on its capacity.]
+Thus all programming languages we are familiar with are Turing equivalent.^[Some programming languages have fixed (even if extremely large) bounds on the amount of memory they can access, which formally prevent them from being applicable to computing infinite functions and hence simulating Turing machines. We ignore such issues in this discussion and assume access to some storage device without a fixed upper bound on its capacity.]
 
 
 
