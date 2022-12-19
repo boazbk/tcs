@@ -617,7 +617,7 @@ Despite the similarity in their names, $ZEROFUNC$ and $HALTONZERO$ are two diffe
 :::
 
 ::: {.proof data-ref="allzero-thm"}
-The proof is by reduction to $HALTONZERO$. Suppose, towards the sake of contradiction, that there was an algorithm $A$ such that $A(M)=ZEROFUNC(M)$ for every $M \in \{0,1\}^*$. Then we will construct an algorithm $B$ that solves $HALTONZERO$,  contradicting [haltonzero-thm](){.ref}.
+The proof is by reduction from $HALTONZERO$. Suppose, towards the sake of contradiction, that there was an algorithm $A$ such that $A(M)=ZEROFUNC(M)$ for every $M \in \{0,1\}^*$. Then we will construct an algorithm $B$ that solves $HALTONZERO$,  contradicting [haltonzero-thm](){.ref}.
 
 Given a Turing machine $N$ (which is the input to $HALTONZERO$), our Algorithm $B$ does the following:
 
