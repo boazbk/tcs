@@ -469,7 +469,7 @@ One can show that $F \in TIME(n^{O(\log n)}) \subseteq \mathbf{EXP}$ using the u
 
 > ### {.proofidea data-ref="time-hierarchy-thm"}
 In the proof of [halt-thm](){.ref} (the uncomputability of the Halting problem), we have shown that the function $HALT$ cannot be computed in any finite time. An examination of the proof shows that it gives something stronger.
-Namely, the proof shows that if we fix our computational budget to be $T$ steps, then not only we can't distinguish between programs that halt and those that do not, but cannot even distinguish between programs that halt within at most $T'$ steps and those that take more than that (where $T'$ is some number depending on $T$).
+Namely, the proof shows that if we fix our computational budget to be $T$ steps, then not only can we not distinguish between programs that halt and those that do not, but we cannot even distinguish between programs that halt within at most $T'$ steps and those that take more than that (where $T'$ is some number depending on $T$).
 Therefore, the proof of [time-hierarchy-thm](){.ref} follows the ideas of the uncomputability of the halting problem, but again with a more careful accounting of the running time.
 
 

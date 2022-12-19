@@ -47,7 +47,7 @@ If we now carve out an additional slit in the metal barrier then more balls woul
 So far this is pure common sense, and it is indeed (to my knowledge) an accurate description of what happens when we shoot baseballs at a plastic wall.
 However, this is not the same when we shoot _photons_.
 Amazingly, if we shoot with a "photon gun" (i.e., a laser) at a wall equipped with photon detectors through some barrier, then (as shown in [doubleslitfig](){.ref}) in some positions of the wall we will see  _fewer_ hits when the two slits are open than when only one of them is.^[A nice illustrated description of the double slit experiment appears in   [this video](https://www.youtube.com/watch?v=DfPeprQ7oGc).]
-In particular there are positions in the wall that are hit when the first slit is open, hit when the  second gun is open, but are _not hit at all when both slits are open!_
+In particular there are positions in the wall that are hit when the first slit is open, hit when the second slit is open, but are _not hit at all when both slits are open!_
 
 
 

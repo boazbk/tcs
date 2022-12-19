@@ -486,7 +486,7 @@ For example, if $e = (00|11)^*$ then $\Phi_e(110011)=1$ but $\Phi_e(101)=0$ (can
 
 
 ::: { .pause }
-The formal definition of $\Phi_{e}$ is one of those definitions that is more cumbersome to write than to grasp. Thus it might be easier for you first to work out the definition on your own, and then check that it matches what tis written below.
+The formal definition of $\Phi_{e}$ is one of those definitions that is more cumbersome to write than to grasp. Thus it might be easier for you first to work out the definition on your own, and then check that it matches what is written below.
 :::
 
 ::: {.definition title="Matching a regular expression" #matchingregexpdef}
