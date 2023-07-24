@@ -224,7 +224,7 @@ To complete the proof, we need to show that $f_i \in SIZE_n(s + 10n)$.
 Let $x^*$ be the string such that $lex(x^*)=i$ and let $b\in \{0,1\}$ be the value of $f^*(x^*)$.
 Then we can define $f_i$ also as follows
 $$
-f_i(x) = \begin{cases} b & x=x^* \\ f_i(x) & x \neq x^*
+f_i(x) = \begin{cases} b & x=x^* \\ f_{i-1}(x) & x \neq x^*
          \end{cases}
 $$
 or in other words
