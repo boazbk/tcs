@@ -522,7 +522,7 @@ Reductions can be confusing and working out exercises is a great way to gain mor
 Here is one such example. As usual, I recommend you try it out yourself before looking at the solution.
 
 ::: {.solvedexercise title="Vertex cover" #vertexcoverex}
-A _vertex cover_ in a graph $G=(V,E)$ is a subset $S \subseteq V$ of vertices such that every edge touches at least one vertex of $S$ (see [vertexcoverfig](){.ref}).
+A _vertex cover_ in a graph $G=(V,E)$ is a subset $S \subseteq V$ of vertices such that every edge touches at least one vertex of $S$ (see [smallvertexcoverfig](){.ref}).
 The _vertex cover problem_ is the task to determine, given a graph $G$ and a number $k$, whether there exists a vertex cover in the graph with at most $k$ vertices.
 Formally, this is the function $VC:\{0,1\}^* \rightarrow \{0,1\}$ such that for every $G=(V,E)$ and $k\in \N$, $VC(G,k)=1$ if and only if there exists
 a vertex cover $S \subseteq V$ such that $|S| \leq k$.
@@ -531,7 +531,7 @@ Prove that $3SAT \leq_p VC$.
 :::
 
 ![A _vertex cover_ in a graph is a subset of vertices that touches all edges. In this $7$-vertex graph, the $3$ filled vertices 
-are a vertex cover.](../figure/vertex_cover.png){#vertexcoverfig .margin }
+are a vertex cover.](../figure/vertex_cover.png){#smallvertexcoverfig .margin }
 
 
 ::: {.solution data-ref="vertexcoverex"}
