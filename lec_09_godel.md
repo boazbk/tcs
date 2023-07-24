@@ -157,7 +157,7 @@ for{$n=1,2,3,\ldots$}
        if{$V(\text{"$M$ does not halt on $0$"},w)=1$}
          return $0$
        endif
-       Simulate $M$ for $n$ steps on $0$.
+       Simulate $M$ -for $n$ steps on $0$.
        if{$M$ halts}
          return $1$
        endif
