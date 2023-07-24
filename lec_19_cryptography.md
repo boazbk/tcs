@@ -95,7 +95,7 @@ Nevertheless, Charles Babbage cracked the Vigenère cipher in 1854 (though he di
 In 1863 Friedrich Kasiski broke the cipher and published the result.
 The idea is that once you guess the length of the cipher, you can reduce the task to breaking a simple substitution cipher which can be done via frequency
 analysis (can you see why?).
-Confederate generals used Vigenère regularly during the civil war, and their messages were routinely cryptanalzed by Union officers.
+Confederate generals used Vigenère regularly during the civil war, and their messages were routinely cryptanalyzed by Union officers.
 
 ![Confederate Cipher Disk for implementing the Vigenère cipher](../figure/confederate_cipher_disk.jpg){#tmplabelfig1 .margin}
 
