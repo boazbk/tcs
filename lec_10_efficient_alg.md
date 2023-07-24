@@ -102,7 +102,7 @@ Formally, we define $MINPATH:\{0,1\}^* \rightarrow \{0,1\}^*$ to be the function
 
 If each vertex has at least two neighbors then there can be an _exponential_ number of paths from $s$ to $t$, but fortunately we do not have to enumerate them all to find the shortest path.
 We can find the shortest path using a [breadth first search (BFS)](https://en.wikipedia.org/wiki/Breadth-first_search), enumerating $s$'s neighbors, and then neighbors' neighbors, etc.. in order.
-If we maintain the neighbors in a list we can perform a BFS in $O(n^2)$ time, while using a _queue_ we can do this in $O(m)$ time.^[A _queue_ is a data structure for storing a list of elements in "First In First Out (FIFO)" order. Each "pop" operation removes an element from the queue in the order that they were "pushed" into it; see the [Wikipedia page](https://goo.gl/HY9BJD).]
+If we maintain the neighbors in a list we can perform a BFS in $O(n^2)$ time, while using a _queue_ we can do this in $O(m)$ time, where $m$ is the number of edges.^[A _queue_ is a data structure for storing a list of elements in "First In First Out (FIFO)" order. Each "pop" operation removes an element from the queue in the order that they were "pushed" into it; see the [Wikipedia page](https://goo.gl/HY9BJD).]
 [Dijkstra's algorithm](https://goo.gl/PJyc4D) is a well-known generalization of BFS to _weighted_ graphs.
 More formally, the algorithm for computing the function $MINPATH$ is described in [bfsshortpathalg](){.ref}.
 
