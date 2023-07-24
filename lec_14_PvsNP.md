@@ -238,7 +238,7 @@ Our goal is to come up with a _hypothesis_ or _predictor_ $h:\{0,1\}^n \rightarr
 The idea in supervised learning is to use the _Occam's Razor principle_: the simplest hypothesis that explains the data is likely to be correct.
 There are several ways to model this, but one popular approach is to pick some fairly simple function $H:\{0,1\}^{k+n} \rightarrow \{0,1\}$. We think of the first $k$ inputs as the _parameters_ and the last $n$ inputs as the example data.
 (For example, we can think of the first $k$ inputs of $H$ as specifying the weights and connections for some neural network that will then be applied on the latter $n$ inputs.)
-We can then phrase the supervised learning problem as finding, given a set of labeled examples $S=\{ (x_0,y_0),\ldots,(x_{m-1},y_{m-1}) \}$, the set of parameters $\theta_0,\ldots,\theta_{k-1} \in \{0,1\}$ that minimizes the number of errors made by the predictor $x \mapsto H(\theta,x)$.^[This is often known as [Empirical Risk Minimization](https://goo.gl/F9AgG8).]
+We can then phrase the supervised learning problem as finding, given a set of labeled examples $S=\{ (x_0,y_0),\ldots,(x_{m-1},y_{m-1}) \}$, the set of parameters $\theta_0,\ldots,\theta_{k-1} \in \{0,1\}$ that minimizes the number of errors made by the predictor $x \mapsto H(\theta,x)$ (This is often known as [Empirical Risk Minimization](https://goo.gl/F9AgG8).)
 
 In other words, we can define for every set $S$ as above the function $F_S:\{0,1\}^k \rightarrow [m]$ such that $F_S(\theta) = \sum_{(x,y)\in S} |H(\theta,x)-y|$.
 Now, finding the value $\theta$ that minimizes $F_S(\theta)$ is equivalent to solving the supervised learning problem with respect to $H$.
@@ -321,8 +321,9 @@ The question of whether there is such a $P'$ that can be described by a string o
 $$
 \exists_{P' \in \{0,1\}^{s}} \forall_{x\in \{0,1\}^n} P(x)=P'(x) \label{circmineq}
 $$
-which has the form [existsforalleq](){.eqref}.^[Since NAND-CIRC programs are equivalent to Boolean circuits, the search problem corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
-You can skip ahead to [selfimprovingsat](){.ref} to see a particularly compelling application of this.]
+which has the form [existsforalleq](){.eqref}. (Since NAND-CIRC programs are equivalent to Boolean circuits, the search problem corresponding to [circmineq](){.eqref}  known as the [circuit minimization problem](https://goo.gl/iykqbh)  and is widely studied in Engineering.
+You can skip ahead to [selfimprovingsat](){.ref} to see a particularly compelling application of this.)
+
 Another example of a statement involving $a$ levels of quantifiers would be to check, given a chess position $x$, whether there is a strategy that guarantees that White wins within $a$ steps.
 For example is $a=3$ we would want to check if given the board position $x$, _there exists_ a move $y$ for White such that _for every_ move $z$ for Black _there exists_ a move $w$ for White that ends in a a checkmate.
 
@@ -334,7 +335,7 @@ If $\mathbf{P}=\mathbf{NP}$ then for every  $a\in \N$, polynomial $p:\N \rightar
 $$
 \exists_{y_0\in \{0,1\}^m} \forall_{y_1\in \{0,1\}^m} \cdots  \mathcal{Q}_{y_{a-1}\in \{0,1\}^m} V(xy_0y_1 \cdots y_{a-1})=1 \label{eq:QBF}
 $$
-where $m=p(n)$ and $\mathcal{Q}$ is either $\exists$ or $\forall$ depending on whether $a$ is odd or even, respectively.^[For the ease of notation, we assume that all the strings we quantify over have the same length $m=p(n)$, but using simple padding one can show that this captures the general case of strings of different polynomial lengths.]
+where $m=p(n)$ and $\mathcal{Q}$ is either $\exists$ or $\forall$ depending on whether $a$ is odd or even, respectively. (For the ease of notation, we assume that all the strings we quantify over have the same length $m=p(n)$, but using simple padding one can show that this captures the general case of strings of different polynomial lengths.)
 :::
 
 
@@ -439,7 +440,7 @@ Nevertheless, artificial intelligence, like many other fields, will clearly be g
 For example, it is clearly much easier to find a better Chess-playing algorithm when, given any algorithm $P$, you can find the smallest algorithm $P'$ that plays Chess better than $P$.
 Moreover, as we mentioned above, much of machine learning (and statistical reasoning in general) is about finding "simple" concepts that explain the observed data, and if $\mathbf{NP}=\mathbf{P}$, we could search for such concepts automatically for any notion of "simplicity" we see fit.
 In fact, we could even "skip the middle man" and do an automatic search for the learning algorithm with smallest generalization error.
-Ultimately the field of Artificial Intelligence is about trying to "shortcut" billions of years of evolution to obtain artificial programs that match (or beat) the performance of natural ones, and a fast algorithm for $\mathbf{NP}$ would provide the ultimate shortcut.^[One interesting theory is that  $\mathbf{P}=\mathbf{NP}$ and evolution has already discovered this algorithm, which we are already using without realizing it. At the moment, there seems to be very little evidence for such a scenario. In fact, we have some partial results in the other direction showing that, regardless of whether $\mathbf{P}=\mathbf{NP}$,  many types of  "local search" or "evolutionary"  algorithms require exponential time to solve 3SAT and other $\mathbf{NP}$-hard problems.]
+Ultimately the field of Artificial Intelligence is about trying to "shortcut" billions of years of evolution to obtain artificial programs that match (or beat) the performance of natural ones, and a fast algorithm for $\mathbf{NP}$ would provide the ultimate shortcut. (One interesting theory is that  $\mathbf{P}=\mathbf{NP}$ and evolution has already discovered this algorithm, which we are already using without realizing it. At the moment, there seems to be very little evidence for such a scenario. In fact, we have some partial results in the other direction showing that, regardless of whether $\mathbf{P}=\mathbf{NP}$,  many types of  "local search" or "evolutionary"  algorithms require exponential time to solve 3SAT and other $\mathbf{NP}$-hard problems.)
 
 More generally, a faster algorithm for $\mathbf{NP}$ problems would be immensely useful in any field where one is faced with computational or quantitative problems$-$ which is basically all fields of science, math, and engineering.
 This will not only help with concrete problems such as designing a better bridge, or finding a better drug, but also with addressing basic mysteries such as trying to find scientific theories or "laws of nature".
@@ -478,7 +479,7 @@ Could the same hold for $\mathbf{P} \neq \mathbf{NP}$?
 
 In short, the answer is _No_.
 For example, suppose that we are trying to decide between the "3SAT is easy" conjecture (there is an $10^6n$ time algorithm for 3SAT) and the "3SAT is hard" conjecture (for every $n$, any NAND-CIRC program that solves $n$ variable 3SAT takes $2^{10^{-6}n}$ lines). Then, since for  $n = 10^8$, $2^{10^{-6}n} > 10^6 n$, this boils down to the finite question of deciding whether or not there is a $10^{13}$-line NAND-CIRC program deciding 3SAT on formulas with $10^8$ variables.
-If there is such a program then there is a finite proof of its existence, namely the approximately 1TB file describing the program, and for which the verification is the (finite in principle though infeasible in practice) process of checking that it succeeds on all inputs.^[This inefficiency is not necessarily inherent. Later in this course we may discuss results in program-checking, interactive proofs, and average-case complexity, that can be used for efficient verification of proofs of related statements. In contrast, the inefficiency of verifying _failure_ of all programs could well be inherent.]
+If there is such a program then there is a finite proof of its existence, namely the approximately 1TB file describing the program, and for which the verification is the (finite in principle though infeasible in practice) process of checking that it succeeds on all inputs.^[This inefficiency is not necessarily inherent. Results in _program-checking_, _interactive proofs_, and _average-case complexity_ can be used for efficient verification of proofs of related statements. In contrast, the inefficiency of verifying _failure_ of all programs could well be inherent.]
 If there isn't such a program, then there is also a finite proof of that, though any such proof would take longer since we would need to enumerate over all _programs_ as well.
 Ultimately, since it boils down to a finite statement about bits and numbers; either the statement or its negation must follow from the standard axioms of arithmetic in a finite number of arithmetic steps.
 Thus, we cannot justify our ignorance in distinguishing between the "3SAT easy" and "3SAT hard" cases by claiming that this might be an inherently ill-defined question.
@@ -491,7 +492,7 @@ The fact that a problem is $\mathbf{NP}$-hard means that we believe there is no 
 It does not, however, mean that every single instance of the problem is hard.
 For example, if all the clauses in a 3SAT instance $\varphi$ contain the same variable $x_i$ (possibly in negated form), then by guessing a value to $x_i$ we can reduce $\varphi$ to a 2SAT instance which can then be efficiently solved.
 Generalizations of this simple idea are used in "SAT solvers", which are algorithms that have solved certain specific interesting SAT formulas with thousands of variables, despite the fact that we believe SAT to be exponentially hard in the worst case.
-Similarly, a lot of problems arising in economics and machine learning are $\mathbf{NP}$-hard.^[Actually, the computational difficulty of problems in economics such as finding optimal (or any) equilibria is quite subtle. Some variants of such problems are $\mathbf{NP}$-hard, while others have a certain "intermediate" complexity.]
+Similarly, a lot of problems arising in economics and machine learning are $\mathbf{NP}$-hard.^[The computational difficulty of problems in economics such as finding optimal (or any) equilibria is quite subtle. Some variants of such problems are $\mathbf{NP}$-hard, while others have a certain "intermediate" complexity.]
 And yet vendors and customers manage to figure out market-clearing prices (as economists like to point out, there is milk on the shelves) and mice succeed in distinguishing cats from dogs.
 Hence people (and machines) seem to regularly succeed in solving interesting instances of $\mathbf{NP}$-hard problems, typically by using some combination of guessing while making local improvements.
 
@@ -503,7 +504,6 @@ Thus it would be wrong to say that $\mathbf{NP}$ is easy "in practice", nor woul
 Understanding both the "typical complexity" of $\mathbf{NP}$ problems, as well as the power and limitations of certain heuristics (such as various local-search based algorithms)  is a very active area of research.
 We will see more on these topics later in this course.
 
-^[Talk more about coping with NP hardness. Main two approaches are _heuristics_ such as SAT solvers that succeed on _some_ instances, and _proxy measures_ such as mathematical relaxations that instead of solving problem $X$ (e.g., an integer program) solve program $X'$ (e.g., a linear program) that is related to that. Maybe give compressed sensing as an example, and least square minimization as a proxy for maximum apostoriori probability.]
 
 ## What if $\mathbf{P} \neq \mathbf{NP}$?
 
