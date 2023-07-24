@@ -447,7 +447,7 @@ endfor
 for {every distinct clauses $C,C'$ in $\varphi$}
   for {every $i\in [n]$}
       if{$C$ contains literal $x_i$ and $C'$ contains literal $\overline{x}_i$}
-          Add edge $\{ (C,x_i), (C,\overline{x}_i) \}$ to $E$
+          Add edge $\{ (C,x_i), (C',\overline{x}_i) \}$ to $E$
       endif
   endfor
 endfor
