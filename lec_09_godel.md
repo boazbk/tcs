@@ -129,7 +129,7 @@ A _proof_ is just a string of text whose meaning is given by a _verification alg
 
 
 Our first formalization of [godethminformal](){.ref} involves statements about Turing machines.
-We let $\mathcal{H}$ be the set of strings $x\in \{0,1\}^*$ that have the form "Turing machine $M$ halts on the zero input".
+We let $\mathcal{H}$ be the set of strings $x\in \{0,1\}^*$ that have the form "Turing machine $M$ does not halt on the zero input".
 
 
 ::: {.theorem title="Gödel's Incompleteness Theorem: computational variant" #godethmtakeone}
@@ -138,7 +138,7 @@ There does not exist a complete proof system for $\mathcal{H}$.
 
 
 > ### {.proofidea data-ref="godethmtakeone"}
-If we had such a complete and sound proof system then we could solve the $HALTONZERO$ problem. On input a Turing machine $M$, we would search all purported proofs $w$  and halt as soon as we find a proof of either "$M$ halts on zero" or "$M$ does not halt on zero". If the system is sound and complete then we will eventually find such a proof, and it will provide us with the correct output.
+If we had such a complete and sound proof system then we could solve the $HALTONZERO$ problem. On input a Turing machine $M$, we would in parallel run the machine on the input zero, as well as search all purported proofs $w$  and output $0$ if we find a proof of "$M$ does not halt on zero". If the system is sound and complete then either the machine will halt or we will eventually find such a proof, and it will provide us with the correct output.
 
 
 ::: {.proof data-ref="godethmtakeone"}
@@ -150,24 +150,26 @@ Our algorithm $A$ will work as follows:
 
 ``` { .algorithm title="Halting from proofs" #haltingfromproog}
 INPUT: Turing machine $M$
-OUTPUT:  $1$  $M$ -if halts on the input $0$;  $0$ otherwise.
+OUTPUT:  $1$  $M$ -if halts on -input $0$;  $0$ otherwise.
 
 for{$n=1,2,3,\ldots$}
     for{$w\in \{0,1\}^n$}
-       if{$V(\text{"$M$ halts on $0$"},w)=1$}
-         return $1$
-       endif
        if{$V(\text{"$M$ does not halt on $0$"},w)=1$}
          return $0$
+       endif
+       Simulate $M$ for $n$ steps on $0$.
+       if{$M$ halts}
+         return $1$
        endif
     endfor
 endfor
 ```
 
 
-If $M$ halts on $0$ then under our assumption there exists $w$ that proves this fact, and so when Algorithm $A$ reaches $n=|w|$ we will eventually find this $w$ and output $1$, unless we already halted before.
-But we cannot halt before and output a wrong answer because it would contradict the soundness of the proof system.
-Similarly, this shows that if $M$ does _not_ halt on $0$ then (since we assume there is a proof of this fact too) our algorithm $A$ will eventually halt and output $0$.
+If $M$ halts on zero within $N$ steps, then by the soundness of the proof system, there will not exist a proof for "$M$ does not halt on $0$" on so we will never return $0$. 
+By the time time we get to $n=N$ in the loop, we will simulate $M$ for $N$ steps and so return $1$.
+On the hand, if $M$ does not halt on $0$, then we will never return $1$. Because the proof system is complete, there exists $w$ that proves this fact, and so when Algorithm $A$ reaches $n=|w|$ we will eventually find this $w$ and output $0$.
+Hence under the assumption that the proof system is complete and sound, $A(M)$ solves the $HALTONZERO$ function, yielding a contradiction.
 :::
 
 ::: {.remark title="The Gödel statement (optional)" #godelstmtrem}
