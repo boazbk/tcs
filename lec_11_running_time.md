@@ -309,7 +309,7 @@ In sum, we simulate a single step of NAND-RAM using $O(T(n)^2 poly(\log T(n)))$ 
 
 
 ::: {.remark title="Nice time bounds" #nicefunctionsrem}
-When considering general time bounds such we need to make sure to rule out some "pathological" cases such as functions $T$ that don't give enough time for the algorithm to read the input, or functions where the time bound itself is uncomputable. We say that a function $T:\N \rightarrow \N$ is a  _nice time bound function_ (or nice function for short) if for every $n\in \N$, $T(n) \geq n$ (i.e., $T$ allows enough time to read the input), for every $n' \geq n$, $T(n') \geq T(n)$ (i.e., $T$ allows more time on longer inputs), and the map $F(x) = 1^{T(|x|)}$  (i.e., mapping a string of length $n$ to a sequence of $T(n)$ ones) can be computed by a NAND-RAM program in $O(T(n))$ time.
+When considering general time bounds we need to make sure to rule out some "pathological" cases such as functions $T$ that don't give enough time for the algorithm to read the input, or functions where the time bound itself is uncomputable. We say that a function $T:\N \rightarrow \N$ is a  _nice time bound function_ (or nice function for short) if for every $n\in \N$, $T(n) \geq n$ (i.e., $T$ allows enough time to read the input), for every $n' \geq n$, $T(n') \geq T(n)$ (i.e., $T$ allows more time on longer inputs), and the map $F(x) = 1^{T(|x|)}$  (i.e., mapping a string of length $n$ to a sequence of $T(n)$ ones) can be computed by a NAND-RAM program in $O(T(n))$ time.
 
 All the "normal" time complexity bounds we encounter in applications such as $T(n)= 100 n$, $T(n) =  n^2 \log n$,$T(n) = 2^{\sqrt{n}}$, etc.  are "nice".
 Hence from now on we will only care about the class $TIME(T(n))$   when $T$ is a "nice" function.
@@ -537,11 +537,11 @@ Prove that $\mathbf{P} \subsetneq \mathbf{EXP}$.
 :::
 
 ::: {.solution data-ref="PvsEXP"}
-We show why this statement follows from the time hierarchy theorem, but it can be an instructive exercise to prove it directly, see [hierarchytoyrem](){.ref}.
+This statement follows directly from the time hierarchy theorem, but it can be an instructive exercise to prove it directly, see [hierarchytoyrem](){.ref}.
 We need to show that there exists $F \in \mathbf{EXP} \setminus \mathbf{P}$.
 Let $T(n) = n^{\log n}$ and $T'(n) = n^{\log n / 2}$.
 Both are nice functions.
-Since $T(n)/T'(n) = \omega(\log n)$, by [time-hierarchy-thm](){.ref} there exists some $F$ in $TIME(T(n))/TIME(T'(n))$.
+Since $T(n)/T'(n) = \omega(\log n)$, by [time-hierarchy-thm](){.ref} there exists some $F$ in $TIME(T(n)) \setminus TIME(T'(n))$.
 Since for sufficiently large $n$, $2^n > n^{\log n}$,  $F \in TIME(2^n) \subseteq \mathbf{EXP}$.
 On the other hand, $F \not\in \mathbf{P}$. Indeed, suppose otherwise that there was a constant $c>0$ and a  Turing machine computing $F$ on $n$-length input in at most $n^c$ steps for all sufficiently large $n$. Then since for $n$ large enough $n^c < n^{\log n/2}$, it would have followed that $F \in TIME(n^{\log n /2})$ contradicting our choice of $F$.
 :::
