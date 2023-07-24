@@ -101,7 +101,7 @@ Prove that $TIME_{\mathsf{TM}}(10\cdot n^3) \subseteq TIME_{\mathsf{TM}}(2^n)$.
 
 ::: {.solution data-ref="timeboundexample"}
 The proof is illustrated in [examplefimeboundsfig](){.ref}.
-Suppose that $F\in TIME_{\mathsf{TM}}(10\cdot n^3)$ and hence there exist some number $N_0$ and a machine $M$ such that for every $n> N_0$,  and $x\in \{0,1\}^*$, $M(x)$ outputs $F(x)$ within at most $10\cdot n^3$ steps.
+Suppose that $F\in TIME_{\mathsf{TM}}(10\cdot n^3)$ and hence there exists some number $N_0$ and a machine $M$ such that for every $n> N_0$,  and $x\in \{0,1\}^*$, $M(x)$ outputs $F(x)$ within at most $10\cdot n^3$ steps.
 Since $10\cdot n^3 = o(2^n)$, there is some number $N_1$ such that for every $n>N_1$, $10\cdot n^3 < 2^n$.
 Hence for every $n > \max\{ N_0, N_1 \}$, $M(x)$ will output $F(x)$ within at most $2^n$ steps, demonstrating that $F \in TIME_{\mathsf{TM}}(2^n)$.
 :::
