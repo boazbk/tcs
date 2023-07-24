@@ -506,7 +506,7 @@ We say that $F\in \mathbf{BQP_{/poly}}$ if there exists some polynomial $p:\N \r
 
 ::: {.remark title="The obviously exponential fallacy" #exponential}
 A priori it might seem "obvious" that quantum computing is exponentially powerful, since to perform a quantum computation on $n$ bits we need to maintain the $2^n$ dimensional state vector and apply $2^n\times 2^n$ matrices to it.
-Indeed popular descriptions of quantum computing (too) often say something along the lines that the difference between quantum and classical computer is that a classical bit can either be zero or one while a qubit can be in both states at once, and so in many qubits a quantum computer can perform exponentially many computations at once.
+Indeed popular descriptions of quantum computing (too) often say something along the lines that the difference between quantum and classical computers is that a classical bit can either be zero or one while a qubit can be in both states at once, and so in many qubits a quantum computer can perform exponentially many computations at once.
 
 Depending on how you interpret it, this description is either false or would apply equally well to _probabilistic computation_, even though we've already seen that every randomized algorithm can be simulated by a similar-sized circuit, and in fact we conjecture that $\mathbf{BPP}=\mathbf{P}$.
 
