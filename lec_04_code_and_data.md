@@ -435,14 +435,14 @@ Specifically, if `Table` is a variable holding this data structure, then we assu
 
 * `GET(Table,i)` which retrieves the bit corresponding to `i` in `Table`. The value of `i` is assumed to be an integer in $[t]$.
 
-* `Table = UPDATE(Table,i,b)` which updates `Table` so the bit  corresponding to `i` is now set to `b`. The value of `i` is assumed to be an integer in $[t]$ and `b` is a bit in $\{0,1\}$.
+* `Table = UPDATE(Table,i,b)` which updates `Table` so the bit corresponding to `i` is now set to `b`. The value of `i` is assumed to be an integer in $[t]$ and `b` is a bit in $\{0,1\}$.
 
 
 
 ``` { .algorithm title="Eval NAND-CIRC programs" #evalnandcircalg }
 Input: Numbers $n,m,s$ and $t\leq 3s$, as well as  a list $L$ of $s$ triples of numbers in $[t]$, and  a string $x\in \{0,1\}^n$.
 
-Output: Evaluation of the program represented by $(n,m,L)$ on the input $x\in \{0,1\}^n$.
+Output: Evaluation of the program represented by $(n,m,L)$ on the -input $x\in \{0,1\}^n$.
 
 Let `Vartable` be table of size $t$
 For{$i$ in $[n]$}
