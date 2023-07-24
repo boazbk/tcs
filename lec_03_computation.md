@@ -377,7 +377,7 @@ We will also discuss how to _physically implement_ simple operations such as $AN
 ![Standard symbols for the logical operations or "gates" of $AND$, $OR$, $NOT$, as well as the operation $NAND$ discussed in [nandsec](){.ref}.](../figure/logicgates.png){#logicgatesfig .margin }
 
 
-![A circuit with $AND$, $OR$ and $NOT$ gates  for computing the $XOR$ function.](../figure/xorcircuitschemdraw.png){#andornotcircxorfig  .margin  }
+![A circuit with $AND$, $OR$ and $NOT$ gates  for computing the $XOR$ function.](../figure/xorcircuitschemdraw.png){#smallandornotcircxorfig  .margin  }
 
 
 
@@ -392,7 +392,7 @@ _AND_ and _NOT_ gates are defined similarly.
 The _inputs_ have only outgoing wires.
 If we set a certain input to a value $a\in \{0,1\}$, then this value is propagated on all the wires outgoing from it.
 We also designate some gates as _output gates_, and their value corresponds to the result of evaluating the circuit.
-For example,  [andornotcircxorfig](){.ref} gives such a circuit for the $XOR$ function, following [xoraonexample](){.ref}.
+For example,  [smallandornotcircxorfig](){.ref} gives such a circuit for the $XOR$ function, following [xoraonexample](){.ref}.
 We evaluate an $n$-input Boolean circuit $C$ on an input $x\in \{0,1\}^n$ by placing the bits of $x$ on the inputs, and then propagating the values on the wires until we reach an output, see [boolancircfig](){.ref}.
 
 
