@@ -264,7 +264,7 @@ We say that $G$ is _$\mathbf{NP}$ complete_ if $G$ is $\mathbf{NP}$ hard and $G 
 The Cook-Levin Theorem ([cook-levin-thm](){.ref}) can be rephrased as saying that $3SAT$ is $\mathbf{NP}$ hard, and since it is also in $\mathbf{NP}$, this means that $3SAT$ is $\mathbf{NP}$ complete.
 Together with the reductions of [reductionchap](){.ref},  [cook-levin-thm](){.ref} shows that despite their superficial differences, 3SAT, quadratic equations, longest path, independent set, and maximum cut, are all $\mathbf{NP}$-complete.
 Many thousands of additional problems have been shown to be $\mathbf{NP}$-complete, arising from all the sciences, mathematics, economics, engineering and many other fields.
-(For a few examples, see [this Wikipedia page](https://goo.gl/NomnoU) and [this website](https://goo.gl/nfJHWv).)
+(For a few examples, see [this Wikipedia page](https://goo.gl/NomnoU) and [this website](https://www.csc.kth.se/tcs/compendium/).)
 
 ::: { .bigidea #npcomplete}
 If a _single_ $\mathbf{NP}$-complete has a polynomial-time algorithm, then there is such an algorithm for every decision problem that corresponds to the existence of an _efficiently-verifiable_ solution.
