@@ -469,7 +469,7 @@ The "optimal PRG conjecture" is worth while reading more than once. What it posi
 
 To understand why we call such a pseudorandom generator "optimal," it is a great exercise to convince yourself that, for example, there does not exist a $(2^{1.1\ell},2^{-1.1\ell})$ pseudorandom generator (in fact, the number $\delta$ in the conjecture must be smaller than $1$).
 To see that we can't have $T \gg 2^{\ell}$, note that if we allow a NAND-CIRC program with much more than $2^\ell$ lines then this NAND-CIRC program could "hardwire" inside it all the outputs of $G$ on all its $2^\ell$ inputs, and use that to distinguish between a string of the form $G(s)$ and a uniformly chosen string in $\{0,1\}^m$.
-To see that we can't have $\epsilon \ll 2^{-\ell}$, note that by guessing the input $s$ (which will be successful with probability $2^{-2\ell}$), we can obtain a small (i.e., $O(\ell)$ line) NAND-CIRC program that achieves a $2^{-\ell}$ advantage in distinguishing a pseudorandom and uniform input.
+To see that we can't have $\epsilon \ll 2^{-\ell}$, note that by guessing the input $s$ (which will be successful with probability $2^{-\ell}$), we can obtain a small (i.e., $O(\ell)$ line) NAND-CIRC program that achieves a $2^{-\ell}$ advantage in distinguishing a pseudorandom and uniform input.
 Working out these details is a highly recommended exercise.
 :::
 
