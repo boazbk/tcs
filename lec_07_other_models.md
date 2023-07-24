@@ -722,7 +722,7 @@ As mentioned in [curryingsec](){.ref}, we also use the shorthand $\lambda x,y.e$
 
 
 
-__Equivalence of λ expressions.__ As we have seen in [lambdaexptwoex](){.ref}, the rule that $(\lambda x. exp) exp'$ is equivalent to $exp[x \rightarrow exp']$ enables us to modify λ expressions and obtain simpler _equivalent form_ for them.
+__Equivalence of λ expressions.__ As we have seen in [lambdaexptwoex](){.ref}, the rule that $(\lambda x. exp) exp'$ is equivalent to $exp[x \rightarrow exp']$ enables us to modify λ expressions and obtain a simpler _equivalent form_ for them.
 Another rule that we can use is that the parameter does not matter and hence for example $\lambda y.y$ is the same as $\lambda z.z$.
 Together these rules define the notion of _equivalence_ of λ expressions:
 
@@ -739,12 +739,12 @@ Hence the λ calculus naturally implies a computational model.
 Since in the λ calculus the inputs can themselves be functions, we need to decide in what order we evaluate an expression such as
 
 $$
-(\lambda x.f)(\lambda y.g z) \;. \label{lambdaexpeq}
+(\lambda x.f)(\lambda y.g\; z) \;. \label{lambdaexpeq}
 $$
 There are two natural conventions for this:
 
 
-* _Call by name_ (aka _"lazy evaluation"_): We evaluate [lambdaexpeq](){.eqref} by first plugging in the right-hand expression $(\lambda y.g z)$ as input to the left-hand side function, obtaining $f[x \rightarrow (\lambda y.g z)]$ and then continue from there.
+* _Call by name_ (aka _"lazy evaluation"_): We evaluate [lambdaexpeq](){.eqref} by first plugging in the right-hand expression $(\lambda y.g\; z)$ as input to the left-hand side function, obtaining $f[x \rightarrow (\lambda y.g\; z)]$ and then continue from there.
 
 * _Call by value_ (aka _"eager evaluation"_): We evaluate [lambdaexpeq](){.eqref} by first evaluating the right-hand side and obtaining $h=g[y \rightarrow z]$, and then plugging this into the left-hand side to obtain $f[x \rightarrow h]$.
 
@@ -775,7 +775,7 @@ Prove that the following two expressions $e$ and $f$ are equivalent:
 
 $$e = \lambda x.x$$
 
-$$f = (\lambda a.(\lambda b.b)) (\lambda z.zz)$$
+$$f = (\lambda a.(\lambda b.b)) (\lambda z.z\; z)$$
 
 :::
 
