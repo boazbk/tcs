@@ -154,7 +154,7 @@ OUTPUT:  $1$  $M$ -if halts on -input $0$;  $0$ otherwise.
 
 for{$n=1,2,3,\ldots$}
     for{$w\in \{0,1\}^n$}
-       if{$V(\text{"$M$ does not halt on $0$"},w)=1$}
+       if{$V($"$M$ does not halt on $0$"$,w)=1$}
          return $0$
        endif
        Simulate $M$ -for $n$ steps on $0$.
@@ -577,7 +577,7 @@ In this question we  define the NAND-TM variant of the  [busy beaver function](h
 
 1. We define the function $T:\{0,1\}^* \rightarrow \mathbb{N}$ as follows: for every string $P\in \{0,1\}^*$, if $P$ represents a NAND-TM program such  that when $P$ is executed on the input $0$ (i.e., the string of length 1 that is simply $0$), a total of $M$ lines are executed before the program halts, then $T(P)=M$. Otherwise (if $P$ does not represent a NAND-TM program, or it is a program that does not halt on $0$), $T(P)=0$. Prove that $T$ is uncomputable.
 
-2. Let $TOWER(n)$ denote the number $\underbrace{2^{2^{2^{{\iddots}^2}}}}_{n\text{ times}}$ (that is, a "tower of powers of two" of height $n$). To get a sense of how fast this function grows, $TOWER(1)=2$, $TOWER(2)=2^2=4$, $TOWER(3)=2^{2^2}=16$, $TOWER(4) = 2^{16} = 65536$ and $TOWER(5) = 2^{65536}$ which is about $10^{20000}$. $TOWER(6)$ is already a number that is too big to write even in scientific notation.
+2. Let $TOWER(n)$ denote the number $\underbrace{2^{2^{2^{{\cdots}^2}}}}_{n\text{ times}}$ (that is, a "tower of powers of two" of height $n$). To get a sense of how fast this function grows, $TOWER(1)=2$, $TOWER(2)=2^2=4$, $TOWER(3)=2^{2^2}=16$, $TOWER(4) = 2^{16} = 65536$ and $TOWER(5) = 2^{65536}$ which is about $10^{20000}$. $TOWER(6)$ is already a number that is too big to write even in scientific notation.
 Define $NBB:\mathbb{N} \rightarrow \mathbb{N}$ (for "NAND-TM Busy Beaver") to be the function $NBB(n) = \max_{P\in \{0,1\}^n} T(P)$ where $T:\mathbb{N} \rightarrow \mathbb{N}$ is the function defined in Item 1. Prove that $NBB$ grows _faster_ than $TOWER$, in the sense that $TOWER(n) = o(NBB(n))$ (i.e., for every  $\epsilon>0$, there exists $n_0$ such that for every $n>n_0$,  $TOWER(n) < \epsilon \cdot NBB(n)$.).^[You will not need to use very specific properties of  the $TOWER$ function in this exercise. For example, $NBB(n)$ also grows faster than the [Ackerman function](https://en.wikipedia.org/wiki/Ackermann_function).  You might find [Aaronson's  blog post](https://www.scottaaronson.com/blog/?p=3445) on the same topic to be quite interesting, and relevant to this book  at large. If you like it then you might also enjoy [this piece by Terence Tao](https://terrytao.wordpress.com/2010/10/10/the-cosmic-distance-ladder-ver-4-1/).]
 :::
 
