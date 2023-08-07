@@ -611,7 +611,7 @@ where $x \sim \mu$ denotes the experiments of choosing $x_0,\ldots,x_{n-1}$ each
 Let $H(p) = p \log(1/p)+(1-p)\log(1/(1-p))$.^[While you don't need this to solve this exercise, this is the function that maps $p$ to the entropy (as defined in [entropyex](){.ref}) of the $p$-biased coin distribution over $\{0,1\}$, which is the function $\mu:\{0,1\}\rightarrow [0,1]$ s.t. $\mu(0)=1-p$ and $\mu(1)=p$.]
 Prove that for every $p \in (0,1)$ and $\epsilon>0$, if $n$ is large enough then^[__Hint:__ Use Stirling's formula for approximating the factorial function.]
 $$
-2^{(H(p)-\epsilon)n } \leq \binom{n}{pn} \leq 2^{(H(p)+\epsilon)n}
+2^{(H(p)-\epsilon)n } \leq \binom{n}{pn} \leq 2^{(H(p)+\epsilon)n},
 $$
 where $\binom{n}{k}$ is the binomial coefficient $\tfrac{n!}{k!(n-k)!}$ which is equal to the number of $k$-size subsets of $\{0,\ldots,n-1\}$.
 
