@@ -85,7 +85,7 @@ It turns out this is true for every $n$:
 ![The event that if we toss three coins $x_0,x_1,x_2 \in \{0,1\}$ then  the sum of the $x_i$'s is even has probability $1/2$ since it corresponds to exactly $4$ out of the $8$ possible strings of length $3$.](../figure/even3coins.png){#eventhreecoinsfig .margin }
 
 > ### {.lemma #evenprob}
-For every $n>0$, $$\Pr_{x\sim \{0,1\}^n}\left[ \text{$\sum_{i=0}^{n-1} x_i$ is even }\right] = 1/2$$.
+For every $n>0$, $$\Pr_{x\sim \{0,1\}^n}\left[ \text{$\sum_{i=0}^{n-1} x_i$ is even }\right] = 1/2 \;.$$
 
 > ### { .pause }
 To test your intuition on probability, try to stop here and prove the lemma on your own.
