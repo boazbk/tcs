@@ -106,6 +106,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Garrett Tanzer
 * Eric Thomas
 * Sarah Turnill
+* Adrien Vandenbroucque
 * Salil Vadhan
 * Jeffrey Wang
 * Patrick Watts
