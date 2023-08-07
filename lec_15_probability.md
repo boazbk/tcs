@@ -581,17 +581,17 @@ Prove that $\E[X] = 1/2$.
 
 
 ::: {.exercise title="standard deviation" #stddev}
-1. Give an example for a random variable $X$ such that $X$'s standard deviation is _equal to_  ${\mathbb{E}}[ | X - {\mathbb{E}}[X] | ]$
+1. Give an example for a random variable $X$ such that $X$'s standard deviation is _equal to_  ${\mathbb{E}}[ | X - {\mathbb{E}}[X] | ]$.
 
-2. Give an example for a random variable $X$ such that $X$'s standard deviation is _not equal to_  ${\mathbb{E}}[ | X - {\mathbb{E}}[X] | ]$
+2. Give an example for a random variable $X$ such that $X$'s standard deviation is _not equal to_  ${\mathbb{E}}[ | X - {\mathbb{E}}[X] | ]$.
 :::
 
 
 > ### {.exercise title="Product of expectations" #expprodex}
-Prove [expprod](){.ref}
+Prove [expprod](){.ref}.
 
 > ### {.exercise title="Transformations preserve independence" #indeplemex}
-Prove [indeplem](){.ref}
+Prove [indeplem](){.ref}.
 
 
 > ### {.exercise title="Variance of independent random variables" #varianceex}
@@ -603,15 +603,15 @@ Recall the definition of a distribution $\mu$ over some finite set $S$.
 Shannon defined the _entropy_ of a distribution $\mu$, denoted by $H(\mu)$, to be $\sum_{x\in S} \mu(x)\log(1/\mu(x))$.
 The idea is that if $\mu$ is a distribution of entropy $k$, then encoding members of $\mu$ will require $k$ bits, in an amortized sense.
 In this exercise we justify this definition. Let  $\mu$ be such that $H(\mu)=k$. \
-1. Prove that for every one to one function $F:S \rightarrow \{0,1\}^*$, $\E_{x \sim \mu} |F(x)| \geq k$. \
+1. Prove that for every one-to-one function $F:S \rightarrow \{0,1\}^*$, $\E_{x \sim \mu} |F(x)| \geq k$. \
 2. Prove that for every $\epsilon$, there is some $n$ and a one-to-one function $F:S^n \rightarrow \{0,1\}^*$, such that $\E_{x\sim \mu^n} |F(x)| \leq n(k+\epsilon)$,
 where $x \sim \mu$ denotes the experiments of choosing $x_0,\ldots,x_{n-1}$ each independently from $S$ using the distribution $\mu$.
 
 > ### {.exercise title="Entropy approximation to binomial" #entropybinomex}
-Let $H(p) = p \log(1/p)+(1-p)\log(1/(1-p))$.^[While you don't need this to solve this exercise, this is the function that maps $p$ to the entropy (as defined in [entropyex](){.ref}) of the $p$-biased coin distribution over $\{0,1\}$, which is the function $\mu:\{0,1\}\rightarrow [0,1]$ s.y. $\mu(0)=1-p$ and $\mu(1)=p$.]
+Let $H(p) = p \log(1/p)+(1-p)\log(1/(1-p))$.^[While you don't need this to solve this exercise, this is the function that maps $p$ to the entropy (as defined in [entropyex](){.ref}) of the $p$-biased coin distribution over $\{0,1\}$, which is the function $\mu:\{0,1\}\rightarrow [0,1]$ s.t. $\mu(0)=1-p$ and $\mu(1)=p$.]
 Prove that for every $p \in (0,1)$ and $\epsilon>0$, if $n$ is large enough then^[__Hint:__ Use Stirling's formula for approximating the factorial function.]
 $$
-2^{(H(p)-\epsilon)n }\binom{n}{pn} \leq 2^{(H(p)+\epsilon)n}
+2^{(H(p)-\epsilon)n } \leq \binom{n}{pn} \leq 2^{(H(p)+\epsilon)n}
 $$
 where $\binom{n}{k}$ is the binomial coefficient $\tfrac{n!}{k!(n-k)!}$ which is equal to the number of $k$-size subsets of $\{0,\ldots,n-1\}$.
 
