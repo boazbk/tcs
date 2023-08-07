@@ -85,7 +85,7 @@ It turns out this is true for every $n$:
 ![The event that if we toss three coins $x_0,x_1,x_2 \in \{0,1\}$ then  the sum of the $x_i$'s is even has probability $1/2$ since it corresponds to exactly $4$ out of the $8$ possible strings of length $3$.](../figure/even3coins.png){#eventhreecoinsfig .margin }
 
 > ### {.lemma #evenprob}
-For every $n>0$, $$\Pr_{x\sim \{0,1\}^n}[ \text{$\sum_{i=0}^{n-1} x_i$ is even }] = 1/2$$
+For every $n>0$, $$\Pr_{x\sim \{0,1\}^n}\left[ \text{$\sum_{i=0}^{n-1} x_i$ is even }\right] = 1/2$$.
 
 > ### { .pause }
 To test your intuition on probability, try to stop here and prove the lemma on your own.
@@ -113,12 +113,12 @@ This probability is equal to $1/4$ for $n > 1$. (It is a great exercise for you 
 
 Because intersection corresponds to considering the logical AND of the conditions that two events happen, while union corresponds to considering the logical OR, we will sometimes use the $\wedge$ and $\vee$ operators instead of $\cap$ and $\cup$, and so write this probability $p=\Pr[A \cap B]$ defined above also as
 $$
-\Pr_{x\sim \{0,1\}^n} \left[ \sum_i x_i =0 \mod 2 \; \wedge \; x_0 = 1 \right] \;.
+\Pr_{x\sim \{0,1\}^n} \left[ \sum_{i=0}^{n-1} x_i =0 \mod 2 \; \wedge \; x_0 = 1 \right] \;.
 $$
 
 If $A \subseteq \{0,1\}^n$ is an event, then $\overline{A} = \{0,1\}^n \setminus A$ corresponds to the event that $A$ does _not_ happen.
 Since $|\overline{A}|=2^n-|A|$, we get that
-$$\Pr[\overline{A}] = \tfrac{|\overline{A}|}{2^n} = \tfrac{2^n-|A|}{2^n}=1-\tfrac{|A|}{2^n} = 1- \Pr[A]
+$$\Pr[\overline{A}] = \tfrac{|\overline{A}|}{2^n} = \tfrac{2^n-|A|}{2^n}=1-\tfrac{|A|}{2^n} = 1- \Pr[A] \;.
 $$
 This makes sense: since $A$ happens if and only if $\overline{A}$ does _not_ happen, the probability of $\overline{A}$ should be one minus the probability of $A$.
 
@@ -388,7 +388,7 @@ Much of probability theory is concerned with so called _concentration_ or _tail_
 The first and simplest one of them is Markov's inequality:
 
 > ### {.theorem title="Markov's inequality" #markovthm}
-If $X$ is a non-negative random variable then for every $k>1$, $\Pr[ X \geq k \E[X] ] \leq 1/k$.
+If $X$ is a non-negative random variable then for every $k>0$, $\Pr[ X \geq k \E[X] ] \leq 1/k$.
 
 > ### { .pause }
 Markov's Inequality is actually a very natural statement (see also [markovfig](){.ref}). For example, if you know that the average (not the median!) household income in the US is 70,000 dollars, then in particular you can deduce that at most 25 percent of households make more than 280,000 dollars, since otherwise, even if the remaining 75 percent had zero income, the top 25 percent alone would cause the average income to be larger than 70,000 dollars. From this example you can already see that in many situations, Markov's inequality will not be _tight_ and the probability of deviating from expectation will be much smaller: see the Chebyshev and Chernoff inequalities below.
@@ -480,7 +480,7 @@ The following extremely useful theorem shows that such exponential decay occurs 
 If $X_0,\ldots,X_{n-1}$ are i.i.d random variables such that $X_i \in [0,1]$ and $\E[X_i]=p$ for every $i$,
 then for every $\epsilon >0$
 $$
-\Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq 2\cdot e^{-2\epsilon^2 n} . \label{eqchernoff}
+\Pr\left[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n \right] \leq 2\cdot e^{-2\epsilon^2 n} . \label{eqchernoff}
 $$
 
 We omit the proof, which appears in many texts, and uses Markov's inequality on i.i.d random variables $Y_0,\ldots,Y_n$ that are of the form $Y_i = e^{\lambda X_i}$ for some carefully chosen parameter $\lambda$.
@@ -493,7 +493,7 @@ Since  $e$ is roughly $2.7$ (and in particular larger than $2$),
 For  $n>1/\epsilon^2$,  the equation will still be true if we replaced the right-hand side with the simpler $e^{-\epsilon^2 n}$. 
 Hence we will sometimes use the Chernoff bound as stating that for $X_0,\ldots,X_{n-1}$ and $p$ as above, $n> 1/\epsilon^2$ then 
 $$
-\Pr[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n ] \leq e^{-\epsilon^2 n} . \label{eqchernoffsimpler}
+\Pr\left[ \left| \sum_{i=0}^{n-1} X_i - pn \right| > \epsilon n \right] \leq e^{-\epsilon^2 n} . \label{eqchernoffsimpler}
 $$
 :::
 
