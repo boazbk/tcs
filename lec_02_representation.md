@@ -254,7 +254,7 @@ Hence the two's complement representation of such a number $k$ is a string of le
 
 
 Another way to say this is that  we represent a potentially negative number $k \in \{ -2^n,\ldots, 2^n-1 \}$ as the non-negative number $k \mod 2^{n+1}$ (see also [twoscomplementfig](){.ref}).
-This means that if two (potentially negative) numbers $k$ and $k'$ are not too large (i.e., $|k|+|k'|<2^{n+1}$), then we can compute the representation of $k+k'$ by adding modulo $2^{n+1}$ the representations of $k$ and $k'$ as if they were non-negative integers.
+This means that if two (potentially negative) numbers $k$ and $k'$ are not too large (i.e., $ k + k' \in \{ -2^n,\ldots, 2^n-1 \}$), then we can compute the representation of $k+k'$ by adding modulo $2^{n+1}$ the representations of $k$ and $k'$ as if they were non-negative integers.
 This property of the two's complement representation is its main attraction since, depending on their architectures, microprocessors can often perform arithmetic operations modulo $2^w$ very efficiently (for certain values of $w$ such as $32$ and $64$).
 Many systems leave it to the programmer to check that values are not too large and will carry out this modular arithmetic regardless of the size of the numbers involved.
 For this reason, in some systems adding two large positive numbers can result in a _negative_ number (e.g., adding $2^n-100$ and $2^n-200$ might result in $-300$ since $(2^{n+1}-300) \mod 2^{n+1} = -300$, see also [twoscomplementfig](){.ref}).
