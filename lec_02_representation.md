@@ -281,9 +281,9 @@ We can map the three-element set $\Sigma$ to the three-element set $\{00,11,01 \
 Our final representation for rational numbers is obtained by composing the following steps:
 
 
-1. Representing a non-negative rational number as a pair of natural numbers.
+1. Representing a (potentially negative) rational number as a pair of integers $a,b$ such that $r=a/b$.
 
-2. Representing a natural number by a string via the binary representation.
+2. Representing an integer by a string via the binary representation.
 
 3. Combining 1 and 2 to obtain a representation of a rational number as a pair of strings.
 
