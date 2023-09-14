@@ -15,6 +15,7 @@ If you make a pull request, please also add your name here in the alphabetical o
 * Michelle Chiang
 * Gabriel Chiong
 * Daniel Chiu
+* Je-Qin Chooi
 * Chi-Ning Chou
 * Michael Colavita
 * Brenna Courtney
