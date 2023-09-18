@@ -682,7 +682,7 @@ The following theorem shows that if $E$ is a prefix-free encoding of $\mathcal{O
 
 ::: {.theorem title="Prefix-free implies tuple encoding" #prefixfreethm}
 Suppose that $E:\mathcal{O} \rightarrow \{0,1\}^*$ is prefix-free.
-Then the following map $\overline{E}:\mathcal{O}^* \rightarrow \{0,1\}^*$ is one to one, for every $o_0,\ldots,o_{k-1} \in \mathcal{O}^*$, we define
+Then the following map $\overline{E}:\mathcal{O}^* \rightarrow \{0,1\}^*$ is one to one, for every $(o_0,\ldots,o_{k-1}) \in \mathcal{O}^*$, we define
 $$
 \overline{E}(o_0,\ldots,o_{k-1}) = E(o_0)E(o_1) \cdots E(o_{k-1}) \;.
 $$
