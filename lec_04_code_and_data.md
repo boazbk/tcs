@@ -539,7 +539,7 @@ Please make sure that you understand why `GET` and $LOOKUP_\ell$ are the same fu
 We saw that we can compute $LOOKUP_\ell$  in time $O(2^\ell) =  O(s)$ for our choice of $\ell$.
 
 For every $\ell$, let $UPDATE_\ell:\{0,1\}^{2^\ell + \ell +1} \rightarrow \{0,1\}^{2^\ell}$ correspond to the  `UPDATE` function for arrays of length $2^\ell$.
-That is,  on input $V\in \{0,1\}^{2^\ell}$ , $i\in \{0,1\}^\ell$, $b\in \{0,1\}$, $UPDATE_\ell(V,b,i)$ is equal to $V' \in \{0,1\}^{2^\ell}$ such that
+That is,  on input $V\in \{0,1\}^{2^\ell}$ , $i\in \{0,1\}^\ell$, $b\in \{0,1\}$, $UPDATE_\ell(V,i,b)$ is equal to $V' \in \{0,1\}^{2^\ell}$ such that
 $$
 V'_j = \begin{cases} V_j & j \neq i \\ b & j = i \end{cases}
 $$
