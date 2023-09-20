@@ -765,7 +765,7 @@ INPUT: Regular expression $e$ over $\Sigma^*$, $x\in \Sigma^n$ where $n\in\N$
 OUTPUT:  $\Phi_e(x)$
 
 procedure{DFAMatch}{$e$,$x$}
-Let $S \leftarrow S(e)$ be the set $\{ e[\alpha] | \alpha\in \{0,1\}^* \}$ as defined in the proof of the linear-time matching theorem.
+Let $S \leftarrow S(e)$ be the set $\{ e[\alpha] | \alpha\in \Sigma^* \}$ as defined in the proof of the linear-time matching theorem.
 For {$e' \in S$}
     Let $v_{e'} \leftarrow 1$ -if $\Phi_{e'}("")=1$ and $v_{e'} \leftarrow 0$ otherwise
 endfor
@@ -787,7 +787,7 @@ Hence it corresponds to a DFA.
 We prove its correctness by induction on the length $n$ of the input.
 Specifically, we will argue that before reading $x_i$, the variable $v_{e'}$ is equal to $\Phi_{e'}(x_0 \cdots x_{i-1})$ for every $e' \in S(e)$.
 In the case $i=0$ this holds since we initialize $v_{e'} = \Phi_{e'}("")$ for all $e' \in S(e)$.
-For $i>0$ this holds by induction since the inductive hypothesis implies that $last_e' = \Phi_{e'}(x_0 \cdots x_{i-2})$ for all $e' \in S(e)$ and by the definition of the set $S(e')$, for every $e' \in S(e)$ and $x_{i-1} \in \Sigma$, $e'' = e'[x_{i-1}]$ is in $S(e)$ and 
+For $i>0$ this holds by induction since the inductive hypothesis implies that $last_{e'} = \Phi_{e'}(x_0 \cdots x_{i-2})$ for all $e' \in S(e)$ and by the definition of the set $S(e')$, for every $e' \in S(e)$ and $x_{i-1} \in \Sigma$, $e'' = e'[x_{i-1}]$ is in $S(e)$ and 
 $\Phi_{e'}(x_0 \cdots x_{i-1}) = \Phi_{e''}(x_0 \cdots x_i)$.
 :::
 
