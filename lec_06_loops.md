@@ -181,7 +181,7 @@ For every $x\in \{0,1\}^*$, the _output_ of $M$ on input $x$, denoted by $M(x)$,
 * We then repeat the following process:
 
    1. Let $(s',\sigma',D) = \delta_M(s,T[i])$.
-   2. Set $s \rightarrow s'$, $T[i] \rightarrow \sigma'$.
+   2. Set $s \leftarrow s'$, $T[i] \leftarrow \sigma'$.
    3. If $D=\mathsf{R}$ then set $i \rightarrow i+1$, if $D=\mathsf{L}$ then set $i \rightarrow \max\{i-1,0\}$. (If $D = \mathsf{S}$ then we keep $i$ the same.)
    4. If $D=\mathsf{H}$, then halt.
 
