@@ -146,7 +146,7 @@ We describe the operation of our Turing machine $M$ in words:
 
 * $M$ starts in state `START` and goes right, looking for the first symbol that is $0$ or $1$. If it finds $\varnothing$ before it hits such a symbol then it moves to the `OUTPUT_1` state described below.
 
-* Once $M$ finds such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing the $\times$ symbol, it enters either the `RIGHT_0` or `RIGHT_1` mode according to the value of $b$ and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
+* Once $M$ finds such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing the $\times$ symbol, it enters either the `RIGHT_`$b$ mode and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
 
 * Once $M$ finds this symbol, it goes into the state `LOOK_FOR_0` or `LOOK_FOR_1` depending on whether it was in the state `RIGHT_0` or `RIGHT_1` and makes one left move.
 
