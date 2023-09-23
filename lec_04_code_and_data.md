@@ -229,7 +229,7 @@ f_i(x) = \begin{cases} b & x=x^* \\ f_{i-1}(x) & x \neq x^*
 $$
 or in other words
 $$
-f_i(x) = f_{i-1}(x) \wedge \neg EQUAL(x^*,x) \; \vee \;  b \wedge EQUAL(x^*,x)
+f_i(x) = IF(EQUAL(x^*,x),b,f_{i-1}(x))
 $$
 where $EQUAL:\{0,1\}^{2n} \rightarrow \{0,1\}$ is the function that maps $x,x' \in \{0,1\}^n$ to $1$ if they are equal and to $0$ otherwise.
 Since (by our choice of $i$), $f_{i-1}$ can be computed using at most $s$ gates and (as can be easily verified) that $EQUAL \in SIZE_n(9n)$,
