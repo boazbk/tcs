@@ -169,7 +169,7 @@ The above description can be turned into a table describing for each one of the 
 The formal definition of Turing machines is as follows:
 
 :::  {.definition title="Turing Machine" #TM-def}
-A (one tape) _Turing machine_ with $k$ states and alphabet $\Sigma \supseteq \{0,1, \triangleright, \varnothing \}$ is represented by a _transition function_
+A (one tape) _Turing machine_ $M$ with $k$ states and alphabet $\Sigma \supseteq \{0,1, \triangleright, \varnothing \}$ is represented by a _transition function_
 $\delta_M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times \{\mathsf{L},\mathsf{R}, \mathsf{S}, \mathsf{H} \}$.
 
 For every $x\in \{0,1\}^*$, the _output_ of $M$ on input $x$, denoted by $M(x)$, is the result of the following process:
