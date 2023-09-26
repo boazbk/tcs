@@ -115,7 +115,7 @@ Let $PAL$ (for _palindromes_) be the function that on input $x\in \{0,1\}^*$, ou
 
 We now show a Turing machine $M$ that computes $PAL$. To specify $M$ we need to specify __(i)__ $M$'s tape alphabet $\Sigma$ which should contain at least the symbols $0$,$1$, $\triangleright$ and $\varnothing$, and __(ii)__ $M$'s _transition function_ which determines what action $M$ takes when it reads a given symbol while it is in a particular state.
 
-In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=13$ states. Though the states are simply numbers between $0$ and $k-1$, we will give them the following labels for convenience:
+In our case, $M$ will use the alphabet $\{ 0,1,\triangleright, \varnothing, \times \}$ and will have $k=11$ states. Though the states are simply numbers between $0$ and $k-1$, we will give them the following labels for convenience:
 
 ```table
 ---
@@ -154,7 +154,7 @@ We describe the operation of our Turing machine $M$ in words:
 
 * The `OUTPUT_`$b$ states mean that $M$ will eventually output the value $b$. In both the `OUTPUT_0` and `OUTPUT_1` states, $M$ goes left until it hits $\triangleright$. Once it does so, it makes a right step, and changes to the `1_AND_BLANK` or `0_AND_BLANK` states respectively. In the latter states, $M$ writes the corresponding value, moves right and changes to the `BLANK_AND_STOP` state, in which it writes $\varnothing$ to the tape and halts.
 
-The above description can be turned into a table describing for each one of the $13\cdot 5$ combination of state and symbol, what the Turing machine will do when it is in that state and it reads that symbol. This table is known as the _transition function_ of the Turing machine.
+The above description can be turned into a table describing for each one of the $11\cdot 5$ combination of state and symbol, what the Turing machine will do when it is in that state and it reads that symbol. This table is known as the _transition function_ of the Turing machine.
 
 
 ### Turing machines: a formal definition
