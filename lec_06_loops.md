@@ -146,7 +146,7 @@ We describe the operation of our Turing machine $M$ in words:
 
 * $M$ starts in state `START` and goes right, looking for the first symbol that is $0$ or $1$. If it finds $\varnothing$ before it hits such a symbol then it moves to the `OUTPUT_1` state described below.
 
-* Once $M$ finds such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing the $\times$ symbol, it enters either the `RIGHT_0` or `RIGHT_1` mode according to the value of $b$ and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
+* Once $M$ finds such a symbol $b \in \{0,1\}$, $M$ deletes $b$ from the tape by writing the $\times$ symbol, it enters either the `RIGHT_`$b$ mode and starts moving rightwards until it hits the first $\varnothing$ or $\times$ symbol.
 
 * Once $M$ finds this symbol, it goes into the state `LOOK_FOR_0` or `LOOK_FOR_1` depending on whether it was in the state `RIGHT_0` or `RIGHT_1` and makes one left move.
 
@@ -169,7 +169,7 @@ The above description can be turned into a table describing for each one of the 
 The formal definition of Turing machines is as follows:
 
 :::  {.definition title="Turing Machine" #TM-def}
-A (one tape) _Turing machine_ with $k$ states and alphabet $\Sigma \supseteq \{0,1, \triangleright, \varnothing \}$ is represented by a _transition function_
+A (one tape) _Turing machine_ $M$ with $k$ states and alphabet $\Sigma \supseteq \{0,1, \triangleright, \varnothing \}$ is represented by a _transition function_
 $\delta_M:[k]\times \Sigma \rightarrow [k] \times \Sigma  \times \{\mathsf{L},\mathsf{R}, \mathsf{S}, \mathsf{H} \}$.
 
 For every $x\in \{0,1\}^*$, the _output_ of $M$ on input $x$, denoted by $M(x)$, is the result of the following process:
