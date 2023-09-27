@@ -42,7 +42,7 @@ program that computes the same function, and similarly can transform every NAND-
 In this chapter we show this extends far beyond Turing machines. The techniques we develop allow us to show that all general-purpose programming 
 languages (i.e., Python, C, Java, etc.) are _Turing Complete_, in the sense that they can simulate Turing machines and hence compute all functions
 that can be computed by a TM. We will also show the other direction- Turing machines can be used to simulate a program in any of these languages and
-hence compute any function computable by them. This means that all these programming language are _Turing equivalent_: they are equivalent in power to
+hence compute any function computable by them. This means that all these programming languages are _Turing equivalent_: they are equivalent in power to
 Turing machines and to each other.
 This is a powerful principle, which underlies behind the vast reach of Computer Science.
 Moreover, it enables us to "have our cake and eat it too"- since all these models are equivalent, we can choose the model of our convenience for the task at

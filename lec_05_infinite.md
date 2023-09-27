@@ -75,7 +75,7 @@ While we can describe $XOR$ using a finite number of symbols (in fact, we just d
 The same is true for many other functions capturing important computational tasks, including addition, multiplication, sorting, finding paths in graphs, fitting curves to points, and so on.
 To contrast with the finite case, we will sometimes call a function $F:\{0,1\}^* \rightarrow \{0,1\}$ (or $F:\{0,1\}^* \rightarrow \{0,1\}^*$) _infinite_.
 However, this does not mean that $F$ takes as input strings of infinite length! 
-It just means that $F$ can take as input a string of that can be arbitrarily long, and so we cannot simply write down a table of all the outputs of $F$ on different inputs.
+It just means that $F$ can take as input a string that can be arbitrarily long, and so we cannot simply write down a table of all the outputs of $F$ on different inputs.
 
 ::: { .bigidea #comptask}
 A function $F:\{0,1\}^* \rightarrow \{0,1\}^*$ specifies the computational task mapping an input $x\in \{0,1\}^*$ into the output $F(x)$. 
