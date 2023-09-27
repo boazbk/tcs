@@ -1003,7 +1003,7 @@ It's λ's all the way down!
 
 ::: { .pause  }
 This is a good point to pause and think how you would implement these operations yourself. For example, start by thinking how you could implement $MAP$ using $REDUCE$, and then $REDUCE$ using $RECURSE$ combined with  $0,1,IF,PAIR,HEAD,TAIL,NIL,ISEMPTY$.
-You can also  $PAIR$, $HEAD$ and $TAIL$ based on $0,1,IF$.
+You can also implement $PAIR$, $HEAD$ and $TAIL$ based on $0,1,IF$.
 The most challenging part is to implement $RECURSE$ using only the operations of the pure λ calculus.
 :::
 

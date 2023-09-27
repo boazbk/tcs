@@ -337,11 +337,11 @@ Similarly, every circuit $C$ of at most $s$ gates can be represented by a string
 Since we can represent programs as strings, we can also think of a program as an input to a function.
 In particular, for every natural number $s,n,m>0$ we define the function $EVAL_{s,n,m}:\{0,1\}^{S(s)+n} \rightarrow \{0,1\}^m$ as follows:
 $$
-EVAL_{s,n,m}(px) = \begin{cases} P(x) & \text{$p\in \{0,1\}^{S(s)}$ represents a size-$s$ program $P$ with $n$ inputs and $m$ outputs}  \\ 0^m & \text{otherwise} \end{cases} \label{evalcirceq}
+EVAL_{s,n,m}(px) = \begin{cases} P(x) & \text{$p\in \{0,1\}^{|S(s)|}$ represents a size-$s$ program $P$ with $n$ inputs and $m$ outputs}  \\ 0^m & \text{otherwise} \end{cases} \label{evalcirceq}
 $$
 where $S(s)$ is defined as in [lengthstringrepreseq](){.eqref} and we use the concrete representation scheme described in [representprogramsec](){.ref}.
 
-That is, $EVAL_{s,n,m}$ takes as input the concatenation of two strings: a string $p\in \{0,1\}^{S(s)}$ and a string $x\in \{0,1\}^n$.
+That is, $EVAL_{s,n,m}$ takes as input the concatenation of two strings: a string $p\in \{0,1\}^{|S(s)|}$ and a string $x\in \{0,1\}^n$.
 If $p$ is a string that represents a list of triples $L$ such that $(n,m,L)$ is a list-of-tuples representation of  a size-$s$ NAND-CIRC program $P$, then $EVAL_{s,n,m}(px)$ is equal to the evaluation $P(x)$ of the program $P$ on the input $x$.
 Otherwise, $EVAL_{s,n,m}(px)$ equals  $0^m$ (this case is not very important: you can simply think of $0^m$ as some "junk value" that indicates an error).
 

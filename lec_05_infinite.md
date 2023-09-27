@@ -525,10 +525,10 @@ Similarly, for every formal language $L \subseteq \Sigma^*$, we say that $L$ is 
 ::: {.example title="A regular function" #regularexpmatching}
 Let $\Sigma=\{ a,b,c,d,0,1,2,3,4,5,6,7,8,9 \}$ and $F:\Sigma^* \rightarrow \{0,1\}$ be the function such that  $F(x)$ outputs $1$ iff $x$ consists of one or more of the letters $a$-$d$ followed by a sequence of one or more digits (without a leading zero).
 Then $F$ is a regular function, since $F=\Phi_e$ where
-$$e = (a|b|c|d)(a|b|c|d)^*(0|1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^*$$
+$$e = (a|b|c|d)(a|b|c|d)^*(1|2|3|4|5|6|7|8|9)(0|1|2|3|4|5|6|7|8|9)^*$$
 is the expression we saw in [regexpeq](){.eqref}.
 
-If we wanted to verify, for example, that $\Phi_e(abc12078)=1$, we can do so by noticing that the expression $(a|b|c|d)$ matches the string $a$, $(a|b|c|d)^*$ matches  $bc$,   $(0|1|2|3|4|5|6|7|8|9)$ matches the string $1$, and the expression $(0|1|2|3|4|5|6|7|8|9)^*$ matches the string $2078$. Each one of those boils down to a simpler expression. For example, the expression $(a|b|c|d)^*$ matches the string $bc$ because both of the one-character strings $b$ and $c$ are matched by the expression $a|b|c|d$.
+If we wanted to verify, for example, that $\Phi_e(abc12078)=1$, we can do so by noticing that the expression $(a|b|c|d)$ matches the string $a$, $(a|b|c|d)^*$ matches  $bc$,   $(1|2|3|4|5|6|7|8|9)$ matches the string $1$, and the expression $(0|1|2|3|4|5|6|7|8|9)^*$ matches the string $2078$. Each one of those boils down to a simpler expression. For example, the expression $(a|b|c|d)^*$ matches the string $bc$ because both of the one-character strings $b$ and $c$ are matched by the expression $a|b|c|d$.
 :::
 
 Regular expression can be defined over any finite alphabet $\Sigma$, but as usual, we will mostly focus our attention on the _binary case_, where $\Sigma = \{0,1\}$.
@@ -684,7 +684,7 @@ INPUT: Regular expression $e$ over $\Sigma^*$, $x\in \Sigma^n$ where $n\in\N$
 OUTPUT:  $\Phi_e(x)$
 
 procedure{FMatch}{$e$,$x$}
-lIf {$x=""$} return $\CALL{MatchEmpty}(e)$ lendif
+lIf {$x=""$} return $\CALL{MatchEmpty}{e}$ lendif
 Let $e' \leftarrow \CALL{Restrict}{e,x_{n-1}}$
 return $FMatch(e',x_0 \cdots x_{n-2})$
 endprocedure
