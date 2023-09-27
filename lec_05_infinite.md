@@ -671,7 +671,7 @@ lIf {$e=\tau$ -for $\tau \in \Sigma$} return $""$ -if $\tau=\sigma$ and return $
 lIf {$e=(e'|e'')$} return $(Restrict(e',\sigma) | Restrict(e'',\sigma))$ lendif
 lIf {$e=(e')^*$} return $(e')^* (Restrict(e',\sigma))$ lendif
 lIf {$e= (e')(e'')$ and $\Phi_{e''}("")=0$} return $(e')(Restrict(e'',\sigma))$ lendif
-lIf {$e= (e')(e'')$ and $\Phi_{e''}("")=1$} return $(e')(Restrict(e'',\sigma) \; | \; Restrict(e',\sigma))$ lendif
+lIf {$e= (e')(e'')$ and $\Phi_{e''}("")=1$} return $(e' Restrict(e'',\sigma)) \; | \; Restrict(e',\sigma)$ lendif
 endprocedure
 ```
 
