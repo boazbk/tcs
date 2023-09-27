@@ -441,7 +441,7 @@ The [Wikipedia page](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) for 
 
 ![In a _two dimensional cellular automaton_ every cell is in position $i,j$ for some integers $i,j \in \Z$. The _state_ of a cell is some value $A_{i,j} \in \Sigma$ for some finite alphabet $\Sigma$. At a given time step, the state of the cell is adjusted according to some function applied to the state of $(i,j)$ and all its neighbors $(i \pm 1, j\pm 1)$. In a _one dimensional cellular automaton_ every cell is in position $i\in \Z$ and the state $A_i$ of $i$ at the next time step depends on its current state and the state of its two neighbors $i-1$ and $i+1$.](../figure/onetwodimensionalca.png){#onetwodimcellularautomatafig}
 
-Since the cells in the game of life are are arranged in an infinite two-dimensional grid, it  is an example of a _two dimensional cellular automaton_.
+Since the cells in the game of life are arranged in an infinite two-dimensional grid, it  is an example of a _two dimensional cellular automaton_.
 We can also consider the even simpler setting of a _one dimensional cellular automaton_, where the cells are arranged in an infinite line, see  [onetwodimcellularautomatafig](){.ref}.
 It turns out that even this simple model is enough to achieve Turing-completeness.
 We will now formally define one-dimensional cellular automata and then prove their Turing completeness.
