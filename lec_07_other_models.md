@@ -551,7 +551,7 @@ __Completing the proof of  [onedimcathm](){.ref}.__ We can now restate [onedimca
 
 ::: {.theorem title="One dimensional automata are Turing complete (formal statement)" #onedimcathmformal}
 For every Turing machine $M$, if we denote by $\overline{\Sigma}$ the alphabet of its configuration strings, then there is a one-dimensional cellular automaton $r$ over the alphabet $\overline{\Sigma}^*$  such that
-$$\left( NEXT_M(\alpha) \right)  = NEXT_r \left( \alpha \right)$$
+$$ NEXT_M \left( \alpha \right)  = NEXT_r \left( \alpha \right)$$
 for every configuration $\alpha \in \overline{\Sigma}^*$ of $M$ (again using the convention that we consider $\alpha_i=\varnothing$ if $i$ is "out of bounds").
 :::
 
