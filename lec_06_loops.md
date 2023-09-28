@@ -583,7 +583,7 @@ The idea behind the NAND-TM program to simulate $M$ is to:
 Given the above, we can write code of the form:
 
 
-`state_`$0$ $\ldots$ `state_`$\ell-1$, `Tape_`$0$`[i]`$\ldots$ `Tape_`$\ell'-1$`[i]`, `dir0`,`dir1` $\leftarrow$ `TRANSITION(` `state_`$0$ $\ldots$ `state_`$\ell-1$, `Tape_`$0$`[i]`$\ldots$ `Tape_`$\ell'-1$`[i]`, `dir0`,`dir1` `)`
+`state_`$0$ $\ldots$ `state_`$\ell-1$, `Tape_`$0$`[i]`$\ldots$ `Tape_`$\ell'-1$`[i]`, `dir0`,`dir1` $\leftarrow$ `TRANSITION(` `state_`$0$ $\ldots$ `state_`$\ell-1$, `Tape_`$0$`[i]`$\ldots$ `Tape_`$\ell'-1$`[i]` `)`
 
 `MODANDJUMP(dir0,dir1)`
 
