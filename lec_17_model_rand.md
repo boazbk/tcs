@@ -614,7 +614,7 @@ In other words, we need to show that for every $z\in \{0,1\}^m$ and set $S \subs
 $$\Pr_{s \sim \{0,1\}^m}[ z \in S \oplus s ] \geq \tfrac{1}{2}\; \label{sipsergacsprodboundtwoeq}.$$
 
 To show this, we observe that $z \in S \oplus s$ if and only if $s \in S \oplus z$ (can you see why). Hence we can rewrite the probability on the left-hand side of [sipsergacsprodboundtwoeq](){.eqref} as $\Pr_{s\sim \{0,1\}^m}[ s\in S \oplus z]$ which simply equals $|S \oplus z|/2^m  = |S|/2^m \geq 1/2$!
-This concludes the proof of __CLAIM I__ and hence of [BPPvsNP](){.ref}.
+This concludes the proof of __CLAIM II__ and hence of [BPPvsNP](){.ref}.
 :::
 
 
