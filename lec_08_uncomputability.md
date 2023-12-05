@@ -852,7 +852,7 @@ Moreover, even phrasing the right theorem to prove (i.e., the specification) is 
 
 * Unlike the finite case, there are actually functions that are _inherently uncomputable_ in the sense that they cannot be computed by _any_ Turing machine.
 
-* These include not only some "degenerate" or "esoteric" functions but also functions that people have deeply care about and conjectured that could be computed.
+* These include not only some "degenerate" or "esoteric" functions but also functions that people have deeply cared about and conjectured that could be computed.
 
 * If the Church-Turing thesis holds then a function $F$ that is uncomputable according to our definition cannot be computed by any means in our physical world.
 :::
