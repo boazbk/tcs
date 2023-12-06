@@ -362,7 +362,7 @@ More concretely, if the instance has such an equation then we can know for sure 
 Our reduction is described in [zeroonetossumnalg ](){.ref}. 
 On input an instance $E = \{ e_t \}_{t=1}^m$ of $01EQ$ over $n$ variables $x_0,\ldots,x_{n-1}$, we output an $SSUM$ instance $y_0,\ldots,y_{n-1},T$ computed as follows:
 
-* $y_i = \sum_{t=0}^{m-1} B^t v^t_i$ where $v^t_i$ equals $1$ if the variable $x_i$ appears in the equation $e_t$ and equals $0$ otherwise. The number $B$ is set to be $2n$ (any numb er larger than $n$ would work.)
+* $y_i = \sum_{t=0}^{m-1} B^t v^i_t$ where $v^i_t$ equals $1$ if the variable $x_i$ appears in the equation $e_t$ and equals $0$ otherwise. The number $B$ is set to be $2n$ (any numb er larger than $n$ would work.)
 
 * $T = \sum_{t=0}^{m-1} B^t b_t$ where $b_t$ is the integer on the right-hand side of the equation $e_t$.
 
