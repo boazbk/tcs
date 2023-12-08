@@ -658,7 +658,7 @@ The Fourier transform makes it easy to compute the period of a given function: i
 
 ### Shor's Algorithm: A bird's eye view
 
-On input a an integer $M$, Shor's algorithm outputs the prime factorization of $M$ in time that is polynomial in $\log M$.
+On input an integer $M$, Shor's algorithm outputs the prime factorization of $M$ in time that is polynomial in $\log M$.
 The main steps in the algorithm are the following:
 
 
@@ -673,7 +673,7 @@ Hence, factoring $M$ reduces to finding out the period of the function $F_A$.
 
 
 __Step 2: Period finding via the Quantum Fourier Transform.__
-Using a simple trick known as "repeated squaring", it is possible to compute the map $x \mapsto F_A(x)$ in  time polynomial in $m$, which means we can also compute this map using a polynomial number of NAND gates,and so in particular we can generate in polynomial quantum time a quantum state $\rho$ that is (up to normalization) equal to
+Using a simple trick known as "repeated squaring", it is possible to compute the map $x \mapsto F_A(x)$ in  time polynomial in $m$, which means we can also compute this map using a polynomial number of NAND gates, and so in particular we can generate in polynomial quantum time a quantum state $\rho$ that is (up to normalization) equal to
 
 $$
 \sum_{x\in \{0,1\}^m} |x\rangle |F_A(x) \rangle \;\;.
@@ -715,7 +715,7 @@ __Operations:__
 2. If we let $A_0,\ldots,A_{k-1}$ and $p_0,\ldots,p_{k-1}$ be the numbers we chose in the previous step and the corresponding periods of the functions $f_{A_0},\ldots,f_{A_{k-1}}$ then we can use classical results in number theory to obtain from these a non-trivial prime factor $Q$ of $M$ (if such exists). We can now run the algorithm again with the (smaller) input $M/Q$ to obtain all other factors.
 :::
 
-Reducing factoring to order finding is cummbersome, but can be done in polynomial time using a classical computer. The key quantum ingredient in Shor's algorithm is the _quantum fourier transform_.
+Reducing factoring to order finding is cumbersome, but can be done in polynomial time using a classical computer. The key quantum ingredient in Shor's algorithm is the _quantum fourier transform_.
 
 ::: {.remark title="Quantum Fourier Transform" #QFT}
 Despite its name, the Quantum Fourier Transform does _not_ actually give a way to compute the Fourier Transform of a function $f:\{0,1\}^m \rightarrow \R$.
