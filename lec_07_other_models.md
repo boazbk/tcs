@@ -1008,7 +1008,7 @@ The most challenging part is to implement $RECURSE$ using only the operations of
 :::
 
 
-> ### {.theorem title="Enhanced λ calculus equivalent to pure λ calculus." #enhancedvanillalambdathm}
+> ### {.theorem title="Enhanced λ calculus equivalent to pure λ calculus" #enhancedvanillalambdathm}
 There are λ expressions that implement the functions $0$,$1$,$IF$,$PAIR$, $HEAD$, $TAIL$, $NIL$, $ISEMPTY$, $MAP$, $REDUCE$, and $RECURSE$.
 
 

@@ -543,8 +543,8 @@ Since this is our first proof by reduction from the Halting problem, we will spe
 INPUT: Turing machine $M$ and string $x$.
 OUTPUT: Turing machine $M'$ such that $M$ halts on $x$ iff $M'$ halts on zero
 
-Procedure{$N_{M,x}$}{$w$} # Description of the T.M. $N_{M,x}$
- Return $EVAL(M,x)$ # Ignore the input $w$, evaluate $M$ on $x$.
+Procedure{$N_{M,x}$}{$z$} # Description of the T.M. $N_{M,x}$
+ Return $EVAL(M,x)$ # Ignore the input $z$, evaluate $M$ on $x$.
 Endprocedure
 
 Return $N_{M,x}$ # We do not execute $N_{M,x}$: only return its description
