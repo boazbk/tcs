@@ -665,7 +665,7 @@ This reduction allows to transform a hypothetical polynomial-time algorithm for 
 ![The four components of a reduction, illustrated for the particular reduction of vertex cover to dominating set.
 A reduction from problem $F$ to problem $G$ is an algorithm that maps an input $x$ for $F$ into an input $R(x)$ for $G$.
 To show that the reduction is correct we need to show the properties of  _efficiency_: algorithm $R$ runs in polynomial time,
-_completeness_: if $F(x)=1$ then $G(R(x))=1$, and _soundness_: if $F(R(x))=1$ then $G(x)=1$.](../figure/reductionanatomy.png){#reductionanatomyfig}
+_completeness_: if $F(x)=1$ then $G(R(x))=1$, and _soundness_: if $G(R(x))=1$ then $F(x)=1$.](../figure/reductionanatomy.png){#reductionanatomyfig}
 
 The reduction of [dominatingsetex](){.ref} gives a good illustration of the anatomy of a reduction.
 A reduction consists of four parts:
