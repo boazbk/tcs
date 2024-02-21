@@ -1386,8 +1386,7 @@ Prove that for every Turing machine program $M$, there exists a `STRINGS` progra
 
 ## Bibliographical notes { #othermodelsbibnotes }
 
-Chapters 7   in the wonderful book of Moore and Mertens [@MooreMertens11] contains a great exposition much of this material.
-.
+Chapter 7 in the wonderful book of Moore and Mertens [@MooreMertens11] contains a great exposition of much of this material.
 
 The RAM model can be very useful in studying the concrete complexity of practical algorithms.
 Its theoretical study was initiated in [@cook1973time].
