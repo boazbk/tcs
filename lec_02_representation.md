@@ -1122,7 +1122,7 @@ d. All of the above.
 
 ::: {.exercise title="Binary representation" #binaryrepex}
 
-a. Prove that the function $NtS:\N \rightarrow \{0,1\}^*$ of the binary representation defined in [ntseq](){.eqref} satisfies that for every $n\in \N$, if $x = NtS(n)$ then $|x| =1+\max(0,\floor{\log_2 n})$ and $x_i = \floor{x/2^{\floor{\log_2 n}-i}} \mod 2$.
+a. Prove that the function $NtS:\N \rightarrow \{0,1\}^*$ of the binary representation defined in [ntseq](){.eqref} satisfies that for every $n\in \N$, if $x = NtS(n)$ then $|x| =1+\max(0,\floor{\log_2 n})$ and $x_i = \floor{n/2^{\floor{\log_2 n}-i}} \mod 2$.
 
 b. Prove that $NtS$ is a one to one function by coming up with a function $StN:\{0,1\}^* \rightarrow \N$ such that $StN(NtS(n))=n$ for every $n\in \N$.
 :::
