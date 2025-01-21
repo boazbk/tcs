@@ -392,7 +392,7 @@ We now list a few more examples of interesting problems that are a little more a
 The [determinant](https://en.wikipedia.org/wiki/Determinant) of a $n\times n$ matrix $A$, denoted by $\mathrm{det}(A)$, is an extremely important quantity in linear algebra.
 For example, it is known that $\mathrm{det}(A) \neq 0$ if and only if $A$ is _non-singular_, which means that it has an inverse $A^{-1}$, and hence we can always uniquely solve equations of the form $Ax = b$ where $x$ and $b$ are $n$-dimensional vectors.
 More generally, the determinant can be thought of as a quantitative measure as to what extent $A$ is far from being singular.
-If the rows of $A$ are "almost" linearly dependent (for example, if the third row is very close to being a linear combination of the first two rows) then the determinant will be small, while if they are far from it (for example, if they are are _orthogonal_ to one another, then the determinant will be large).
+If the rows of $A$ are "almost" linearly dependent (for example, if the third row is very close to being a linear combination of the first two rows) then the determinant will be small, while if they are far from it (for example, if they are _orthogonal_ to one another, then the determinant will be large).
 In particular, for every matrix $A$, the absolute value of the determinant of $A$ is at most the product of the norms (i.e., square root of sum of squares of entries) of the rows, with equality if and only if the rows are orthogonal to one another.
 
 The determinant can be defined in several ways.
