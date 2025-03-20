@@ -1034,7 +1034,7 @@ Given a regular expression $e$, we can determine if $e$ is empty using  the foll
 
 * If $e$ is not empty then $e|e'$ is not empty for every $e'$.
 
-* If $e$ is not empty then $e^*$ is not empty.
+* For every $e$, $(e)^*$ is not empty because $(e)^*$ matches $""$.
 
 * If $e$ and $e'$ are both not empty then $e\; e'$  is not empty.
 
