@@ -950,7 +950,7 @@ OUTPUT: LSB-first binary representation of $x+y$.
 
 Let $c_0 \leftarrow 0$
 For{$i=0,\ldots,n-1$}
-    Let $y_i \leftarrow u_i + v_i \mod 2$
+    Let $y_i \leftarrow u_i + v_i + c_i \mod 2$
     If{$u_i + v_i + c_i \geq 2$}
     $c_{i+1}\leftarrow 1$
     else
