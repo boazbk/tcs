@@ -157,6 +157,6 @@ Thanks to Amy Hendrickson for some LaTeX consulting.
 Juan Esteller and Gabe Montague initially implemented the NAND* programming languages in OCaml and Javascript.
 I used the [Jupyter project](http://jupyter.org/) to write the supplemental code snippets.
 
-Finally, I would like to thank my family: my wife Ravit, and my children Alma and Goren.
+Finally, I would like to thank my family: my wife Ravit, and my children Alma and Aria.
 Working on this book (and the corresponding course) took so much of my time that Alma wrote an essay for her fifth-grade class saying that "universities should not pressure professors to work too much."
 I'm afraid all I have to show for this effort is 600 pages of ultra-boring mathematical text.
