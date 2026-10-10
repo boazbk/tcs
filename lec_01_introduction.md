@@ -188,7 +188,7 @@ Write $x= 10^{m}\overline{x} + \underline{x}$ and $y= 10^{m}\overline{y}+ \under
 $A \leftarrow Karatsuba(\overline{x},\overline{y})$
 $B \leftarrow Karatsuba(\overline{x}+\underline{x},\overline{y}+\underline{y})$
 $C \leftarrow Karatsuba(\underline{x},\underline{y})$
-Return $(10^n-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$
+Return $(10^2m-10^m)\cdot A  + 10^m \cdot B +(1-10^m)\cdot C$
 endprocedure
 ```
 
