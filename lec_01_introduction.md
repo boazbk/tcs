@@ -436,7 +436,7 @@ In this chapter we mentioned several companies that were founded based on the di
 
 ::: {.exercise title="Analysis of Karatsuba's Algorithm" #karatsuba-ex}
 
-a. Suppose that $T_1,T_2,T_3,\ldots$ is a sequence of numbers such that $T_2 \leq 10$ and for every $n$, $T_n \leq 3T_{\lfloor n/2 \rfloor+1} + Cn$ for some $C \geq 1$. Prove that $T_n \leq 20Cn^{\log_2 3}$ for every $n>2$.^[__Hint:__ Use a proof by induction - suppose that this is true for all $n$'s from $1$ to $m$ and prove that this is true also for $m+1$.] \
+a. Suppose that $T_1,T_2,T_3,\ldots$ is a sequence of numbers such that $T_2 \leq 10$ and for every $n$, $T_n \leq 3T_{\lfloor n/2 \rfloor+1} + Cn$ for some $C \geq 1$. Prove that $T_n \leq 36Cn^{\log_2 3}$ for every $n>2$.^[__Hint:__ Use strong induction starting at $n=3$. It may help to prove a stronger bound involving $n-2$.] \
 
 b. Prove that the number of single-digit operations that Karatsuba's algorithm takes to multiply two $n$ digit numbers is at most $1000n^{\log_2 3}$.
 
