@@ -788,11 +788,11 @@ For every $k \in \N$ and $x' \in \{0,1\}^k$, show that there is an $O(k)$ line N
 
 
 ::: {.exercise title="Counting lower bound for multibit functions" #countingmultibitex}
-Prove that there exists a number $\delta>0$ such that for every sufficiently large $n$ and every $m$ there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that requires at least $\delta m \cdot 2^n / n$ NAND gates to compute. See footnote for hint.^[How many functions from $\{0,1\}^n$ to $\{0,1\}^m$ exist? Note that our definition of circuits requires each output to correspond to a unique gate, though that restriction can make at most an $O(m)$ additive difference in the number of gates.]
+Prove that there exists a number $\delta>0$ such that for every sufficiently large $n$ and every $m$ satisfying $1\le m\le 2^n$ there exists a function $f:\{0,1\}^n \rightarrow \{0,1\}^m$ that requires at least $\delta m \cdot 2^n / n$ NAND gates to compute. See footnote for hint.^[How many functions from $\{0,1\}^n$ to $\{0,1\}^m$ exist? Note that our definition of circuits requires each output to correspond to a unique gate, though that restriction can make at most an $O(m)$ additive difference in the number of gates.]
 :::
 
 ::: {.exercise title="Size hierarchy theorem for multibit functions" #sizehiearchyex}
-Prove that there exists a number $C$ such that for every $n,m$ and $n+m < s < m\cdot 2^n / (Cn)$ there exists a function $f \in SIZE_{n,m}(C\cdot s) \setminus SIZE_{n,m}(s)$.
+Prove that there exists a number $C$ such that for all $n,m,s$ satisfying $1\le m\le 2^n$ and $n+m < s < m\cdot 2^n / (Cn)$, there exists a function $f \in SIZE_{n,m}(C\cdot s) \setminus SIZE_{n,m}(s)$.
 See footnote for hint.^[Follow the proof of [sizehiearchythm](){.ref}, replacing the use of the counting argument with [countingmultibitex](){.ref}.]
 :::
 
