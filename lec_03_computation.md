@@ -198,7 +198,7 @@ def MAJ(X[0],X[1],X[2]):
 ```
 :::
 
-<iframe src="https://trinket.io/embed/python/5ead2eab1b" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+<figure style="margin:0;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden"><iframe src="https://coddy.tech/embed-editor?lang=python&theme=light&layout=stacked&code=ZGVmIEFORChhLGIpOiByZXR1cm4gYSpiDQoNCmRlZiBPUihhLGIpOiByZXR1cm4gMSBpZiBhK2IgZWxzZSAwDQoNCmRlZiBOT1QoYSk6IHJldHVybiAxLWENCg0KZGVmIE1BSihYMCxYMSxYMik6DQogICAgZmlyc3RwYWlyICA9IEFORChYMCxYMSkNCiAgICBzZWNvbmRwYWlyID0gQU5EKFgxLFgyKQ0KICAgIHRoaXJkcGFpciAgPSBBTkQoWDAsWDIpDQogICAgdGVtcCAgICAgICA9IE9SKHNlY29uZHBhaXIsdGhpcmRwYWlyKQ0KICAgIHJldHVybiBPUihmaXJzdHBhaXIsdGVtcCkNCiAgICANCnByaW50KE1BSigwLDEsMSkp&credit=0" width="100%" height="600" style="display:block;border:0;width:100%" title="Python code editor by Coddy" loading="lazy"></iframe><figcaption style="box-sizing:border-box;padding:5px 12px;font:11px/1.4 system-ui,-apple-system,sans-serif;color:#64748b;background:#f1f5f9;border-top:1px solid #e2e8f0;text-align:right" dir="ltr">Powered by <a href="https://coddy.tech/embed" target="_blank" rel="noopener" style="color:#0077ff;font-weight:600;text-decoration:none;">Coddy</a></figcaption></figure>
 
 
 ### Some properties of AND and OR
@@ -323,7 +323,7 @@ print([f"XOR3({a},{b},{c})={XOR3(a,b,c)}" for a in [0,1] for b in [0,1] for c in
 # ['XOR3(0,0,0)=0', 'XOR3(0,0,1)=1', 'XOR3(0,1,0)=1', 'XOR3(0,1,1)=0', 'XOR3(1,0,0)=1', 'XOR3(1,0,1)=0', 'XOR3(1,1,0)=0', 'XOR3(1,1,1)=1']
 ```
 
-<iframe src="https://trinket.io/embed/python/0e71e3fcaa" width="100%" height="600" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>
+<figure style="margin:0;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden"><iframe src="https://coddy.tech/embed-editor?lang=python&theme=light&layout=stacked&code=ZGVmIEFORChhLGIpOiByZXR1cm4gYSpiDQpkZWYgT1IoYSxiKTogIHJldHVybiAxLSgxLWEpKigxLWIpDQpkZWYgTk9UKGEpOiAgIHJldHVybiAxLWENCg0KZGVmIFhPUihhLGIpOg0KICAgIHcxID0gQU5EKGEsYikNCiAgICB3MiA9IE5PVCh3MSkNCiAgICB3MyA9IE9SKGEsYikNCiAgICByZXR1cm4gQU5EKHcyLHczKQ0KDQojIFRlc3Qgb3V0IHRoZSBjb2RlDQpwcmludChbIlhPUigiK3N0cihhKSsiLCIrc3RyKGIpKyIpPSIrc3RyKFhPUihhLGIpKSBmb3IgYSBpbiBbMCwxXSBmb3IgYiBpbiBbMCwxXV0pDQoNCg0KZGVmIFhPUjMoYSxiLGMpOg0KICAgIHcxID0gQU5EKGEsYikNCiAgICB3MiA9IE5PVCh3MSkNCiAgICB3MyA9IE9SKGEsYikNCiAgICB3NCA9IEFORCh3Mix3MykNCiAgICB3NSA9IEFORCh3NCxjKQ0KICAgIHc2ID0gTk9UKHc1KQ0KICAgIHc3ID0gT1IodzQsYykNCiAgICByZXR1cm4gQU5EKHc2LHc3KQ0KDQojIExldCdzIHRlc3QgdGhpcyBvdXQNCnByaW50KFsiWE9SMygiK3N0cihhKSsiLCIrc3RyKGIpKyIsIitzdHIoYykrIik9IitzdHIoWE9SMyhhLGIsYykpIGZvciBhIGluIFswLDFdIGZvciBiIGluIFswLDFdIGZvciBjIGluIFswLDFdXSk&credit=0" width="100%" height="600" style="display:block;border:0;width:100%" title="Python code editor by Coddy" loading="lazy"></iframe><figcaption style="box-sizing:border-box;padding:5px 12px;font:11px/1.4 system-ui,-apple-system,sans-serif;color:#64748b;background:#f1f5f9;border-top:1px solid #e2e8f0;text-align:right" dir="ltr">Powered by <a href="https://coddy.tech/embed" target="_blank" rel="noopener" style="color:#0077ff;font-weight:600;text-decoration:none;">Coddy</a></figcaption></figure>
 
 :::
 
