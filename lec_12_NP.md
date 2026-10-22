@@ -535,7 +535,7 @@ are a vertex cover.](../figure/vertex_cover.png){#smallvertexcoverfig .margin }
 
 
 ::: {.solution data-ref="vertexcoverex"}
-The key observation is that if $S \subseteq V$ is a vertex cover that touches all vertices, then there is no edge $e$ such that both $e$'s endpoints
+The key observation is that if $S \subseteq V$ is a vertex cover that touches all edges, then there is no edge $e$ such that both $e$'s endpoints
 are in the set $\overline{S} = V \setminus S$, and vice versa.
 In other words, $S$ is a vertex cover if and only if $\overline{S}$ is an independent set.
 Since the size of $\overline{S}$ is $|V|-|S|$, we see that the polynomial-time map $R(G,k)=(G,n-k)$ (where $n$ is the number of vertices of $G$) satisfies that $VC(R(G,k))= ISET(G,k)$ which means that it is a reduction from independent set to vertex cover.

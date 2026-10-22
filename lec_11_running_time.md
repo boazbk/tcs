@@ -29,7 +29,7 @@ BBC radio panel on "Can automatic Calculating Machines Be Said to Think?", 1952
 In [chapefficient](){.ref} we saw examples of efficient algorithms, and made some claims about their running time, but did not give a mathematically precise definition for this concept.
 We do so in this chapter, using the models of Turing machines and RAM machines (or equivalently NAND-TM and NAND-RAM) we have seen before.
 The running time of an algorithm is not a fixed number since any non-trivial algorithm will take longer to run on longer inputs. 
-Thus, what we want to measure is the _dependence_ between the number of steps the algorithms takes and the length of the input.
+Thus, what we want to measure is the _dependence_ between the number of steps the algorithm takes and the length of the input.
 In particular we care about the distinction between algorithms that take at most _polynomial time_ (i.e., $O(n^c)$ time for some constant $c$) and problems for which every algorithm requires at least _exponential time_ (i.e., $\Omega(2^{n^c})$ for some $c$).
 As mentioned in Edmond's quote in [chapefficient](){.ref}, the difference between these two can sometimes be as important as the difference between being computable and uncomputable.
 
@@ -40,7 +40,7 @@ As mentioned in Edmond's quote in [chapefficient](){.ref}, the difference betwee
 
 ::: {.nonmath}
 In this chapter we formally define what it means for a function to be computable in a certain number of steps.
-As discussed in [chapefficient](){.ref}, running time is not a number, rather what we care about is the _scaling _behavior of the number of steps as the input size grows.
+As discussed in [chapefficient](){.ref}, running time is not a number, rather what we care about is the _scaling_ behavior of the number of steps as the input size grows.
 We can use either Turing machines or RAM machines to give such a formal definition - it turns out that this doesn't make a difference at the resolution we care about.
 We make several important definitions and prove some important theorems in this chapter.
 We will define the main _time complexity classes_ we use in this book, and also show the _Time Hierarchy Theorem_ which states that given more resources (more time steps per input size) we can compute more functions.
@@ -101,7 +101,7 @@ Prove that $TIME_{\mathsf{TM}}(10\cdot n^3) \subseteq TIME_{\mathsf{TM}}(2^n)$.
 
 ::: {.solution data-ref="timeboundexample"}
 The proof is illustrated in [examplefimeboundsfig](){.ref}.
-Suppose that $F\in TIME_{\mathsf{TM}}(10\cdot n^3)$ and hence there exists some number $N_0$ and a machine $M$ such that for every $n> N_0$,  and $x\in \{0,1\}^*$, $M(x)$ outputs $F(x)$ within at most $10\cdot n^3$ steps.
+Suppose that $F\in TIME_{\mathsf{TM}}(10\cdot n^3)$ and hence there exists some number $N_0$ and a machine $M$ such that for every $n> N_0$,  and $x\in \{0,1\}^n$, $M(x)$ outputs $F(x)$ within at most $10\cdot n^3$ steps.
 Since $10\cdot n^3 = o(2^n)$, there is some number $N_1$ such that for every $n>N_1$, $10\cdot n^3 < 2^n$.
 Hence for every $n > \max\{ N_0, N_1 \}$, $M(x)$ will output $F(x)$ within at most $2^n$ steps, demonstrating that $F \in TIME_{\mathsf{TM}}(2^n)$.
 :::
